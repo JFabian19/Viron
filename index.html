@@ -1575,23 +1575,24 @@
       padding: 2px 0;
     }
 
-    /* Toast de Compras en Vivo (Social Proof Popup) */
+    /* Toast de Compras en Vivo (Social Proof Popup - Posición segura sin solapamiento) */
     .live-sales-toast {
       position: fixed;
-      bottom: 82px;
-      left: 12px;
+      bottom: calc(96px + env(safe-area-inset-bottom, 12px));
+      left: 14px;
       max-width: 320px;
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(15, 23, 42, 0.96);
       color: #FFFFFF;
       padding: 9px 12px;
       border-radius: var(--radius-md);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
       backdrop-filter: blur(8px);
-      z-index: 95;
+      z-index: 120;
       display: flex;
       align-items: center;
       gap: 10px;
-      transform: translateY(150px);
+      transform: translateY(160px);
       opacity: 0;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
@@ -1599,6 +1600,7 @@
     .live-sales-toast.show {
       transform: translateY(0);
       opacity: 1;
+      pointer-events: auto;
     }
     .toast-icon {
       font-size: 20px;
@@ -1615,6 +1617,98 @@
     .toast-time {
       font-size: 9.5px;
       color: #94A3B8;
+    }
+
+    /* LIGHTBOX MODAL / IMAGE ZOOM CON BOTÓN X ROJO */
+    .image-lightbox-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.94);
+      z-index: 400;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .image-lightbox-modal.active {
+      display: flex;
+      animation: fadeInLightbox 0.2s ease-out;
+    }
+    @keyframes fadeInLightbox {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .lightbox-close-btn {
+      position: absolute;
+      top: calc(16px + env(safe-area-inset-top, 8px));
+      right: 16px;
+      background: #EF4444; /* ROJO BRILLANTE DESTACADO */
+      color: #FFFFFF;
+      border: 2.5px solid #FFFFFF;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.7);
+      z-index: 410;
+      transition: transform 0.15s ease;
+    }
+    .lightbox-close-btn:active {
+      transform: scale(0.9);
+    }
+    .lightbox-image-container {
+      max-width: 95vw;
+      max-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .lightbox-image-container img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+    }
+    .lightbox-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 405;
+      backdrop-filter: blur(4px);
+    }
+    .lightbox-nav-btn.prev { left: 14px; }
+    .lightbox-nav-btn.next { right: 14px; }
+    .lightbox-counter {
+      position: absolute;
+      bottom: calc(20px + env(safe-area-inset-bottom, 12px));
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
     }
   </style>
 </head>
@@ -1670,7 +1764,7 @@
         <span class="badge-pill badge-tv">📺 Visto en TV</span>
       </div>
 
-      <button class="zoom-btn" aria-label="Ampliar imagen">
+      <button class="zoom-btn" onclick="openImageLightbox(currentSlide)" aria-label="Ampliar imagen">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -1683,17 +1777,17 @@
       <div class="slider-viewport" id="sliderViewport">
         <div class="slider-track" id="sliderTrack">
           <!-- Slide 1 (Principal - Hero Collage con Funda y Beneficios) -->
-          <div class="slide-item">
+          <div class="slide-item" onclick="openImageLightbox(0)" style="cursor: zoom-in;">
             <img src="assets/product-1.webp" alt="Secador de Ropa Express Pro Viron - Secado Rápido y Funda de Regalo" loading="eager" fetchpriority="high">
           </div>
 
           <!-- Slide 2 (Flujo Térmico 360° y Acción) -->
-          <div class="slide-item">
+          <div class="slide-item" onclick="openImageLightbox(1)" style="cursor: zoom-in;">
             <img src="assets/product-2.webp" alt="Secador Portátil en Uso con Circulación Térmica 360°" loading="lazy">
           </div>
 
           <!-- Slide 3 (Capacidad 10 Prendas e Infografía Técnica) -->
-          <div class="slide-item">
+          <div class="slide-item" onclick="openImageLightbox(2)" style="cursor: zoom-in;">
             <img src="assets/product-3.webp" alt="Capacidad para hasta 10 Prendas y Motor Brushless Potente" loading="lazy">
           </div>
         </div>
@@ -2422,9 +2516,74 @@
       </div>
     </div>
 
+    <!-- LIGHTBOX / ZOOM DE IMAGEN CON BOTÓN X ROJO -->
+    <div class="image-lightbox-modal" id="imageLightboxModal" onclick="handleLightboxBackdrop(event)">
+      <!-- Botón de Cerrar Rojo Brillante -->
+      <button class="lightbox-close-btn" onclick="closeImageLightbox()" aria-label="Cerrar Imagen">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Imagen Ampliada -->
+      <div class="lightbox-image-container">
+        <img id="lightboxImage" src="assets/product-1.webp" alt="Imagen ampliada del Secador Express Pro">
+      </div>
+
+      <!-- Navegación de imágenes en el Zoom -->
+      <button class="lightbox-nav-btn prev" onclick="changeLightboxSlide(-1)" aria-label="Imagen anterior">◀</button>
+      <button class="lightbox-nav-btn next" onclick="changeLightboxSlide(1)" aria-label="Imagen siguiente">▶</button>
+
+      <!-- Contador de diapositiva -->
+      <div class="lightbox-counter" id="lightboxCounter">1 / 3</div>
+    </div>
+
   </main>
 
   <script>
+    // --- LIGHTBOX / ZOOM DE IMÁGENES ---
+    const productImages = [
+      'assets/product-1.webp',
+      'assets/product-2.webp',
+      'assets/product-3.webp'
+    ];
+    let currentLightboxIndex = 0;
+
+    function openImageLightbox(index) {
+      if (typeof index !== 'number' || index < 0 || index >= productImages.length) {
+        index = currentSlide || 0;
+      }
+      currentLightboxIndex = index;
+      updateLightboxContent();
+      document.getElementById('imageLightboxModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageLightbox() {
+      document.getElementById('imageLightboxModal').classList.remove('active');
+      if (!document.getElementById('codModal').classList.contains('active')) {
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    function handleLightboxBackdrop(e) {
+      if (e.target.id === 'imageLightboxModal') {
+        closeImageLightbox();
+      }
+    }
+
+    function changeLightboxSlide(delta) {
+      currentLightboxIndex = (currentLightboxIndex + delta + productImages.length) % productImages.length;
+      updateLightboxContent();
+    }
+
+    function updateLightboxContent() {
+      const img = document.getElementById('lightboxImage');
+      const counter = document.getElementById('lightboxCounter');
+      if (img) img.src = productImages[currentLightboxIndex];
+      if (counter) counter.innerText = `${currentLightboxIndex + 1} / ${productImages.length}`;
+    }
     let currentSlide = 0;
     const totalSlides = 3;
     const track = document.getElementById('sliderTrack');
