@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIRON Admin | Dashboard & Control de Pedidos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Chart.js para métricas visuales -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --bg-body: #0F172A;
+      --bg-sidebar: #0B0F19;
+      --bg-card: #1E293B;
+      --bg-card-hover: #26354A;
+      --border-color: #334155;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --accent-green: #22C55E;
+      --accent-green-dark: #16A34A;
+      --accent-blue: #3B82F6;
+      --accent-purple: #A855F7;
+      --accent-orange: #F97316;
+      --accent-red: #EF4444;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font-main);
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+    .brand-box {
+      padding: 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #22C55E, #16A34A);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+      color: #FFFFFF;
+    }
+    .brand-name {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .brand-badge {
+      font-size: 10px;
+      font-weight: 800;
+      background: #1E293B;
+      color: var(--accent-green);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .nav-list {
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 700;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .nav-item:hover, .nav-item.active {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .nav-item.active {
+      background: #1E293B;
+      color: var(--accent-green);
+      border-left: 3px solid var(--accent-green);
+    }
+    .nav-icon {
+      font-size: 16px;
+    }
+
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid var(--border-color);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .store-link-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #1E293B;
+      color: #FFFFFF;
+      border: 1px solid var(--border-color);
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 12px;
+      transition: background 0.2s;
+    }
+    .store-link-btn:hover {
+      background: #334155;
+    }
+
+    /* MAIN CONTENT */
+    .main-wrapper {
+      flex: 1;
+      padding: 28px 32px;
+      overflow-y: auto;
+      max-height: 100vh;
+    }
+
+    /* TOP BAR */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .topbar-left h1 {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .topbar-left p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Live Pulse Badge */
+    .live-visitors-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      color: var(--accent-green);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .live-dot {
+      width: 9px;
+      height: 9px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-green);
+      animation: pulseLive 1.5s infinite;
+    }
+    @keyframes pulseLive {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+
+    .btn-action {
+      background: #1E293B;
+      color: #FFFFFF;
+      border: 1px solid var(--border-color);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-action:hover {
+      background: #334155;
+    }
+    .btn-action.btn-primary {
+      background: linear-gradient(135deg, #22C55E, #16A34A);
+      border-color: transparent;
+    }
+    .btn-action.btn-primary:hover {
+      box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+    }
+
+    /* KPI CARDS GRID */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: #475569;
+    }
+    .kpi-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .kpi-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .kpi-icon {
+      font-size: 18px;
+    }
+    .kpi-value {
+      font-size: 26px;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.2;
+    }
+    .kpi-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11.5px;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+    .trend-up { color: var(--accent-green); }
+    .trend-neutral { color: var(--accent-blue); }
+
+    /* CHARTS SECTION */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 20px;
+      border-radius: var(--radius-md);
+    }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .chart-title {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    /* ORDERS TABLE SECTION */
+    .orders-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+    .orders-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .orders-header-title {
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .table-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      background: var(--bg-sidebar);
+      border: 1px solid var(--border-color);
+      color: #FFFFFF;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      outline: none;
+      width: 220px;
+    }
+    .search-input:focus {
+      border-color: var(--accent-green);
+    }
+    .filter-select {
+      background: var(--bg-sidebar);
+      border: 1px solid var(--border-color);
+      color: #FFFFFF;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* TABLE */
+    .table-container {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    th {
+      background: #0B0F19;
+      color: var(--text-muted);
+      font-weight: 700;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+    td {
+      padding: 14px;
+      border-bottom: 1px solid var(--border-color);
+      color: #E2E8F0;
+      vertical-align: middle;
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .order-id {
+      font-weight: 800;
+      color: var(--accent-blue);
+    }
+    .customer-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .customer-name {
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+    .customer-phone {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* STATUS BADGES */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .status-pendiente {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+    .status-confirmado {
+      background: #DBEAFE;
+      color: #1E40AF;
+    }
+    .status-en-camino {
+      background: #F3E8FF;
+      color: #7E22CE;
+    }
+    .status-entregado {
+      background: #DCFCE7;
+      color: #15803D;
+    }
+    .status-cancelado {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #22C55E;
+      color: #FFFFFF;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 11.5px;
+      transition: all 0.2s;
+    }
+    .wa-btn:hover {
+      background: #16A34A;
+      box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #64748B;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px;
+    }
+    .delete-btn:hover {
+      color: #EF4444;
+    }
+
+    /* MODAL NUEVO PEDIDO MANUAL */
+    .admin-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .admin-modal.active {
+      display: flex;
+    }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      width: 100%;
+      max-width: 480px;
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+    .modal-box h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .form-row {
+      margin-bottom: 12px;
+    }
+    .form-row label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .form-row input, .form-row select {
+      width: 100%;
+      background: #0B0F19;
+      border: 1px solid var(--border-color);
+      color: #FFFFFF;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      outline: none;
+      font-size: 13.5px;
+    }
+
+    @media (max-width: 900px) {
+      body { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; position: static; }
+      .charts-grid { grid-template-columns: 1fr; }
+      .main-wrapper { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand-box">
+      <div class="brand-logo">V</div>
+      <div>
+        <div class="brand-name">VIRON LAB</div>
+        <span class="brand-badge">ADMIN E-COMMERCE</span>
+      </div>
+    </div>
+
+    <nav class="nav-list">
+      <a class="nav-item active">
+        <span class="nav-icon">📊</span>
+        <span>Métricas & Dashboard</span>
+      </a>
+      <a class="nav-item" onclick="scrollToOrders()">
+        <span class="nav-icon">📦</span>
+        <span>Gestión de Pedidos</span>
+      </a>
+      <a class="nav-item" onclick="exportOrdersToCSV()">
+        <span class="nav-icon">📥</span>
+        <span>Exportar a Excel</span>
+      </a>
+      <a class="nav-item" onclick="openManualOrderModal()">
+        <span class="nav-icon">➕</span>
+        <span>Nuevo Pedido Manual</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="index.html" target="_blank" class="store-link-btn">
+        <span>🛒 Ver Tienda en Vivo</span>
+        <span>➔</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEW -->
+  <main class="main-wrapper">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1>Centro de Operaciones VIRON</h1>
+        <p>Monitoreo en tiempo real de tráfico, embudo y despacho de pedidos</p>
+      </div>
+
+      <div class="topbar-actions">
+        <!-- Live Real-Time Pulse -->
+        <div class="live-visitors-badge">
+          <span class="live-dot"></span>
+          <span id="liveVisitorsCount">4</span>
+          <span>en línea ahora</span>
+        </div>
+
+        <button class="btn-action" onclick="exportOrdersToCSV()">
+          <span>📥 Exportar CSV</span>
+        </button>
+        <button class="btn-action btn-primary" onclick="openManualOrderModal()">
+          <span>➕ Crear Pedido</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- KPI CARDS -->
+    <section class="kpi-grid">
+      <!-- KPI 1: Ventas Hoy -->
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-label">Ventas Totales Hoy</span>
+          <span class="kpi-icon">💰</span>
+        </div>
+        <div class="kpi-value" id="kpiSalesTotal">S/ 3,428.60</div>
+        <div class="kpi-trend trend-up">
+          <span>▲ +24.5%</span>
+          <span style="color:var(--text-muted); font-weight:500;">vs. ayer</span>
+        </div>
+      </div>
+
+      <!-- KPI 2: Pedidos Hoy -->
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-label">Pedidos Registrados</span>
+          <span class="kpi-icon">📦</span>
+        </div>
+        <div class="kpi-value" id="kpiOrdersCount">23</div>
+        <div class="kpi-trend trend-up">
+          <span id="kpiPendingBadge">⏳ 6 pendientes</span>
+        </div>
+      </div>
+
+      <!-- KPI 3: Visitas Hoy -->
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-label">Visitas Únicas Hoy</span>
+          <span class="kpi-icon">👁️</span>
+        </div>
+        <div class="kpi-value" id="kpiVisitsCount">428</div>
+        <div class="kpi-trend trend-up">
+          <span>▲ +18.2%</span>
+          <span style="color:var(--text-muted); font-weight:500;">tráfico Meta Ads</span>
+        </div>
+      </div>
+
+      <!-- KPI 4: Tasa de Conversión (CR%) -->
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-label">Tasa de Conversión (CR)</span>
+          <span class="kpi-icon">🎯</span>
+        </div>
+        <div class="kpi-value" id="kpiConversionRate" style="color: var(--accent-green);">5.37%</div>
+        <div class="kpi-trend trend-neutral">
+          <span>⚡ Excelente (>4.0% meta)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHARTS SECTION -->
+    <section class="charts-grid">
+      <!-- Gráfico de Ventas por Hora -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="chart-title">📈 Ventas y Pedidos por Hora (Hoy)</span>
+          <span style="font-size: 12px; color: var(--accent-green); font-weight:700;">● Actualizado en vivo</span>
+        </div>
+        <div style="height: 240px; position: relative;">
+          <canvas id="salesHourlyChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Distribución Geográfica -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="chart-title">📍 Pedidos por Destino</span>
+        </div>
+        <div style="height: 240px; position: relative; display: flex; justify-content: center;">
+          <canvas id="geoChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORDERS TABLE -->
+    <section class="orders-section" id="ordersSection">
+      <div class="orders-header">
+        <div class="orders-header-title">
+          <span>📦 Registro de Pedidos Contra Entrega</span>
+          <span id="ordersTableTotalCount" style="font-size:12px; background:#334155; padding:2px 8px; border-radius:10px;">23 pedidos</span>
+        </div>
+
+        <div class="table-filters">
+          <input type="text" id="searchInput" class="search-input" placeholder="🔍 Buscar cliente, celular, ciudad..." oninput="filterOrders()">
+          <select id="statusFilter" class="filter-select" onchange="filterOrders()">
+            <option value="ALL">Todos los Estados</option>
+            <option value="Pendiente">⏳ Pendiente</option>
+            <option value="Confirmado">📞 Confirmado</option>
+            <option value="En Camino">🚚 En Camino</option>
+            <option value="Entregado">✅ Entregado</option>
+            <option value="Cancelado">❌ Cancelado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID Pedido</th>
+              <th>Fecha / Hora</th>
+              <th>Cliente</th>
+              <th>Destino / Dirección</th>
+              <th>Detalle Paquete</th>
+              <th>Pago</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th>WhatsApp</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            <!-- Filas dinámicas generadas por JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL DE PEDIDO MANUAL -->
+  <div class="admin-modal" id="manualOrderModal">
+    <div class="modal-box">
+      <h3>➕ Registrar Pedido Manual</h3>
+      <form onsubmit="handleCreateManualOrder(event)">
+        <div class="form-row">
+          <label>Nombre y Apellido del Cliente *</label>
+          <input type="text" id="manualName" required placeholder="Ej. Ana Lucía Morales">
+        </div>
+        <div class="form-row">
+          <label>Teléfono WhatsApp (9 dígitos) *</label>
+          <input type="tel" id="manualPhone" required placeholder="987654321">
+        </div>
+        <div class="form-row">
+          <label>Ciudad / Departamento *</label>
+          <input type="text" id="manualCity" required placeholder="Lima / Trujillo / Arequipa">
+        </div>
+        <div class="form-row">
+          <label>Dirección y Referencia *</label>
+          <input type="text" id="manualAddress" required placeholder="Av. Los Pinos 432">
+        </div>
+        <div class="form-row">
+          <label>Paquete / Unidades *</label>
+          <select id="manualUnits" onchange="updateManualPrice()">
+            <option value="1">1 Unidad - S/ 149.90 (Con Funda de Regalo)</option>
+            <option value="2">2 Unidades - S/ 269.00 (Paquete Ahorro Extra)</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Método de Pago al Recibir</label>
+          <select id="manualPayment">
+            <option value="Yape / Plin">Yape / Plin</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Tarjeta POS">Tarjeta POS</option>
+          </select>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+          <button type="button" class="btn-action" onclick="closeManualOrderModal()">Cancelar</button>
+          <button type="submit" class="btn-action btn-primary">Guardar Pedido</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: LOGICA DEL DASHBOARD & BASE DE DATOS LOCAL -->
+  <script>
+    // 1. DATA INICIAL REALISTA
+    const defaultOrders = [
+      { id: 'VR-1098', date: '2026-09-02 01:05', name: 'Mariana Paredes G.', phone: '987654321', city: 'Miraflores, Lima', address: 'Av. Larco 743, Dpto 502', units: 1, product: '1x Secador Express Pro + Funda', price: 149.90, payment: 'Yape / Plin', status: 'Pendiente' },
+      { id: 'VR-1097', date: '2026-09-02 00:48', name: 'Jorge Carranza T.', phone: '976543210', city: 'Los Olivos, Lima', address: 'Jr. Los Alisos 234', units: 2, product: '2x Secador Express Pro (Bundle)', price: 269.00, payment: 'Efectivo', status: 'Confirmado' },
+      { id: 'VR-1096', date: '2026-09-02 00:22', name: 'Rosa Angélica M.', phone: '965432109', city: 'Arequipa', address: 'Calle Mercaderes 120 (Envío Shalom)', units: 1, product: '1x Secador Express Pro + Funda', price: 149.90, payment: 'Yape / Plin', status: 'Confirmado' },
+      { id: 'VR-1095', date: '2026-09-01 23:55', name: 'Diego Ramos V.', phone: '954321098', city: 'San Isidro, Lima', address: 'Av. Conquistadores 890', units: 1, product: '1x Secador Express Pro + Funda', price: 149.90, payment: 'Tarjeta POS', status: 'En Camino' },
+      { id: 'VR-1094', date: '2026-09-01 23:14', name: 'Carlos Mendoza S.', phone: '943210987', city: 'Trujillo', address: 'Av. España 450 (Agencia Shalom)', units: 2, product: '2x Secador Express Pro (Bundle)', price: 269.00, payment: 'Yape / Plin', status: 'Entregado' },
+      { id: 'VR-1093', date: '2026-09-01 22:40', name: 'Lucía Morales B.', phone: '932109876', city: 'Surco, Lima', address: 'Av. Primavera 1120', units: 1, product: '1x Secador Express Pro + Funda', price: 149.90, payment: 'Yape / Plin', status: 'Entregado' }
+    ];
+
+    // Cargar órdenes de localStorage o inicializar
+    function getOrders() {
+      const stored = localStorage.getItem('viron_orders');
+      if (!stored) {
+        localStorage.setItem('viron_orders', JSON.stringify(defaultOrders));
+        return defaultOrders;
+      }
+      try {
+        return JSON.parse(stored);
+      } catch (e) {
+        return defaultOrders;
+      }
+    }
+
+    function saveOrders(orders) {
+      localStorage.setItem('viron_orders', JSON.stringify(orders));
+      renderDashboard();
+    }
+
+    // Inicializar Visitas
+    function getVisits() {
+      let visits = parseInt(localStorage.getItem('viron_visits_today') || '428', 10);
+      return visits;
+    }
+
+    // RENDER DEL DASHBOARD
+    let salesChartInstance = null;
+    let geoChartInstance = null;
+
+    function renderDashboard() {
+      const orders = getOrders();
+      const visits = getVisits();
+
+      // Cálculos de KPIs
+      let totalSales = 0;
+      let pendingCount = 0;
+      let limaCount = 0;
+      let provCount = 0;
+
+      orders.forEach(o => {
+        if (o.status !== 'Cancelado') {
+          totalSales += parseFloat(o.price);
+        }
+        if (o.status === 'Pendiente') pendingCount++;
+        if (o.city.toLowerCase().includes('lima')) {
+          limaCount++;
+        } else {
+          provCount++;
+        }
+      });
+
+      const conversionRate = visits > 0 ? ((orders.length / visits) * 100).toFixed(2) : 0;
+
+      // Actualizar DOM
+      document.getElementById('kpiSalesTotal').innerText = `S/ ${totalSales.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
+      document.getElementById('kpiOrdersCount').innerText = orders.length;
+      document.getElementById('kpiPendingBadge').innerText = `⏳ ${pendingCount} pendientes`;
+      document.getElementById('kpiVisitsCount').innerText = visits;
+      document.getElementById('kpiConversionRate').innerText = `${conversionRate}%`;
+      document.getElementById('ordersTableTotalCount').innerText = `${orders.length} pedidos`;
+
+      renderTable(orders);
+      renderCharts(orders, limaCount, provCount);
+    }
+
+    // RENDER TABLA
+    function renderTable(ordersToRender) {
+      const tbody = document.getElementById('ordersTableBody');
+      tbody.innerHTML = '';
+
+      if (ordersToRender.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:30px; color:#94A3B8;">No se encontraron pedidos con ese criterio de búsqueda.</td></tr>`;
+        return;
+      }
+
+      ordersToRender.forEach(order => {
+        const tr = document.createElement('tr');
+
+        // Status class
+        const statusSlug = order.status.toLowerCase().replace(/\s+/g, '-');
+
+        // WhatsApp pre-filled text
+        const waMsg = encodeURIComponent(
+          `Hola ${order.name}! 👋 Te saludamos de VIRON.\n` +
+          `Tenemos registrado tu pedido #${order.id} del *${order.product}* por S/ ${order.price.toFixed(2)}.\n` +
+          `Dirección de entrega: ${order.address}, ${order.city}.\n\n` +
+          `¿Nos confirmas para programar el despacho hoy mismo? ¡Muchas gracias!`
+        );
+        const waLink = `https://wa.me/51${order.phone.replace(/\D/g, '')}?text=${waMsg}`;
+
+        tr.innerHTML = `
+          <td><span class="order-id">#${order.id}</span></td>
+          <td style="font-size:11.5px; color:#94A3B8;">${order.date}</td>
+          <td>
+            <div class="customer-cell">
+              <span class="customer-name">${order.name}</span>
+              <span class="customer-phone">📱 ${order.phone}</span>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:700; color:#FFFFFF;">${order.city}</div>
+            <div style="font-size:11px; color:#94A3B8;">${order.address}</div>
+          </td>
+          <td><span style="font-weight:700; color:#4ADE80;">${order.product}</span></td>
+          <td><span style="font-size:11.5px; background:#1E293B; padding:3px 6px; border-radius:4px;">${order.payment}</span></td>
+          <td style="font-weight:900; color:#FFFFFF;">S/ ${parseFloat(order.price).toFixed(2)}</td>
+          <td>
+            <select class="status-badge status-${statusSlug}" onchange="changeOrderStatus('${order.id}', this.value)">
+              <option value="Pendiente" ${order.status === 'Pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
+              <option value="Confirmado" ${order.status === 'Confirmado' ? 'selected' : ''}>📞 Confirmado</option>
+              <option value="En Camino" ${order.status === 'En Camino' ? 'selected' : ''}>🚚 En Camino</option>
+              <option value="Entregado" ${order.status === 'Entregado' ? 'selected' : ''}>✅ Entregado</option>
+              <option value="Cancelado" ${order.status === 'Cancelado' ? 'selected' : ''}>❌ Cancelado</option>
+            </select>
+          </td>
+          <td>
+            <a href="${waLink}" target="_blank" class="wa-btn">
+              <span>💬</span>
+              <span>WhatsApp</span>
+            </a>
+          </td>
+          <td>
+            <button class="delete-btn" title="Eliminar pedido" onclick="deleteOrder('${order.id}')">🗑️</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // CAMBIAR ESTADO
+    function changeOrderStatus(orderId, newStatus) {
+      const orders = getOrders();
+      const target = orders.find(o => o.id === orderId);
+      if (target) {
+        target.status = newStatus;
+        saveOrders(orders);
+      }
+    }
+
+    // ELIMINAR PEDIDO
+    function deleteOrder(orderId) {
+      if (confirm(`¿Estás seguro de eliminar el pedido #${orderId}?`)) {
+        let orders = getOrders();
+        orders = orders.filter(o => o.id !== orderId);
+        saveOrders(orders);
+      }
+    }
+
+    // FILTROS
+    function filterOrders() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const status = document.getElementById('statusFilter').value;
+      const orders = getOrders();
+
+      const filtered = orders.filter(o => {
+        const matchesQuery = 
+          o.name.toLowerCase().includes(query) ||
+          o.phone.includes(query) ||
+          o.city.toLowerCase().includes(query) ||
+          o.id.toLowerCase().includes(query);
+
+        const matchesStatus = status === 'ALL' || o.status === status;
+        return matchesQuery && matchesStatus;
+      });
+
+      renderTable(filtered);
+    }
+
+    // RENDER CHARTS
+    function renderCharts(orders, limaCount, provCount) {
+      // 1. Hourly Sales Chart
+      const hourlyLabels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '00:00'];
+      const hourlyData = [150, 420, 680, 890, 1420, 1980, 2600, 3100, 3428];
+
+      const ctxSales = document.getElementById('salesHourlyChart').getContext('2d');
+      if (salesChartInstance) salesChartInstance.destroy();
+
+      salesChartInstance = new Chart(ctxSales, {
+        type: 'line',
+        data: {
+          labels: hourlyLabels,
+          datasets: [{
+            label: 'Ventas Acumuladas (S/)',
+            data: hourlyData,
+            borderColor: '#22C55E',
+            backgroundColor: 'rgba(34, 197, 94, 0.12)',
+            fill: true,
+            tension: 0.35,
+            borderWidth: 3,
+            pointBackgroundColor: '#22C55E'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } }
+          }
+        }
+      });
+
+      // 2. Geo Distribution Chart
+      const ctxGeo = document.getElementById('geoChart').getContext('2d');
+      if (geoChartInstance) geoChartInstance.destroy();
+
+      geoChartInstance = new Chart(ctxGeo, {
+        type: 'doughnut',
+        data: {
+          labels: ['Lima Metropolitana', 'Provincias (Shalom)'],
+          datasets: [{
+            data: [limaCount || 4, provCount || 2],
+            backgroundColor: ['#3B82F6', '#F59E0B'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { color: '#E2E8F0', font: { size: 11, weight: 'bold' } } }
+          }
+        }
+      });
+    }
+
+    // EXPORTAR A CSV
+    function exportOrdersToCSV() {
+      const orders = getOrders();
+      if (orders.length === 0) return alert('No hay pedidos para exportar.');
+
+      let csv = 'ID Pedido,Fecha,Cliente,Telefono,Ciudad,Direccion,Producto,Unidades,Precio,Metodo Pago,Estado\n';
+      orders.forEach(o => {
+        csv += `"${o.id}","${o.date}","${o.name}","${o.phone}","${o.city}","${o.address}","${o.product}","${o.units}","${o.price}","${o.payment}","${o.status}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', `VIRON_Pedidos_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // MODAL PEDIDO MANUAL
+    function openManualOrderModal() {
+      document.getElementById('manualOrderModal').classList.add('active');
+    }
+    function closeManualOrderModal() {
+      document.getElementById('manualOrderModal').classList.remove('active');
+    }
+
+    function handleCreateManualOrder(e) {
+      e.preventDefault();
+      const name = document.getElementById('manualName').value.trim();
+      const phone = document.getElementById('manualPhone').value.trim();
+      const city = document.getElementById('manualCity').value.trim();
+      const address = document.getElementById('manualAddress').value.trim();
+      const units = parseInt(document.getElementById('manualUnits').value, 10);
+      const payment = document.getElementById('manualPayment').value;
+      const price = units === 1 ? 149.90 : 269.00;
+
+      const newOrder = {
+        id: 'VR-' + Math.floor(1000 + Math.random() * 9000),
+        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+        name: name,
+        phone: phone,
+        city: city,
+        address: address,
+        units: units,
+        product: units === 1 ? '1x Secador Express Pro + Funda' : '2x Secador Express Pro (Bundle)',
+        price: price,
+        payment: payment,
+        status: 'Confirmado'
+      };
+
+      const orders = getOrders();
+      orders.unshift(newOrder);
+      saveOrders(orders);
+
+      closeManualOrderModal();
+      e.target.reset();
+      alert(`🎉 Pedido #${newOrder.id} agregado exitosamente.`);
+    }
+
+    function scrollToOrders() {
+      document.getElementById('ordersSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // SINCRONIZACIÓN EN TIEMPO REAL CON LA TIENDA
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'viron_orders' || e.key === 'viron_visits_today') {
+        renderDashboard();
+      }
+    });
+
+    // Simulación de fluctuación de visitantes en tiempo real
+    setInterval(() => {
+      const base = 4;
+      const randomOffset = Math.floor(Math.random() * 5) - 2; // entre 2 y 7
+      const live = Math.max(2, base + randomOffset);
+      document.getElementById('liveVisitorsCount').innerText = live;
+    }, 4500);
+
+    // Inicializar al cargar
+    renderDashboard();
+  </script>
+</body>
+</html>

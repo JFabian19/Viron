@@ -1,0 +1,2989 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Secador de Ropa Express Pro | VIRON</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- ==========================================================
+       META PIXEL BASE CODE (Reemplazar 'TU_PIXEL_ID_AQUI' con tu ID)
+       ========================================================== -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    
+    // Inicialización de Pixel
+    fbq('init', 'TU_PIXEL_ID_AQUI');
+    fbq('track', 'PageView');
+    
+    // Evento ViewContent (Visualización de Producto)
+    fbq('track', 'ViewContent', {
+      content_name: 'Secador de Ropa Express Pro',
+      content_category: 'Electrodomésticos',
+      content_ids: ['viron-secador-express-pro'],
+      content_type: 'product',
+      value: 149.90,
+      currency: 'PEN'
+    });
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" 
+         src="https://www.facebook.com/tr?id=TU_PIXEL_ID_AQUI&ev=PageView&noscript=1"/>
+  </noscript>
+
+  <style>
+    /* ==========================================================
+       RESET & BASE TOKENS (100% MOBILE-FIRST ARCHITECTURE)
+       ========================================================== */
+    :root {
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --color-primary: #111827;
+      --color-bg-page: #F8FAFC;
+      --color-card-bg: #FFFFFF;
+      --color-text-main: #0F172A;
+      --color-text-muted: #64748B;
+      --color-accent-green: #10B981;
+      --color-accent-green-dark: #059669;
+      --color-cta-green: #22C55E;
+      --color-cta-green-hover: #16A34A;
+      --color-danger-red: #EF4444;
+      --color-warning-orange: #F97316;
+      --color-border: #E2E8F0;
+      --color-border-active: #22C55E;
+      --color-star: #00B67A;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+      --shadow-sticky: 0 -4px 20px rgba(0, 0, 0, 0.12);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-pill: 9999px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: #E2E8F0;
+      color: var(--color-text-main);
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Contenedor centralizado para emular 100% pantalla móvil */
+    .mobile-viewport {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      background-color: #FFFFFF;
+      position: relative;
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.15);
+      padding-bottom: 95px;
+      overflow-x: hidden;
+    }
+
+    /* 1. TOP ANNOUNCEMENT BAR */
+    .announcement-bar {
+      background: linear-gradient(90deg, #0F172A 0%, #1E293B 100%);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-align: center;
+      padding: 7px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 2. HEADER MOBILE */
+    .mobile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background-color: #FFFFFF;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: 52px;
+    }
+    .header-icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      color: var(--color-text-main);
+      border-radius: var(--radius-sm);
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+    .header-logo .logo-mark {
+      width: 24px;
+      height: 24px;
+      background: #0F172A;
+      color: #FFFFFF;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .cart-badge-wrap {
+      position: relative;
+    }
+    .cart-counter {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background-color: var(--color-danger-red);
+      color: white;
+      font-size: 9px;
+      font-weight: 800;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 3. HERO GALLERY & BADGES */
+    .hero-gallery-section {
+      position: relative;
+      background: #F8FAFC;
+      width: 100%;
+    }
+    .badges-overlay {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 9px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 800;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+    .badge-tiktok {
+      background-color: #000000;
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .badge-tv {
+      background-color: #E25822;
+      color: #FFFFFF;
+    }
+    .zoom-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(4px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      z-index: 10;
+      color: #475569;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Slider Container */
+    .slider-viewport {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      position: relative;
+      touch-action: pan-y pinch-zoom;
+    }
+    .slider-track {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .slide-item {
+      flex: 0 0 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #F8FAFC;
+    }
+    .slide-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .slide-item svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Carousel Dots */
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: rgba(148, 163, 184, 0.6);
+      transition: all 0.25s ease;
+    }
+    .dot.active {
+      width: 22px;
+      border-radius: 10px;
+      background-color: #0F172A;
+    }
+
+    /* Miniaturas Deslizables */
+    .thumbnails-scroller {
+      display: flex;
+      gap: 8px;
+      padding: 10px 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .thumbnails-scroller::-webkit-scrollbar {
+      display: none;
+    }
+    .thumb-btn {
+      flex: 0 0 60px;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 2px solid transparent;
+      padding: 0;
+      background: #F1F5F9;
+      cursor: pointer;
+      scroll-snap-align: start;
+      transition: all 0.2s ease;
+    }
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .thumb-btn.active {
+      border-color: #0F172A;
+      box-shadow: 0 0 0 1px #0F172A;
+    }
+
+    /* MAIN CONTENT */
+    .content-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 4. TÍTULO Y SOCIAL PROOF */
+    .product-title {
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1.28;
+      color: #0F172A;
+      letter-spacing: -0.3px;
+    }
+    .product-title .gift-highlight {
+      color: #D97706;
+      background: #FEF3C7;
+      padding: 1px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      font-size: 19px;
+    }
+
+    .social-proof-rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      width: fit-content;
+    }
+    .star-row {
+      display: flex;
+      color: var(--color-star);
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+    .rating-text {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #166534;
+    }
+    .rating-text span {
+      color: #15803D;
+      font-weight: 500;
+    }
+
+    /* 5. ZONA DE PRECIO Y URGENCIA */
+    .price-urgency-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+      padding: 2px 0 6px 0;
+      border-bottom: 1px dashed var(--color-border);
+    }
+    .prices-left {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .current-price {
+      font-size: 28px;
+      font-weight: 900;
+      color: #0F172A;
+      letter-spacing: -0.6px;
+    }
+    .old-price {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-danger-red);
+      text-decoration: line-through;
+      opacity: 0.85;
+    }
+    .urgency-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background-color: #FEE2E2;
+      color: #B91C1C;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #FECACA;
+      animation: pulseAlert 2s infinite ease-in-out;
+    }
+    @keyframes pulseAlert {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.03); opacity: 0.9; }
+    }
+
+    /* 6. COPY CORTO & BENEFIT PILLS */
+    .persuasive-copy {
+      font-size: 13.5px;
+      color: #334155;
+      line-height: 1.45;
+      font-weight: 500;
+    }
+    .persuasive-copy strong {
+      color: #0F172A;
+      font-weight: 700;
+    }
+
+    .benefit-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: -2px;
+    }
+    .pill-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      color: #1E293B;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 11px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Shipping guarantee banner */
+    .shipping-guarantee-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      margin-top: 2px;
+    }
+    .shipping-icon-box {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .shipping-text-box {
+      font-size: 12px;
+      color: #1E40AF;
+      line-height: 1.35;
+    }
+    .shipping-text-box strong {
+      color: #1E3A8A;
+      font-weight: 800;
+    }
+
+    /* 7. BLOQUE DE OFERTAS (BUNDLE CARDS) */
+    .bundle-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .bundle-header-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bundle-card {
+      position: relative;
+      background: #FFFFFF;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--shadow-sm);
+    }
+    .bundle-card.selected {
+      border-color: #10B981;
+      background: #F0FDF4;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.16);
+    }
+
+    .top-choice-tag {
+      position: absolute;
+      top: -10px;
+      right: 12px;
+      background: #111827;
+      color: #FBBF24;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      border: 1px solid #374151;
+    }
+
+    .bundle-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .custom-radio {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #CBD5E1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: #FFFFFF;
+      transition: all 0.2s;
+    }
+    .bundle-card.selected .custom-radio {
+      border-color: #10B981;
+      background: #10B981;
+    }
+    .custom-radio::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.2s;
+    }
+    .bundle-card.selected .custom-radio::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .bundle-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .bundle-card-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .bundle-card-sub {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #059669;
+    }
+    .bundle-card-sub.secondary {
+      color: #64748B;
+      font-weight: 500;
+    }
+
+    .bundle-price-box {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .bundle-main-price {
+      font-size: 18px;
+      font-weight: 900;
+      color: #0F172A;
+    }
+    .bundle-save-badge {
+      display: inline-block;
+      background-color: #DC2626;
+      color: white;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-top: 2px;
+    }
+
+    .trust-badges-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 8px 0 4px 0;
+    }
+    .trust-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 8px 4px;
+      border-radius: var(--radius-sm);
+    }
+    .trust-item-icon {
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+    .trust-item-text {
+      font-size: 10px;
+      font-weight: 700;
+      color: #334155;
+      line-height: 1.2;
+    }
+
+    /* 8. STICKY BOTTOM CTA */
+    .sticky-bottom-container {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 440px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 8px)) 12px;
+      box-shadow: var(--shadow-sticky);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .sticky-sub-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #475569;
+      padding: 0 4px;
+    }
+    .sticky-sub-info .safe-payment {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #059669;
+    }
+
+    .cta-btn-primary {
+      width: 100%;
+      background: linear-gradient(180deg, #22C55E 0%, #16A34A 100%);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 10px;
+      font-size: 14.5px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-btn-primary:active {
+      transform: scale(0.98);
+    }
+    .cta-btn-primary::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.35) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(25deg);
+      animation: ctaShimmer 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes ctaShimmer {
+      0% { left: -60%; }
+      30%, 100% { left: 140%; }
+    }
+
+    /* MODAL DE CHECKOUT COD */
+    .cod-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.7);
+      z-index: 200;
+      align-items: flex-end;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .cod-modal.active {
+      display: flex;
+    }
+    .modal-sheet {
+      width: 100%;
+      max-width: 440px;
+      background: #FFFFFF;
+      border-radius: 20px 20px 0 0;
+      padding: 18px 16px calc(20px + env(safe-area-inset-bottom, 12px)) 16px;
+      animation: slideUp 0.25s ease-out forwards;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .sheet-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0F172A;
+    }
+    .sheet-close-btn {
+      background: #F1F5F9;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      color: #334155;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #CBD5E1;
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: #22C55E;
+      background: #F0FDF4;
+    }
+    .order-summary-box {
+      background: #F8FAFC;
+      border: 1px dashed #CBD5E1;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+    }
+    .summary-total {
+      font-weight: 800;
+      font-size: 14px;
+      color: #0F172A;
+      border-top: 1px solid #E2E8F0;
+      padding-top: 4px;
+      margin-top: 4px;
+    }
+
+    /* ==========================================================
+       NUEVAS SECCIONES CRO: CONFIANZA, DETALLE & PRUEBA SOCIAL
+       ========================================================== */
+
+    /* 1. Barra de Escasez / Stock en Vivo */
+    .stock-meter-container {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      margin-top: 2px;
+    }
+    .stock-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #92400E;
+      margin-bottom: 6px;
+    }
+    .stock-bar {
+      width: 100%;
+      height: 8px;
+      background: #FDE68A;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      position: relative;
+    }
+    .stock-fill {
+      width: 82%;
+      height: 100%;
+      background: linear-gradient(90deg, #F59E0B, #DC2626);
+      border-radius: var(--radius-pill);
+      animation: pulseStock 2.5s infinite ease-in-out;
+    }
+    @keyframes pulseStock {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Encabezados de Sección */
+    .section-heading-block {
+      text-align: center;
+      margin: 16px 0 8px 0;
+    }
+    .section-tag {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #059669;
+      background: #ECFDF5;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 4px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #0F172A;
+      line-height: 1.25;
+    }
+    .section-sub {
+      font-size: 12.5px;
+      color: #64748B;
+      margin-top: 2px;
+    }
+
+    /* 2. Tabla Comparativa: Problema vs Solución */
+    .comparison-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .comp-col-bad {
+      background: #FEF2F2;
+      padding: 12px;
+      border-bottom: 1px dashed #FECACA;
+    }
+    .comp-col-good {
+      background: #F0FDF4;
+      padding: 12px;
+    }
+    .comp-col-title {
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .comp-col-bad .comp-col-title { color: #991B1B; }
+    .comp-col-good .comp-col-title { color: #166534; }
+    .comp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .comp-item {
+      font-size: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      line-height: 1.35;
+      color: #334155;
+    }
+
+    /* 3. Pasos de Uso */
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .step-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+    }
+    .step-badge {
+      width: 34px;
+      height: 34px;
+      background: #0F172A;
+      color: #FFFFFF;
+      font-weight: 900;
+      font-size: 15px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-text h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 1px;
+    }
+    .step-text p {
+      font-size: 11.5px;
+      color: #64748B;
+      line-height: 1.3;
+    }
+
+    /* 4. Especificaciones Técnicas */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .spec-item {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 10px 8px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    .spec-val {
+      font-size: 15px;
+      font-weight: 900;
+      color: #0F172A;
+    }
+    .spec-label {
+      font-size: 10.5px;
+      color: #64748B;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .box-content-card {
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      padding: 12px;
+      border-radius: var(--radius-md);
+    }
+    .box-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 6px;
+    }
+    .box-items-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .box-pill {
+      background: #FFFFFF;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: var(--radius-pill);
+      color: #334155;
+      border: 1px solid #E2E8F0;
+    }
+
+    /* 5. SECCIÓN DE RESEÑAS CONFIABLES (SOCIAL PROOF) */
+    .reviews-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .reviews-summary-card {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      color: #FFFFFF;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .score-big {
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .score-stars {
+      color: #FBBF24;
+      font-size: 14px;
+      margin-top: 3px;
+    }
+    .score-count {
+      font-size: 11px;
+      color: #94A3B8;
+      margin-top: 2px;
+    }
+    .satisfaction-pill {
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #4ADE80;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+
+    /* Tarjetas de Reseñas */
+    .review-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .review-user-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reviewer-avatar {
+      width: 32px;
+      height: 32px;
+      background: #E2E8F0;
+      color: #0F172A;
+      font-weight: 800;
+      font-size: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .reviewer-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0F172A;
+    }
+    .reviewer-location {
+      font-size: 10.5px;
+      color: #64748B;
+    }
+    .verified-buyer-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #059669;
+      background: #ECFDF5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #A7F3D0;
+    }
+    .review-date {
+      font-size: 10.5px;
+      color: #94A3B8;
+      font-weight: 500;
+    }
+    .review-stars {
+      color: var(--color-star);
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .review-text {
+      font-size: 12.5px;
+      color: #334155;
+      line-height: 1.45;
+    }
+    .review-text strong {
+      color: #0F172A;
+    }
+    .review-photo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      color: #475569;
+      background: #F1F5F9;
+      padding: 3px 7px;
+      border-radius: 4px;
+      width: fit-content;
+      font-weight: 600;
+    }
+
+    /* 6. FAQ ACCORDION */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .faq-item {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 13px 14px;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      color: #0F172A;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      gap: 8px;
+    }
+    .faq-icon {
+      font-size: 14px;
+      transition: transform 0.2s ease;
+      color: #64748B;
+      flex-shrink: 0;
+    }
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+      color: #10B981;
+    }
+    .faq-answer {
+      display: none;
+      padding: 0 14px 14px 14px;
+      font-size: 12.5px;
+      color: #475569;
+      line-height: 1.45;
+      border-top: 1px solid #F1F5F9;
+      padding-top: 10px;
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    /* 7. GARANTÍA BOX */
+    .guarantee-box {
+      background: #F0FDF4;
+      border: 1.5px dashed #86EFAC;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .guarantee-seal {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+    .guarantee-content h4 {
+      font-size: 13px;
+      font-weight: 900;
+      color: #166534;
+      margin-bottom: 2px;
+    }
+    .guarantee-content p {
+      font-size: 11.5px;
+      color: #15803D;
+      line-height: 1.35;
+    }
+
+    /* Secondary In-Page CTA */
+    .secondary-cta-card {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      color: #FFFFFF;
+      padding: 16px 14px;
+      border-radius: var(--radius-md);
+      text-align: center;
+      margin: 10px 0;
+      box-shadow: var(--shadow-md);
+    }
+    .secondary-cta-card h3 {
+      font-size: 16px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .secondary-cta-card p {
+      font-size: 12px;
+      color: #94A3B8;
+      margin-bottom: 12px;
+    }
+
+    /* ==========================================================
+       CONVERSION BOOSTERS: VALUE STACK, TIMER, TOAST & YAPE/PLIN
+       ========================================================== */
+
+    /* Temporizador de Urgencia */
+    .countdown-timer-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #B91C1C;
+      margin: 2px 0 4px 0;
+    }
+    .countdown-digits {
+      background: #DC2626;
+      color: #FFFFFF;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Value Stack de Regalos (Hormozi Method) */
+    .gift-stack-card {
+      background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+      border: 1.5px solid #F59E0B;
+      border-radius: var(--radius-md);
+      padding: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .gift-stack-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 900;
+      color: #92400E;
+      margin-bottom: 8px;
+    }
+    .gift-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      padding: 4px 0;
+      border-bottom: 1px dashed rgba(245, 158, 11, 0.3);
+      color: #78350F;
+    }
+    .gift-item-row:last-child {
+      border-bottom: none;
+    }
+    .gift-name {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 700;
+    }
+    .gift-val-free {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .gift-old-val {
+      text-decoration: line-through;
+      color: #9CA3AF;
+      font-size: 10px;
+    }
+    .gift-free-badge {
+      background: #16A34A;
+      color: white;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    /* Calculadora de Ahorro en Soles */
+    .savings-calculator-card {
+      background: #FFFFFF;
+      border: 1.5px solid #BFDBFE;
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .savings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .savings-col {
+      padding: 10px 8px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    .savings-col.traditional {
+      background: #FEE2E2;
+      border: 1px solid #FECACA;
+    }
+    .savings-col.viron {
+      background: #DCFCE7;
+      border: 1.5px solid #86EFAC;
+    }
+    .savings-col-title {
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .savings-col.traditional .savings-col-title { color: #991B1B; }
+    .savings-col.viron .savings-col-title { color: #166534; }
+    .savings-cost {
+      font-size: 15px;
+      font-weight: 900;
+    }
+    .savings-col.traditional .savings-cost { color: #DC2626; }
+    .savings-col.viron .savings-cost { color: #15803D; }
+    .savings-detail {
+      font-size: 10px;
+      color: #64748B;
+      margin-top: 2px;
+    }
+
+    /* ==========================================================
+       UBICACIÓN & MÉTODOS DE PAGO PIRÁMIDE (YAPE / PLIN / TARJETAS)
+       ========================================================== */
+    .location-tabs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .loc-tab-btn {
+      background: #F8FAFC;
+      border: 1.5px solid #CBD5E1;
+      border-radius: var(--radius-sm);
+      padding: 10px 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .loc-tab-btn.active {
+      border-color: #22C55E;
+      background: #F0FDF4;
+      box-shadow: 0 0 0 1px #22C55E;
+    }
+    .loc-tab-btn .loc-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .loc-tab-btn .loc-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #0F172A;
+      line-height: 1.2;
+    }
+    .loc-tab-btn .loc-sub {
+      font-size: 10px;
+      color: #64748B;
+      margin-top: 1px;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #CBD5E1;
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+      background: #FFFFFF;
+      cursor: pointer;
+      color: #0F172A;
+      font-weight: 600;
+    }
+    .form-select:focus {
+      border-color: #22C55E;
+      background: #F0FDF4;
+    }
+
+    /* Shalom Notice */
+    .shalom-notice-card {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      margin: 8px 0 12px 0;
+      font-size: 11.5px;
+      color: #92400E;
+      line-height: 1.4;
+    }
+    .shalom-notice-header {
+      font-weight: 800;
+      color: #78350F;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* PIRÁMIDE DE MÉTODOS DE PAGO */
+    .payment-pyramid-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .pyramid-top-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .pyramid-chip {
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      border-radius: var(--radius-sm);
+      padding: 8px 4px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #334155;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.2s;
+      min-height: 58px;
+    }
+    .pyramid-chip.selected {
+      border-color: #22C55E;
+      background: #F0FDF4;
+      color: #166534;
+      box-shadow: 0 0 0 1px #22C55E;
+    }
+    .pyramid-chip.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+      filter: grayscale(1);
+    }
+    .pay-logo-img {
+      height: 26px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .pay-logo-img.cash-img {
+      height: 20px;
+      width: auto;
+      border-radius: 3px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    /* Tarjeta Fila Inferior (100% ancho) */
+    .pyramid-bottom-row .pyramid-card-btn {
+      width: 100%;
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .pyramid-bottom-row .pyramid-card-btn.selected {
+      border-color: #22C55E;
+      background: #F0FDF4;
+      box-shadow: 0 0 0 1px #22C55E;
+    }
+    .pyramid-bottom-row .pyramid-card-btn.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+      filter: grayscale(1);
+    }
+    .cards-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #0F172A;
+    }
+    .cards-badge-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .cards-banner-img {
+      width: 100%;
+      height: auto;
+      max-height: 48px;
+      object-fit: contain;
+      display: block;
+      padding: 2px 0;
+    }
+
+    /* Toast de Compras en Vivo (Social Proof Popup) */
+    .live-sales-toast {
+      position: fixed;
+      bottom: 82px;
+      left: 12px;
+      max-width: 320px;
+      background: rgba(15, 23, 42, 0.95);
+      color: #FFFFFF;
+      padding: 9px 12px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(8px);
+      z-index: 95;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(150px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    .live-sales-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .toast-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .toast-content {
+      font-size: 11px;
+      line-height: 1.3;
+    }
+    .toast-buyer {
+      font-weight: 800;
+      color: #4ADE80;
+    }
+    .toast-time {
+      font-size: 9.5px;
+      color: #94A3B8;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="mobile-viewport">
+
+    <!-- 1. TOP ANNOUNCEMENT BAR -->
+    <aside class="announcement-bar" aria-label="Anuncio principal">
+      <span>🚀</span>
+      <span>ENVÍO GRATIS A TODO EL PERÚ | PAGO CONTRA ENTREGA</span>
+    </aside>
+
+    <!-- 2. CABECERA (HEADER MOBILE) -->
+    <header class="mobile-header">
+      <button class="header-icon-btn" aria-label="Abrir Menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <a href="#" class="header-logo">
+        <span class="logo-mark">V</span>
+        <span>VIRON</span>
+      </a>
+
+      <div class="header-actions">
+        <button class="header-icon-btn" aria-label="Buscar producto">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+
+        <button class="header-icon-btn cart-badge-wrap" aria-label="Ver carrito">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-counter">1</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 3. HERO GALLERY (Swipe Touch, Badges & Thumbnails) -->
+    <section class="hero-gallery-section" aria-label="Galería del Secador de Ropa Express Pro">
+      
+      <div class="badges-overlay">
+        <span class="badge-pill badge-tiktok">🔥 Viral en TikTok</span>
+        <span class="badge-pill badge-tv">📺 Visto en TV</span>
+      </div>
+
+      <button class="zoom-btn" aria-label="Ampliar imagen">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="11" y1="8" x2="11" y2="14"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+      </button>
+
+      <!-- Viewport del Slider Táctil -->
+      <div class="slider-viewport" id="sliderViewport">
+        <div class="slider-track" id="sliderTrack">
+          <!-- Slide 1 (Principal - Hero Collage con Funda y Beneficios) -->
+          <div class="slide-item">
+            <img src="assets/product-1.webp" alt="Secador de Ropa Express Pro Viron - Secado Rápido y Funda de Regalo" loading="eager" fetchpriority="high">
+          </div>
+
+          <!-- Slide 2 (Flujo Térmico 360° y Acción) -->
+          <div class="slide-item">
+            <img src="assets/product-2.webp" alt="Secador Portátil en Uso con Circulación Térmica 360°" loading="lazy">
+          </div>
+
+          <!-- Slide 3 (Capacidad 10 Prendas e Infografía Técnica) -->
+          <div class="slide-item">
+            <img src="assets/product-3.webp" alt="Capacidad para hasta 10 Prendas y Motor Brushless Potente" loading="lazy">
+          </div>
+        </div>
+
+        <div class="slider-dots" id="sliderDots">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="thumbnails-scroller" id="thumbnailsScroller">
+        <button class="thumb-btn active" data-index="0" aria-label="Ver Imagen 1">
+          <img src="assets/product-1.webp" alt="Miniatura 1">
+        </button>
+        <button class="thumb-btn" data-index="1" aria-label="Ver Imagen 2">
+          <img src="assets/product-2.webp" alt="Miniatura 2">
+        </button>
+        <button class="thumb-btn" data-index="2" aria-label="Ver Imagen 3">
+          <img src="assets/product-3.webp" alt="Miniatura 3">
+        </button>
+      </div>
+
+    </section>
+
+    <!-- CONTENT BODY -->
+    <div class="content-body">
+
+      <!-- 4. TÍTULO Y SOCIAL PROOF -->
+      <h1 class="product-title">
+        Secador de Ropa Portátil Express Pro - Secado Rápido, Cuida tu Ropa <span class="gift-highlight">(Funda de REGALO)</span>
+      </h1>
+
+      <div class="social-proof-rating">
+        <div class="star-row">★★★★★</div>
+        <div class="rating-text">Excelente 4.86 <span>| +10,500 Reseñas</span></div>
+      </div>
+
+      <!-- 5. ZONA DE PRECIO Y URGENCIA -->
+      <div class="price-urgency-wrapper">
+        <div class="prices-left">
+          <span class="current-price" id="displayCurrentPrice">S/ 149.90</span>
+          <span class="old-price" id="displayOldPrice">S/ 250.00</span>
+        </div>
+        <div class="urgency-badge">
+          <span>🔥</span>
+          <span>Últimas Unidades</span>
+        </div>
+      </div>
+
+      <!-- TEMPORIZADOR DE URGENCIA DINÁMICO -->
+      <div class="countdown-timer-bar">
+        <span>⏳ LA OFERTA Y REGALOS TERMINAN EN:</span>
+        <span class="countdown-digits" id="countdownTimer">14:58</span>
+      </div>
+
+      <!-- 6. COPY CORTO Y BENEFIT PILLS -->
+      <p class="persuasive-copy">
+        Seca tu ropa de forma <strong>rápida</strong>, elimina la humedad y bacterias <strong>sin esfuerzo</strong>, sin ocupar espacio. <strong>Ideal para invierno</strong> y departamentos sin tendedero.
+      </p>
+
+      <div class="benefit-pills-row">
+        <div class="pill-item">
+          <span>👕</span>
+          <span>Secado Cuidadoso</span>
+        </div>
+        <div class="pill-item">
+          <span>⚡</span>
+          <span>Ahorra Energía</span>
+        </div>
+        <div class="pill-item">
+          <span>🎒</span>
+          <span>100% Portátil</span>
+        </div>
+      </div>
+
+      <!-- VALUE STACK DE REGALOS (VALOR PERCIBIDO EXTRA) -->
+      <div class="gift-stack-card">
+        <div class="gift-stack-header">
+          <span>🎁</span>
+          <span>¡TU PEDIDO HOY INCLUYE 3 REGALOS EXCLUSIVOS!</span>
+        </div>
+        <div class="gift-item-row">
+          <span class="gift-name">🧥 1x Funda Térmica Circulación 360°</span>
+          <div class="gift-val-free">
+            <span class="gift-old-val">S/ 45.00</span>
+            <span class="gift-free-badge">GRATIS</span>
+          </div>
+        </div>
+        <div class="gift-item-row">
+          <span class="gift-name">🪝 1x Gancho Giratorio Reforzado</span>
+          <div class="gift-val-free">
+            <span class="gift-old-val">S/ 20.00</span>
+            <span class="gift-free-badge">GRATIS</span>
+          </div>
+        </div>
+        <div class="gift-item-row">
+          <span class="gift-name">🚚 1x Envío Asegurado a Domicilio / Shalom</span>
+          <div class="gift-val-free">
+            <span class="gift-old-val">S/ 15.00</span>
+            <span class="gift-free-badge">GRATIS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BANNER LOGÍSTICO -->
+      <div class="shipping-guarantee-banner">
+        <div class="shipping-icon-box">🚚</div>
+        <div class="shipping-text-box">
+          <strong>Envío GRATIS y Pago Contra Entrega en Lima.</strong><br>
+          Envíos a todo el Perú vía Shalom con seguimiento.
+        </div>
+      </div>
+
+      <!-- 7. BLOQUE DE OFERTAS (BUNDLE CARDS) -->
+      <section class="bundle-section" aria-label="Selección de Ofertas">
+        <div class="bundle-header-title">
+          <span>🎁 Selecciona tu paquete:</span>
+        </div>
+
+        <!-- TARJETA 1 (Destacada) -->
+        <div class="bundle-card selected" id="bundle1" onclick="selectBundle(1, 149.90, 250.00)">
+          <div class="top-choice-tag">
+            <span>🏆</span>
+            <span>MÁS VENDIDO</span>
+          </div>
+
+          <div class="bundle-left">
+            <div class="custom-radio"></div>
+            <div class="bundle-info">
+              <span class="bundle-card-title">1 Unidad - Secador Express Pro</span>
+              <span class="bundle-card-sub">✨ Incluye Funda Térmica de Regalo</span>
+              <span class="bundle-card-sub secondary">Envío GRATIS (Lima y Provincias)</span>
+            </div>
+          </div>
+
+          <div class="bundle-price-box">
+            <div class="bundle-main-price">S/ 149.90</div>
+            <div class="bundle-save-badge">AHORRA 40%</div>
+          </div>
+        </div>
+
+        <!-- TARJETA 2 (Upsell) -->
+        <div class="bundle-card" id="bundle2" onclick="selectBundle(2, 269.00, 500.00)">
+          <div class="bundle-left">
+            <div class="custom-radio"></div>
+            <div class="bundle-info">
+              <span class="bundle-card-title">2 Unidades (AHORRA 20% EXTRA)</span>
+              <span class="bundle-card-sub">✨ 2 Fundas Térmicas de Regalo</span>
+              <span class="bundle-card-sub secondary">Para ti y un familiar o regalo</span>
+            </div>
+          </div>
+
+          <div class="bundle-price-box">
+            <div class="bundle-main-price">S/ 269.00</div>
+            <div class="bundle-save-badge" style="background:#059669;">AHORRA EXTRA</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SELLOS DE CONFIANZA -->
+      <div class="trust-badges-grid">
+        <div class="trust-item">
+          <span class="trust-item-icon">💵</span>
+          <span class="trust-item-text">Pagas al Recibir en Casa</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-item-icon">⚡</span>
+          <span class="trust-item-text">Entrega Express 24-48h</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-item-icon">🛡️</span>
+          <span class="trust-item-text">Garantía Viron de 6 Meses</span>
+        </div>
+      </div>
+
+      <!-- BARRA DE ESCASEZ Y STOCK EN VIVO -->
+      <div class="stock-meter-container">
+        <div class="stock-header">
+          <span>🔥 ALTA DEMANDA EN LIMA Y PROVINCIAS</span>
+          <span>¡Solo quedan 14 unidades!</span>
+        </div>
+        <div class="stock-bar">
+          <div class="stock-fill"></div>
+        </div>
+      </div>
+
+      <!-- 1. COMPARATIVA: PROBLEMA VS SOLUCIÓN -->
+      <div class="section-heading-block">
+        <span class="section-tag">EL FIN DE LA ROPA HÚMEDA</span>
+        <h2 class="section-title">¿Por qué cambiar el tendedero tradicional?</h2>
+        <p class="section-sub">Diseñado para el clima húmedo y departamentos sin espacio</p>
+      </div>
+
+      <div class="comparison-card">
+        <div class="comp-col-bad">
+          <div class="comp-col-title">
+            <span>❌</span>
+            <span>Tendedero Tradicional</span>
+          </div>
+          <ul class="comp-list">
+            <li class="comp-item"><span>⚠️</span> Tarda 2 a 4 días en secar en invierno o días de lluvia.</li>
+            <li class="comp-item"><span>⚠️</span> Deja ese molesto olor a humedad y bacterias acumuladas.</li>
+            <li class="comp-item"><span>⚠️</span> Ocupa la mitad de tu sala, balcón o pasadizo.</li>
+          </ul>
+        </div>
+        <div class="comp-col-good">
+          <div class="comp-col-title">
+            <span>✅</span>
+            <span>Secador Express Pro VIRON</span>
+          </div>
+          <ul class="comp-list">
+            <li class="comp-item"><span>✨</span> <strong>Ropa seca y lista en 20-30 minutos</strong> con calor envolvente 360°.</li>
+            <li class="comp-item"><span>✨</span> <strong>Luz UV Esterilizante:</strong> elimina 99.9% de ácaros, moho y bacterias.</li>
+            <li class="comp-item"><span>✨</span> <strong>Ultracompacto y Plegable:</strong> guárdalo en cualquier cajón sin bulto.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 2. PASOS DE USO -->
+      <div class="section-heading-block">
+        <span class="section-tag">FÁCIL Y RÁPIDO</span>
+        <h2 class="section-title">Seca tu ropa en 3 sencillos pasos</h2>
+      </div>
+
+      <div class="steps-list">
+        <div class="step-card">
+          <div class="step-badge">1</div>
+          <div class="step-text">
+            <h4>Cuelga tus prendas húmedas</h4>
+            <p>Capacidad para hasta 8-10 prendas simultáneas (camisas, toallas, pantalones o ropa de bebé).</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">2</div>
+          <div class="step-text">
+            <h4>Coloca la Funda Térmica (De Regalo)</h4>
+            <p>Cierra la cremallera para concentrar el flujo de aire caliente circular 360°.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">3</div>
+          <div class="step-text">
+            <h4>Enciende y programa el temporizador</h4>
+            <p>Selecciona 1h, 2h o 4h con apagado automático inteligente. ¡Ropa caliente y sin arrugas!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. ESPECIFICACIONES TÉCNICAS -->
+      <div class="section-heading-block">
+        <span class="section-tag">TECNOLOGÍA VIRON</span>
+        <h2 class="section-title">Especificaciones de Alto Rendimiento</h2>
+      </div>
+
+      <div class="specs-grid">
+        <div class="spec-item">
+          <div class="spec-val">600W</div>
+          <div class="spec-label">⚡ Bajo Consumo (Ahorra 80% de luz vs secadora grande)</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-val">60°C</div>
+          <div class="spec-label">👕 Calor Termocontrolado (No quema ni encoge telas)</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-val">UV-C</div>
+          <div class="spec-label">🛡️ Esterilización Anti-Ácaros y Hongos</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-val">10 Kg</div>
+          <div class="spec-label">🎒 Capacidad de Carga Simultánea</div>
+        </div>
+      </div>
+
+      <div class="box-content-card">
+        <div class="box-title">🎁 ¿Qué incluye tu paquete Express Pro?</div>
+        <div class="box-items-row">
+          <span class="box-pill">1x Secador Portátil Express Pro</span>
+          <span class="box-pill">1x Funda Térmica con Cierre (REGALO)</span>
+          <span class="box-pill">1x Gancho de Colgado Reforzado</span>
+          <span class="box-pill">1x Manual de Usuario en Español</span>
+          <span class="box-pill">1x Certificado de Garantía 6 Meses</span>
+        </div>
+      </div>
+
+      <!-- CALCULADORA DE AHORRO ECONÓMICO EN SOLES -->
+      <div class="savings-calculator-card">
+        <div style="font-size: 13px; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 6px;">
+          <span>💰</span>
+          <span>¿Cuánto dinero ahorras en tu hogar?</span>
+        </div>
+        <div class="savings-grid">
+          <div class="savings-col traditional">
+            <div class="savings-col-title">Secadora de Tambor</div>
+            <div class="savings-cost">S/ 1,800 + S/ 120/mes</div>
+            <div class="savings-detail">Alto costo y alto consumo de luz (2500W)</div>
+          </div>
+          <div class="savings-col viron">
+            <div class="savings-col-title">Secador Express Pro</div>
+            <div class="savings-cost">S/ 149.90 + S/ 12/mes</div>
+            <div class="savings-detail">¡Ahorras más de S/ 1,650 y 80% de energía!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BANNER INTERMEDIO CTA -->
+      <div class="secondary-cta-card">
+        <h3>¿Cansado de la ropa con olor a humedad?</h3>
+        <p>Aprovecha hoy el descuento con Envío GRATIS y paga seguro al recibir en tu puerta.</p>
+        <button class="cta-btn-primary" onclick="openCheckoutModal()">
+          <span>🛒</span>
+          <span>PEDIR AHORA CON PAGO CONTRA ENTREGA</span>
+        </button>
+      </div>
+
+      <!-- 4. SECCIÓN DE RESEÑAS CONFIABLES (SOCIAL PROOF) -->
+      <div class="section-heading-block">
+        <span class="section-tag">OPINIONES VERIFICADAS</span>
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        <p class="section-sub">+10,500 hogares ya no sufren por la humedad</p>
+      </div>
+
+      <div class="reviews-container">
+        <!-- Resumen de puntuación -->
+        <div class="reviews-summary-card">
+          <div>
+            <div class="score-big">4.86 <span style="font-size: 20px; color:#94A3B8;">/ 5.0</span></div>
+            <div class="score-stars">★★★★★</div>
+            <div class="score-count">Basado en 10,584 pedidos verificados</div>
+          </div>
+          <div class="satisfaction-pill">
+            <div style="font-size: 16px; font-weight: 900;">98.4%</div>
+            <div>Recomiendan Viron</div>
+          </div>
+        </div>
+
+        <!-- Reseña 1 -->
+        <div class="review-card">
+          <div class="review-user-row">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">MP</div>
+              <div>
+                <div class="reviewer-name">Mariana Paredes G.</div>
+                <div class="reviewer-location">Miraflores, Lima</div>
+              </div>
+            </div>
+            <div class="verified-buyer-tag">✅ Compra Verificada</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="review-stars">★★★★★</div>
+            <span class="review-date">Hace 2 días</span>
+          </div>
+          <p class="review-text">
+            <strong>"¡Me salvó el invierno en Lima!"</strong> Vivo en un departamento pequeño donde la ropa tardaba hasta 3 días en secar y quedaba con ese feo olor a humedad. Con este secador en 25 minutos las camisas y medias de mis hijos salen calientitas y sin olor. Llegó en 24h y pagué al repartidor. 100% recomendado.
+          </p>
+          <div class="review-photo-badge">📷 Foto adjunta de producto en uso</div>
+        </div>
+
+        <!-- Reseña 2 -->
+        <div class="review-card">
+          <div class="review-user-row">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar" style="background:#DBEAFE; color:#1E40AF;">JC</div>
+              <div>
+                <div class="reviewer-name">Jorge Carranza T.</div>
+                <div class="reviewer-location">Los Olivos, Lima</div>
+              </div>
+            </div>
+            <div class="verified-buyer-tag">✅ Compra Verificada</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="review-stars">★★★★★</div>
+            <span class="review-date">Hace 4 días</span>
+          </div>
+          <p class="review-text">
+            <strong>"Ahorra mucha luz comparado con una secadora grande."</strong> Tenía miedo de que el recibo de luz subiera, pero consume casi lo mismo que un ventilador o una plancha. Pedí el paquete de 2 unidades para regalarle uno a mi mamá en Trujillo y le llegó por Shalom súper rápido. Excelente atención por WhatsApp.
+          </p>
+          <div class="review-photo-badge">📷 Foto adjunta del paquete con funda</div>
+        </div>
+
+        <!-- Reseña 3 -->
+        <div class="review-card">
+          <div class="review-user-row">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar" style="background:#FEF3C7; color:#92400E;">RA</div>
+              <div>
+                <div class="reviewer-name">Rosa Angélica M.</div>
+                <div class="reviewer-location">Arequipa</div>
+              </div>
+            </div>
+            <div class="verified-buyer-tag">✅ Compra Verificada</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="review-stars">★★★★★</div>
+            <span class="review-date">Hace 1 semana</span>
+          </div>
+          <p class="review-text">
+            <strong>"No maltrata las telas delicadas."</strong> Puse vestidos de hilo y blusas de seda y salieron intactas, sin encogerse. La función de luz UV da mucha tranquilidad para desinfectar la ropa de cama. Muy satisfecha con mi compra.
+          </p>
+        </div>
+
+        <!-- Reseña 4 -->
+        <div class="review-card">
+          <div class="review-user-row">
+            <div class="reviewer-info">
+              <div class="reviewer-avatar" style="background:#F3E8FF; color:#6B21A8;">DR</div>
+              <div>
+                <div class="reviewer-name">Diego Ramos V.</div>
+                <div class="reviewer-location">San Isidro, Lima</div>
+              </div>
+            </div>
+            <div class="verified-buyer-tag">✅ Compra Verificada</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="review-stars">★★★★★</div>
+            <span class="review-date">Hace 1 semana</span>
+          </div>
+          <p class="review-text">
+            <strong>"Práctico para viajes y departamento."</strong> Es súper ligero, se dobla y no estorba para nada. El pago contra entrega me dio total tranquilidad para pedirlo por primera vez.
+          </p>
+        </div>
+      </div>
+
+      <!-- 5. PREGUNTAS FRECUENTES (FAQ ACCORDION) -->
+      <div class="section-heading-block">
+        <span class="section-tag">DUDAS FRECUENTES</span>
+        <h2 class="section-title">Preguntas Frecuentes</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item active">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>¿Realmente no encoge ni quema la ropa?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            No. El Secador Express Pro utiliza un termostato de seguridad inteligente que mantiene una temperatura constante de 60°C. Este calor térmico circulante seca las fibras suavemente sin el calor abrasivo de una secadora de tambor tradicional, haciéndolo 100% seguro para algodón, lana, poliéster y seda.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>¿Cuánto consume de energía eléctrica?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Tiene una potencia ultra eficiente de solo 600W (mientras una secadora grande consume entre 2500W y 3000W). Un ciclo completo de secado cuesta aproximadamente S/ 0.35 a S/ 0.50 en tu recibo de luz en Perú.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>¿Cómo funciona el Pago Contra Entrega en Lima?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Solicitas tu pedido en esta web sin pagar nada por adelantado. Nuestro equipo coordinará contigo por WhatsApp y el motorizado llevará el producto hasta la puerta de tu domicilio en 24 a 48 horas. Pagas en efectivo, Yape o Plin al momento de recibirlo.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>¿Hacen envíos a Provincias?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            ¡Sí! Enviamos a todas las ciudades del Perú con Envío GRATIS mediante agencia Shalom o Marvisur con código de seguimiento en tiempo real.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>¿Qué garantía tiene el producto?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Ofrecemos 6 meses de garantía directa con Viron por cualquier falla de fábrica y 30 días de satisfacción para cambio de producto.
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. GARANTÍA BOX -->
+      <div class="guarantee-box">
+        <div class="guarantee-seal">🛡️</div>
+        <div class="guarantee-content">
+          <h4>Garantía de Satisfacción Total 100%</h4>
+          <p>Prueba tu Secador Express Pro sin ningún riesgo. Si el producto presenta algún defecto o no cumple con lo prometido, te lo cambiamos de inmediato sin costo adicional.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 8. STICKY BOTTOM CTA -->
+    <footer class="sticky-bottom-container">
+      <div class="sticky-sub-info">
+        <span class="safe-payment">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Stock disponible en almacén
+        </span>
+        <span id="stickySelectedSummary">1x S/ 149.90 (Envío Gratis)</span>
+      </div>
+
+      <button class="cta-btn-primary" id="mainCtaBtn" onclick="openCheckoutModal()">
+        <span>🛒</span>
+        <span>PAGO CONTRA ENTREGA - COMPRAR AHORA</span>
+      </button>
+    </footer>
+
+    <!-- MODAL DE CHECKOUT -->
+    <div class="cod-modal" id="codModal" onclick="handleModalBackdropClick(event)">
+      <div class="modal-sheet">
+        <div class="sheet-header">
+          <div>
+            <h3 class="sheet-title">📦 Pedido con Pago Contra Entrega</h3>
+            <p style="font-size: 11px; color: #16A34A; font-weight: 700; margin-top:2px;">Envío 100% Gratis - Pagas cuando lo recibes</p>
+          </div>
+          <button class="sheet-close-btn" onclick="closeCheckoutModal()">✕</button>
+        </div>
+
+        <div class="order-summary-box">
+          <div class="summary-line">
+            <span id="modalProductText">1x Secador Express Pro + Funda</span>
+            <span id="modalPriceText">S/ 149.90</span>
+          </div>
+          <div class="summary-line" style="color: #059669; font-weight: 600;">
+            <span>Envío a Domicilio:</span>
+            <span>GRATIS</span>
+          </div>
+          <div class="summary-line summary-total">
+            <span>Total a Pagar en Puerta:</span>
+            <span id="modalTotalText" style="color:#0F172A;">S/ 149.90</span>
+          </div>
+        </div>
+
+        <form id="orderForm" onsubmit="handleSubmitOrder(event)">
+          <!-- Honeypot anti-bots (campo invisible para humanos) -->
+          <input type="text" name="b_website_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
+
+          <div class="form-group">
+            <label class="form-label">Nombre y Apellido *</label>
+            <input type="text" id="custName" class="form-input" placeholder="Ej. Carlos Mendoza" required minlength="6">
+            <span class="error-msg" id="nameError" style="display:none; color:#DC2626; font-size:11px; font-weight:700; margin-top:2px;">Por favor ingresa tu nombre y apellido completo.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Teléfono WhatsApp (9 dígitos) *</label>
+            <input type="tel" id="custPhone" class="form-input" placeholder="Ej. 987654321" required maxlength="9" pattern="9[0-9]{8}">
+            <span class="error-msg" id="phoneError" style="display:none; color:#DC2626; font-size:11px; font-weight:700; margin-top:2px;">Ingresa un número peruano válido que empiece con 9 (9 dígitos reales).</span>
+          </div>
+
+          <!-- SELECTOR DE DESTINO: LIMA VS PROVINCIA -->
+          <div class="form-group">
+            <label class="form-label">📍 ¿Dónde recibirás tu pedido? *</label>
+            <div class="location-tabs-grid">
+              <div class="loc-tab-btn active" id="tabLima" onclick="switchLocationType('LIMA')">
+                <span class="loc-icon">🏠</span>
+                <div>
+                  <div class="loc-title">Lima y Callao</div>
+                  <div class="loc-sub">A Domicilio (Contra Entrega)</div>
+                </div>
+              </div>
+              <div class="loc-tab-btn" id="tabProvincia" onclick="switchLocationType('PROVINCIA')">
+                <span class="loc-icon">🚚</span>
+                <div>
+                  <div class="loc-title">Provincias</div>
+                  <div class="loc-sub">Envío GRATIS vía Shalom</div>
+                </div>
+              </div>
+            </div>
+            <input type="hidden" id="selectedLocationType" value="LIMA">
+          </div>
+
+          <!-- BLOQUE DE CAMPOS DINÁMICOS PARA LIMA -->
+          <div id="fieldsLimaBlock">
+            <div class="form-group">
+              <label class="form-label">Distrito de Lima / Callao *</label>
+              <select id="custLimaDistrict" class="form-select">
+                <option value="" disabled selected>Selecciona tu distrito...</option>
+                <option value="Miraflores">Miraflores</option>
+                <option value="San Isidro">San Isidro</option>
+                <option value="Santiago de Surco">Santiago de Surco</option>
+                <option value="San Borja">San Borja</option>
+                <option value="La Molina">La Molina</option>
+                <option value="San Miguel">San Miguel</option>
+                <option value="Magdalena del Mar">Magdalena del Mar</option>
+                <option value="Jesús María">Jesús María</option>
+                <option value="Pueblo Libre">Pueblo Libre</option>
+                <option value="Lince">Lince</option>
+                <option value="Barranco">Barranco</option>
+                <option value="Chorrillos">Chorrillos</option>
+                <option value="Surquillo">Surquillo</option>
+                <option value="Los Olivos">Los Olivos</option>
+                <option value="San Martín de Porres">San Martín de Porres (SMP)</option>
+                <option value="Comas">Comas</option>
+                <option value="Independencia">Independencia</option>
+                <option value="Carabayllo">Carabayllo</option>
+                <option value="Puente Piedra">Puente Piedra</option>
+                <option value="San Juan de Lurigancho">San Juan de Lurigancho (SJL)</option>
+                <option value="Ate Vitarte">Ate Vitarte</option>
+                <option value="Santa Anita">Santa Anita</option>
+                <option value="El Agustino">El Agustino</option>
+                <option value="San Luis">San Luis</option>
+                <option value="Breña">Breña</option>
+                <option value="Rímac">Rímac</option>
+                <option value="San Juan de Miraflores">San Juan de Miraflores (SJM)</option>
+                <option value="Villa María del Triunfo">Villa María del Triunfo (VMT)</option>
+                <option value="Villa El Salvador">Villa El Salvador (VES)</option>
+                <option value="Lurín">Lurín</option>
+                <option value="Callao (Bellavista/La Perla/Ventanilla)">Callao y Alrededores</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Dirección exacta y referencia *</label>
+              <input type="text" id="custAddress" class="form-input" placeholder="Av. Principal 123, Dpto 401 (Frente al parque)">
+            </div>
+          </div>
+
+          <!-- BLOQUE DE CAMPOS DINÁMICOS PARA PROVINCIA (SHALOM) -->
+          <div id="fieldsProvinciaBlock" style="display:none;">
+            <div class="form-group">
+              <label class="form-label">Departamento / Ciudad de Destino *</label>
+              <select id="custProvDepartment" class="form-select" onchange="handleDepartmentChange(this.value)">
+                <option value="" disabled selected>Selecciona tu ciudad/departamento...</option>
+                <option value="Arequipa">Arequipa (Cercado, Paucarpata, Yanahuara, Camaná)</option>
+                <option value="La Libertad">La Libertad (Trujillo, Chepén, Pacasmayo, Huamachuco)</option>
+                <option value="Cusco">Cusco (Wanchaq, San Sebastián, Sicuani, Quillabamba)</option>
+                <option value="Lambayeque">Lambayeque (Chiclayo, La Victoria, Ferreñafe)</option>
+                <option value="Piura">Piura (Piura, Sullana, Talara, Paita)</option>
+                <option value="Junín">Junín (Huancayo, El Tambo, Tarma, La Merced, Satipo)</option>
+                <option value="Ica">Ica (Ica, Chincha, Pisco, Nazca)</option>
+                <option value="Áncash">Áncash (Chimbote, Nuevo Chimbote, Huaraz)</option>
+                <option value="Tacna">Tacna (Tacna Centro, Gregorio Albarracín)</option>
+                <option value="Puno">Puno (Juliaca, Puno Centro, Ilave)</option>
+                <option value="Cajamarca">Cajamarca (Cajamarca, Jaén)</option>
+                <option value="San Martín">San Martín (Tarapoto, Moyobamba, Juanjuí)</option>
+                <option value="Huánuco">Huánuco (Huánuco, Tingo María)</option>
+                <option value="Ayacucho">Ayacucho (Huamanga)</option>
+                <option value="Ucayali">Ucayali (Pucallpa)</option>
+                <option value="Loreto">Loreto (Iquitos)</option>
+                <option value="Tumbes">Tumbes</option>
+                <option value="Moquegua">Moquegua (Moquegua, Ilo)</option>
+                <option value="Amazonas">Amazonas (Chachapoyas, Bagua Grande)</option>
+                <option value="Apurímac">Apurímac (Abancay, Andahuaylas)</option>
+                <option value="Pasco">Pasco (Cerro de Pasco, Oxapampa)</option>
+                <option value="Huancavelica">Huancavelica</option>
+                <option value="Madre de Dios">Madre de Dios (Puerto Maldonado)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Selecciona la Agencia Oficial Shalom *</label>
+              <select id="custShalomAgency" class="form-select">
+                <option value="" disabled selected>Primero selecciona tu ciudad arriba...</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">DNI del Titular que recogerá en Shalom *</label>
+              <input type="tel" id="custDNI" class="form-input" placeholder="8 dígitos (Requisito de Shalom para retiro)" maxlength="8" pattern="[0-9]{8}">
+            </div>
+
+            <!-- Shalom Notice Box -->
+            <div class="shalom-notice-card">
+              <div class="shalom-notice-header">
+                <span>🚚</span>
+                <span>Envíos a Provincia vía Agencia Shalom</span>
+              </div>
+              <div>
+                El envío es <strong>100% GRATIS</strong>. Se solicita un <strong>adelanto de S/ 20.00 vía Yape</strong> para generar tu guía de remisión oficial en Shalom. El saldo restante (<strong>S/ 129.90</strong>) lo pagas al retirar en tu agencia.
+              </div>
+            </div>
+          </div>
+
+          <!-- SELECTOR DE MÉTODO DE PAGO EN PIRÁMIDE -->
+          <div class="payment-method-group">
+            <label class="form-label" id="paymentMethodLabel">¿Cómo deseas pagar? *</label>
+            <div class="payment-pyramid-wrap">
+              <!-- Fila Superior (3 Columnas: Yape, Plin, Efectivo) -->
+              <div class="pyramid-top-row">
+                <div class="pyramid-chip selected" id="chipYape" onclick="selectPaymentChip(this, 'Yape')">
+                  <img src="assets/yape.png" alt="Yape" class="pay-logo-img">
+                  <span>Yape</span>
+                </div>
+                <div class="pyramid-chip" id="chipPlin" onclick="selectPaymentChip(this, 'Plin')">
+                  <img src="assets/plin.png" alt="Plin" class="pay-logo-img">
+                  <span>Plin</span>
+                </div>
+                <div class="pyramid-chip" id="chipEfectivo" onclick="selectPaymentChip(this, 'Efectivo')">
+                  <img src="assets/efectivo.png" alt="Efectivo (Soles)" class="pay-logo-img cash-img">
+                  <span>Efectivo</span>
+                </div>
+              </div>
+
+              <!-- Fila Inferior (100% Ancho: Tarjetas) -->
+              <div class="pyramid-bottom-row">
+                <div class="pyramid-card-btn" id="chipTarjeta" onclick="selectPaymentChip(this, 'Tarjeta POS')">
+                  <div class="cards-title-row">
+                    <span>💳 Tarjeta Crédito / Débito (POS al recibir)</span>
+                    <span class="cards-badge-tag">Todas las tarjetas</span>
+                  </div>
+                  <img src="assets/tarjetas.png" alt="Visa, Mastercard, CMR, Ripley, Tarjeta Oh, Amex, Diners" class="cards-banner-img">
+                </div>
+              </div>
+            </div>
+            <input type="hidden" id="selectedPaymentMethod" value="Yape">
+          </div>
+
+          <button type="submit" id="submitOrderBtn" class="cta-btn-primary" style="margin-top: 6px;">
+            <span>CONFIRMAR PEDIDO Y ENVIAR ➔</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- TOAST DE COMPRAS EN VIVO (SOCIAL PROOF POPUP) -->
+    <div class="live-sales-toast" id="liveSalesToast">
+      <div class="toast-icon">📦</div>
+      <div class="toast-content">
+        <div class="toast-buyer" id="toastBuyerText">Lucía M. (Surco, Lima)</div>
+        <div>Acaba de pedir <strong style="color:#FFF;" id="toastProductText">1x Secador Express Pro</strong></div>
+        <div class="toast-time" id="toastTimeText">Hace 2 minutos • Pago Contra Entrega</div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 3;
+    const track = document.getElementById('sliderTrack');
+    const dots = document.querySelectorAll('.dot');
+    const thumbs = document.querySelectorAll('.thumb-btn');
+
+    function goToSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      currentSlide = index;
+      if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+
+      thumbs.forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === currentSlide);
+      });
+
+      if (thumbs[currentSlide]) {
+        thumbs[currentSlide].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
+
+    let startX = 0;
+    let endX = 0;
+    const viewport = document.getElementById('sliderViewport');
+
+    if (viewport) {
+      viewport.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        if (startX - endX > 40) {
+          goToSlide(currentSlide + 1);
+        } else if (endX - startX > 40) {
+          goToSlide(currentSlide - 1);
+        }
+      }, { passive: true });
+    }
+
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener('click', () => {
+        const index = parseInt(thumb.getAttribute('data-index'), 10);
+        goToSlide(index);
+      });
+    });
+
+    function selectBundle(units, price, oldPrice) {
+      selectedUnits = units;
+      selectedPrice = price;
+
+      const card1 = document.getElementById('bundle1');
+      const card2 = document.getElementById('bundle2');
+
+      if (units === 1) {
+        if (card1) card1.classList.add('selected');
+        if (card2) card2.classList.remove('selected');
+        document.getElementById('displayCurrentPrice').innerText = 'S/ 149.90';
+        document.getElementById('displayOldPrice').innerText = 'S/ 250.00';
+        document.getElementById('stickySelectedSummary').innerText = '1x S/ 149.90 (Envío Gratis)';
+        document.getElementById('modalProductText').innerText = '1x Secador Express Pro + Funda';
+        document.getElementById('modalPriceText').innerText = 'S/ 149.90';
+        if (currentLocationType === 'LIMA') {
+          document.getElementById('modalTotalText').innerText = 'S/ 149.90';
+        } else {
+          document.getElementById('modalTotalText').innerText = 'S/ 20.00 Adelanto (Saldo S/ 129.90 al retirar)';
+        }
+      } else {
+        if (card2) card2.classList.add('selected');
+        if (card1) card1.classList.remove('selected');
+        document.getElementById('displayCurrentPrice').innerText = 'S/ 269.00';
+        document.getElementById('displayOldPrice').innerText = 'S/ 500.00';
+        document.getElementById('stickySelectedSummary').innerText = '2x S/ 269.00 (Ahorro Extra)';
+        document.getElementById('modalProductText').innerText = '2x Secador Express Pro + 2 Fundas';
+        document.getElementById('modalPriceText').innerText = 'S/ 269.00';
+        if (currentLocationType === 'LIMA') {
+          document.getElementById('modalTotalText').innerText = 'S/ 269.00';
+        } else {
+          document.getElementById('modalTotalText').innerText = 'S/ 20.00 Adelanto (Saldo S/ 249.00 al retirar)';
+        }
+      }
+    }
+
+    let selectedUnits = 1;
+    let selectedPrice = 149.90;
+    let selectedPayment = 'Yape';
+    let currentLocationType = 'LIMA';
+
+    // BASE DE DATOS DE AGENCIAS OFICIALES SHALOM EN PERÚ
+    const shalomAgencies = {
+      "Arequipa": [
+        "Shalom Arequipa - Av. Parra 320 (Cercado)",
+        "Shalom Arequipa - Av. Jesús / Kennedy (Paucarpata)",
+        "Shalom Arequipa - Av. Ejército 710 (Yanahuara)",
+        "Shalom Arequipa - Av. Aviación km 6 (Cerro Colorado)",
+        "Shalom Arequipa - Av. Dolores (J.L. Bustamante y Rivero)",
+        "Shalom Camaná - Av. 9 de Noviembre",
+        "Shalom Mollendo - Calle Arequipa (Islay)"
+      ],
+      "La Libertad": [
+        "Shalom Trujillo - Av. América Sur 1240 (Centro)",
+        "Shalom Trujillo - Av. Sánchez Carrión (El Porvenir)",
+        "Shalom Trujillo - Av. Condorcanqui (La Esperanza)",
+        "Shalom Trujillo - Av. Larco 890 (Víctor Larco)",
+        "Shalom Chepén - Calle Lima 450",
+        "Shalom Pacasmayo - Jr. Junín 120",
+        "Shalom Huamachuco - Jr. San Martín"
+      ],
+      "Cusco": [
+        "Shalom Cusco - Av. Huayruropata 1420 (Wanchaq)",
+        "Shalom Cusco - Av. Antonio Lorena 512 (Santiago)",
+        "Shalom Cusco - Prolongación Av. de la Cultura (San Sebastián)",
+        "Shalom Sicuani - Av. Manuel Prado",
+        "Shalom Quillabamba - Jr. Independencia (La Convención)"
+      ],
+      "Lambayeque": [
+        "Shalom Chiclayo - Av. Bolognesi 650 (Centro)",
+        "Shalom Chiclayo - Av. Víctor Raúl Haya de la Torre (La Victoria)",
+        "Shalom Chiclayo - Av. Chiclayo (José Leonardo Ortiz)",
+        "Shalom Lambayeque - Calle Huamachuco",
+        "Shalom Ferreñafe - Calle San Martín"
+      ],
+      "Piura": [
+        "Shalom Piura - Av. Sánchez Cerro 1150 (Centro)",
+        "Shalom Piura - Av. Progreso 840 (Castilla)",
+        "Shalom Sullana - Av. Buenos Aires 420",
+        "Shalom Talara - Av. B 210 (Pariñas)",
+        "Shalom Paita - Jr. Zepita 330"
+      ],
+      "Junín": [
+        "Shalom Huancayo - Av. Mariscal Castilla 2450 (El Tambo)",
+        "Shalom Huancayo - Av. Ferrocarril 890 (Centro)",
+        "Shalom Huancayo - Av. 9 de Diciembre (Chilca)",
+        "Shalom Tarma - Jr. Callao 410",
+        "Shalom La Merced - Av. Circunvalación (Chanchamayo)",
+        "Shalom Satipo - Jr. Manuel Prado"
+      ],
+      "Ica": [
+        "Shalom Ica - Panamericana Sur km 302 (Centro)",
+        "Shalom Chincha Alta - Av. Mariscal Benavides 780",
+        "Shalom Pisco - Av. Las Américas 450",
+        "Shalom Nazca - Av. Los Incas 230"
+      ],
+      "Áncash": [
+        "Shalom Chimbote - Av. José Pardo 920 (Centro)",
+        "Shalom Nuevo Chimbote - Av. Pacífico 410",
+        "Shalom Huaraz - Av. Luzuriaga 850 (Centro)"
+      ],
+      "Tacna": [
+        "Shalom Tacna - Av. Coronel Mendoza 1420 (Centro)",
+        "Shalom Tacna - Av. Los Molles (Gregorio Albarracín)"
+      ],
+      "Puno": [
+        "Shalom Juliaca - Av. Circunvalación 1540 (San Román)",
+        "Shalom Puno - Jr. Lampa 320 (Centro)",
+        "Shalom Ilave - Jr. Puno (El Collao)"
+      ],
+      "Cajamarca": [
+        "Shalom Cajamarca - Av. Vía de Evitamiento Sur 890",
+        "Shalom Jaén - Av. Mesones Muro 640"
+      ],
+      "San Martín": [
+        "Shalom Tarapoto - Jr. Jiménez Pimentel 1120",
+        "Shalom Moyobamba - Jr. 25 de Mayo 430",
+        "Shalom Juanjuí - Jr. Triunfo"
+      ],
+      "Huánuco": [
+        "Shalom Huánuco - Jr. General Prado 840",
+        "Shalom Tingo María - Av. Raimondi 420"
+      ],
+      "Ayacucho": [
+        "Shalom Ayacucho - Av. Mariscal Cáceres 980 (Huamanga)"
+      ],
+      "Ucayali": [
+        "Shalom Pucallpa - Av. Centenario km 4"
+      ],
+      "Loreto": [
+        "Shalom Iquitos - Av. Quiñones km 2.5 (Maynas)"
+      ],
+      "Tumbes": [
+        "Shalom Tumbes - Av. Tumbes Norte 630"
+      ],
+      "Moquegua": [
+        "Shalom Moquegua - Av. Manuel C. de la Torre",
+        "Shalom Ilo - Calle Miramar (Puerto)"
+      ],
+      "Amazonas": [
+        "Shalom Chachapoyas - Jr. Salamanca",
+        "Shalom Bagua Grande - Av. Chachapoyas"
+      ],
+      "Apurímac": [
+        "Shalom Abancay - Av. Arenas 430",
+        "Shalom Andahuaylas - Av. Perú 510"
+      ],
+      "Pasco": [
+        "Shalom Cerro de Pasco - Jr. Bolognesi",
+        "Shalom Oxapampa - Jr. San Martín"
+      ],
+      "Huancavelica": [
+        "Shalom Huancavelica - Jr. Manco Cápac"
+      ],
+      "Madre de Dios": [
+        "Shalom Puerto Maldonado - Av. Madre de Dios"
+      ]
+    };
+
+    // ALTERNAR TIPO DE UBICACIÓN (LIMA VS PROVINCIA SHALOM)
+    function switchLocationType(type) {
+      currentLocationType = type;
+      document.getElementById('selectedLocationType').value = type;
+
+      const tabLima = document.getElementById('tabLima');
+      const tabProv = document.getElementById('tabProvincia');
+      const fieldsLima = document.getElementById('fieldsLimaBlock');
+      const fieldsProv = document.getElementById('fieldsProvinciaBlock');
+
+      const chipPlin = document.getElementById('chipPlin');
+      const chipEfectivo = document.getElementById('chipEfectivo');
+      const chipTarjeta = document.getElementById('chipTarjeta');
+      const payLabel = document.getElementById('paymentMethodLabel');
+
+      if (type === 'LIMA') {
+        tabLima.classList.add('active');
+        tabProv.classList.remove('active');
+        fieldsLima.style.display = 'block';
+        fieldsProv.style.display = 'none';
+
+        // Habilitar todos los métodos de pago
+        chipPlin.classList.remove('disabled');
+        chipEfectivo.classList.remove('disabled');
+        chipTarjeta.classList.remove('disabled');
+        payLabel.innerText = '¿Cómo deseas pagar al recibir? *';
+
+        // Restaurar resumen de precios normal
+        document.getElementById('modalTotalText').innerText = `S/ ${selectedPrice.toFixed(2)}`;
+      } else {
+        tabProv.classList.add('active');
+        tabLima.classList.remove('active');
+        fieldsProv.style.display = 'block';
+        fieldsLima.style.display = 'none';
+
+        // En provincia: Único método permitido es Yape con S/ 20 de adelanto
+        selectPaymentChip(document.getElementById('chipYape'), 'Yape (Adelanto S/ 20.00)');
+        chipPlin.classList.add('disabled');
+        chipEfectivo.classList.add('disabled');
+        chipTarjeta.classList.add('disabled');
+        payLabel.innerText = 'Método de pago habilitado para Shalom:';
+
+        const saldoRestante = selectedPrice - 20;
+        document.getElementById('modalTotalText').innerText = `S/ 20.00 Adelanto (Saldo S/ ${saldoRestante.toFixed(2)} al retirar)`;
+      }
+    }
+
+    // CAMBIO DE DEPARTAMENTO Y LLENADO DE AGENCIAS SHALOM
+    function handleDepartmentChange(dept) {
+      const agencySelect = document.getElementById('custShalomAgency');
+      agencySelect.innerHTML = '<option value="" disabled selected>Selecciona tu agencia Shalom...</option>';
+
+      const agencies = shalomAgencies[dept] || [];
+      agencies.forEach(ag => {
+        const opt = document.createElement('option');
+        opt.value = ag;
+        opt.textContent = ag;
+        agencySelect.appendChild(opt);
+      });
+    }
+
+    // SELECCIÓN DE MÉTODO DE PAGO
+    function selectPaymentChip(elem, method) {
+      if (elem.classList.contains('disabled')) return;
+      document.querySelectorAll('.pyramid-chip, .pyramid-card-btn').forEach(c => c.classList.remove('selected'));
+      elem.classList.add('selected');
+      selectedPayment = method;
+      document.getElementById('selectedPaymentMethod').value = method;
+    }
+
+    // MODAL / CHECKOUT TRIGGER
+    function openCheckoutModal() {
+      document.getElementById('codModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      if (typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', {
+          content_name: selectedUnits === 1 ? '1x Secador Express Pro' : '2x Secador Express Pro (Bundle)',
+          content_ids: [selectedUnits === 1 ? 'viron-express-pro-1u' : 'viron-express-pro-2u'],
+          content_type: 'product',
+          value: selectedPrice,
+          currency: 'PEN',
+          num_items: selectedUnits
+        });
+      }
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('codModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function handleModalBackdropClick(e) {
+      if (e.target.id === 'codModal') {
+        closeCheckoutModal();
+      }
+    }
+
+    // VALIDACIÓN ANTI-DATOS FALSOS
+    function validatePeruvianPhone(phone) {
+      const regex = /^9\d{8}$/;
+      if (!regex.test(phone)) return false;
+
+      const fakeBlacklist = [
+        '999999999', '988888888', '977777777', '966666666', '955555555',
+        '944444444', '933333333', '922222222', '911111111', '900000000',
+        '987654321', '912345678', '901234567', '923456789'
+      ];
+      if (fakeBlacklist.includes(phone)) return false;
+
+      return true;
+    }
+
+    function validateFullName(name) {
+      const trimmed = name.trim();
+      const words = trimmed.split(/\s+/);
+      return words.length >= 2 && trimmed.length >= 6;
+    }
+
+    function handleSubmitOrder(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      if (form.b_website_trap && form.b_website_trap.value !== "") {
+        console.warn("🚫 Bot detectado. Solicitud descartada.");
+        return;
+      }
+
+      const nameInput = document.getElementById('custName');
+      const phoneInput = document.getElementById('custPhone');
+      const nameVal = nameInput.value.trim();
+      const phoneVal = phoneInput.value.trim().replace(/\s+/g, '');
+
+      const nameError = document.getElementById('nameError');
+      const phoneError = document.getElementById('phoneError');
+
+      nameError.style.display = 'none';
+      phoneError.style.display = 'none';
+
+      if (!validateFullName(nameVal)) {
+        nameError.style.display = 'block';
+        nameInput.focus();
+        return;
+      }
+
+      if (!validatePeruvianPhone(phoneVal)) {
+        phoneError.style.display = 'block';
+        phoneInput.focus();
+        return;
+      }
+
+      let cityVal = '';
+      let addressVal = '';
+      let dniVal = '';
+      let finalPaymentMethod = selectedPayment;
+
+      // Validar según ubicación
+      if (currentLocationType === 'LIMA') {
+        const districtSelect = document.getElementById('custLimaDistrict');
+        const addressInput = document.getElementById('custAddress');
+
+        if (!districtSelect.value) {
+          alert('Por favor selecciona tu distrito de Lima / Callao.');
+          districtSelect.focus();
+          return;
+        }
+        if (!addressInput.value.trim() || addressInput.value.trim().length < 6) {
+          alert('Por favor ingresa tu dirección exacta y referencia de entrega en Lima.');
+          addressInput.focus();
+          return;
+        }
+
+        cityVal = `Lima - ${districtSelect.value}`;
+        addressVal = addressInput.value.trim();
+      } else {
+        const deptSelect = document.getElementById('custProvDepartment');
+        const agencySelect = document.getElementById('custShalomAgency');
+        const dniInput = document.getElementById('custDNI');
+
+        if (!deptSelect.value) {
+          alert('Por favor selecciona tu departamento / ciudad de destino.');
+          deptSelect.focus();
+          return;
+        }
+        if (!agencySelect.value) {
+          alert('Por favor selecciona la agencia oficial Shalom donde retirarás tu pedido.');
+          agencySelect.focus();
+          return;
+        }
+        if (!dniInput.value.trim() || !/^\d{8}$/.test(dniInput.value.trim())) {
+          alert('Por favor ingresa un DNI válido de 8 dígitos para el retiro en Shalom.');
+          dniInput.focus();
+          return;
+        }
+
+        cityVal = deptSelect.value;
+        dniVal = dniInput.value.trim();
+        addressVal = `Agencia Shalom: ${agencySelect.value} (DNI Titular: ${dniVal})`;
+        finalPaymentMethod = 'Yape (S/ 20 Adelanto - Saldo S/ ' + (selectedPrice - 20).toFixed(2) + ' en Agencia)';
+      }
+
+      // Disparar Evento Purchase en Meta Pixel
+      if (typeof fbq === 'function') {
+        fbq('track', 'Purchase', {
+          content_name: selectedUnits === 1 ? '1x Secador Express Pro' : '2x Secador Express Pro (Bundle)',
+          content_ids: [selectedUnits === 1 ? 'viron-express-pro-1u' : 'viron-express-pro-2u'],
+          content_type: 'product',
+          value: selectedPrice,
+          currency: 'PEN',
+          num_items: selectedUnits
+        });
+      }
+
+      // Guardar Pedido en el Panel Administrativo (admin.html)
+      const orderId = 'VR-' + Math.floor(1000 + Math.random() * 9000);
+      const newOrderRecord = {
+        id: orderId,
+        date: new Date().toISOString().slice(0, 16).replace('T', ' '),
+        name: nameVal,
+        phone: phoneVal,
+        city: cityVal,
+        address: addressVal,
+        units: selectedUnits,
+        product: selectedUnits === 1 ? '1x Secador Express Pro + Funda' : '2x Secador Express Pro (Bundle)',
+        price: selectedPrice,
+        payment: finalPaymentMethod,
+        status: 'Pendiente'
+      };
+
+      let existingOrders = [];
+      try {
+        existingOrders = JSON.parse(localStorage.getItem('viron_orders') || '[]');
+      } catch(err) {
+        existingOrders = [];
+      }
+      existingOrders.unshift(newOrderRecord);
+      localStorage.setItem('viron_orders', JSON.stringify(existingOrders));
+
+      // Construcción del mensaje para WhatsApp
+      const storeWhatsApp = "51987654321"; // Reemplaza con el número de WhatsApp oficial de Viron
+      let msgText = '';
+
+      if (currentLocationType === 'LIMA') {
+        msgText = 
+          `Hola Viron! 👋 Acabo de solicitar mi pedido Contra Entrega en Lima:\n\n` +
+          `📦 *Pedido:* #${orderId}\n` +
+          `✨ *Producto:* Secador de Ropa Express Pro (${selectedUnits} unidad/es)\n` +
+          `💰 *Total a Pagar en Puerta:* S/ ${selectedPrice.toFixed(2)} (Envío Gratis)\n` +
+          `💳 *Método de Pago:* ${finalPaymentMethod}\n` +
+          `👤 *Cliente:* ${nameVal}\n` +
+          `📍 *Distrito:* ${cityVal}\n` +
+          `🏠 *Dirección:* ${addressVal}\n` +
+          `📱 *Teléfono:* ${phoneVal}\n\n` +
+          `Por favor confírmenme el despacho. ¡Muchas gracias!`;
+      } else {
+        msgText = 
+          `Hola Viron! 👋 Acabo de registrar mi pedido para Envío a Provincia vía Shalom:\n\n` +
+          `📦 *Pedido:* #${orderId}\n` +
+          `✨ *Producto:* Secador de Ropa Express Pro (${selectedUnits} unidad/es)\n` +
+          `💰 *Total del Producto:* S/ ${selectedPrice.toFixed(2)} (Envío GRATIS)\n` +
+          `💵 *Adelanto Guía Shalom (Yape):* S/ 20.00\n` +
+          `🏢 *Saldo al Retirar en Agencia:* S/ ${(selectedPrice - 20).toFixed(2)}\n` +
+          `👤 *Cliente:* ${nameVal}\n` +
+          `🆔 *DNI Titular:* ${dniVal}\n` +
+          `📍 *Ciudad:* ${cityVal}\n` +
+          `🏢 *Agencia:* ${addressVal}\n` +
+          `📱 *Teléfono:* ${phoneVal}\n\n` +
+          `Por favor envíenme el número de Yape para transferir el adelanto de S/ 20 y emitir mi guía Shalom. ¡Gracias!`;
+      }
+
+      closeCheckoutModal();
+      window.open(`https://api.whatsapp.com/send?phone=${storeWhatsApp}&text=${encodeURIComponent(msgText)}`, '_blank');
+
+      alert(`🎉 ¡Excelente ${nameVal}!\nHemos registrado tu pedido #${orderId}.\nTe estamos redirigiendo a nuestro WhatsApp oficial para confirmar los detalles.`);
+    }
+
+    // Registrar visita para el Dashboard
+    let currentVisits = parseInt(localStorage.getItem('viron_visits_today') || '428', 10);
+    currentVisits += 1;
+    localStorage.setItem('viron_visits_today', currentVisits.toString());
+
+    // --- FAQ ACCORDION TOGGLE ---
+    function toggleFaq(button) {
+      const item = button.parentElement;
+      const isActive = item.classList.contains('active');
+
+      document.querySelectorAll('.faq-item').forEach(el => {
+        el.classList.remove('active');
+      });
+
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    }
+
+    // --- TEMPORIZADOR DE CUENTA REGRESIVA DINÁMICO ---
+    function startCountdown(durationInSeconds) {
+      let timer = durationInSeconds;
+      const timerDisplay = document.getElementById('countdownTimer');
+      if (!timerDisplay) return;
+
+      setInterval(() => {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+        timerDisplay.textContent = 
+          (minutes < 10 ? '0' : '') + minutes + ':' + 
+          (seconds < 10 ? '0' : '') + seconds;
+
+        if (--timer < 0) {
+          timer = durationInSeconds; // Reset automático
+        }
+      }, 1000);
+    }
+    startCountdown(14 * 60 + 58); // 14 min 58 s
+
+    // --- NOTIFICACIONES DE COMPRAS EN VIVO (SOCIAL PROOF TOAST) ---
+    const mockBuyers = [
+      { name: "Lucía M.", city: "Surco, Lima", items: "1x Secador Express Pro", time: "Hace 2 min" },
+      { name: "Carlos T.", city: "Trujillo", items: "2x Paquete Ahorro Familiar", time: "Hace 4 min" },
+      { name: "Andrea P.", city: "San Borja, Lima", items: "1x Secador Express Pro", time: "Hace 1 min" },
+      { name: "Jorge R.", city: "Arequipa", items: "1x Secador Express Pro", time: "Hace 6 min" },
+      { name: "Valeria G.", city: "Miraflores, Lima", items: "2x Paquete Ahorro Familiar", time: "Hace 3 min" },
+      { name: "Manuel S.", city: "Cusco", items: "1x Secador Express Pro", time: "Hace 8 min" }
+    ];
+
+    let buyerIndex = 0;
+    const toast = document.getElementById('liveSalesToast');
+
+    function showNextToast() {
+      if (!toast) return;
+      const b = mockBuyers[buyerIndex];
+      document.getElementById('toastBuyerText').textContent = `${b.name} (${b.city})`;
+      document.getElementById('toastProductText').textContent = b.items;
+      document.getElementById('toastTimeText').textContent = `${b.time} • Pago Contra Entrega`;
+
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 5000); // Se muestra 5 segundos
+
+      buyerIndex = (buyerIndex + 1) % mockBuyers.length;
+    }
+
+    // Iniciar primer toast a los 6 segundos y luego cada 22 segundos
+    setTimeout(() => {
+      showNextToast();
+      setInterval(showNextToast, 22000);
+    }, 6000);
+  </script>
+</body>
+</html>
