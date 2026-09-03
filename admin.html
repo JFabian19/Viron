@@ -370,31 +370,6 @@
       flex-wrap: wrap;
     }
 
-    /* Live Pulse Badge */
-    .live-visitors-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.35);
-      padding: 8px 14px;
-      border-radius: var(--radius-md);
-      color: var(--accent-green);
-      font-size: 13px;
-      font-weight: 800;
-    }
-    .live-dot {
-      width: 9px;
-      height: 9px;
-      background-color: var(--accent-green);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--accent-green);
-      animation: pulseLive 1.5s infinite;
-    }
-    @keyframes pulseLive {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.3); opacity: 0.6; }
-    }
 
     /* Google Sheets Status Badge */
     .sheets-badge {
@@ -904,13 +879,6 @@
             <span id="sheetsStatusText">Google Sheets</span>
           </div>
 
-          <!-- Live Real-Time Pulse -->
-          <div class="live-visitors-badge">
-            <span class="live-dot"></span>
-            <span id="liveVisitorsCount">4</span>
-            <span>en línea ahora</span>
-          </div>
-
           <button class="btn-action" onclick="syncWithGoogleSheets(true)" id="btnTopSync" title="Sincronizar pedidos con Google Sheets">
             <span id="syncIcon">🔄</span>
             <span>Sincronizar</span>
@@ -928,7 +896,7 @@
 
       <!-- KPI CARDS -->
       <section class="kpi-grid">
-        <!-- KPI 1: Ventas Hoy -->
+        <!-- KPI 1: Ventas Totales -->
         <div class="kpi-card">
           <div class="kpi-top">
             <span class="kpi-label">Ventas Totales</span>
@@ -949,31 +917,31 @@
           </div>
           <div class="kpi-value" id="kpiOrdersCount">0</div>
           <div class="kpi-trend trend-up">
-            <span id="kpiPendingBadge">⏳ 0 pendientes</span>
+            <span id="kpiOrdersHint">Histórico total</span>
           </div>
         </div>
 
-        <!-- KPI 3: Visitas -->
+        <!-- KPI 3: Pedidos Pendientes -->
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">Visitantes Tienda</span>
-            <span class="kpi-icon">👥</span>
+            <span class="kpi-label">Pedidos Pendientes</span>
+            <span class="kpi-icon">⏳</span>
           </div>
-          <div class="kpi-value" id="kpiVisitsCount">428</div>
-          <div class="kpi-trend trend-up">
-            <span style="color:var(--accent-green)">🔥 Alto Tráfico</span>
+          <div class="kpi-value" id="kpiPendingCount">0</div>
+          <div class="kpi-trend" style="color:#F59E0B;">
+            <span id="kpiPendingBadge">0 por despachar</span>
           </div>
         </div>
 
-        <!-- KPI 4: Conversión -->
+        <!-- KPI 4: Ticket Promedio -->
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">Tasa de Conversión</span>
+            <span class="kpi-label">Ticket Promedio</span>
             <span class="kpi-icon">🎯</span>
           </div>
-          <div class="kpi-value" id="kpiConversionRate">0%</div>
+          <div class="kpi-value" id="kpiAvgTicket">S/ 0.00</div>
           <div class="kpi-trend trend-up">
-            <span>👑 Rendimiento Óptimo</span>
+            <span>Promedio por venta</span>
           </div>
         </div>
       </section>
@@ -1546,10 +1514,6 @@
       renderDashboard();
     }
 
-    function getVisits() {
-      return parseInt(localStorage.getItem('velora_visits_today') || localStorage.getItem('viron_visits_today') || '428', 10);
-    }
-
     // ----------------------------------------------------------
     // 4. RENDER DEL DASHBOARD & GRÁFICOS
     // ----------------------------------------------------------
@@ -1558,16 +1522,17 @@
 
     function renderDashboard() {
       const orders = getOrders();
-      const visits = getVisits();
 
       let totalSales = 0;
       let pendingCount = 0;
       let limaCount = 0;
       let provCount = 0;
+      let validOrdersCount = 0;
 
       orders.forEach(o => {
         if (o.status !== 'Cancelado') {
           totalSales += parseFloat(o.price || 0);
+          validOrdersCount++;
         }
         if (o.status === 'Pendiente') pendingCount++;
         if ((o.city || '').toLowerCase().includes('lima')) {
@@ -1577,14 +1542,14 @@
         }
       });
 
-      const conversionRate = visits > 0 ? ((orders.length / visits) * 100).toFixed(2) : 0;
+      const avgTicket = validOrdersCount > 0 ? (totalSales / validOrdersCount) : 0;
 
       // Actualizar DOM
       document.getElementById('kpiSalesTotal').innerText = `S/ ${totalSales.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
       document.getElementById('kpiOrdersCount').innerText = orders.length;
-      document.getElementById('kpiPendingBadge').innerText = `⏳ ${pendingCount} pendientes`;
-      document.getElementById('kpiVisitsCount').innerText = visits;
-      document.getElementById('kpiConversionRate').innerText = `${conversionRate}%`;
+      document.getElementById('kpiPendingCount').innerText = pendingCount;
+      document.getElementById('kpiPendingBadge').innerText = `${pendingCount} por despachar`;
+      document.getElementById('kpiAvgTicket').innerText = `S/ ${avgTicket.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
       document.getElementById('ordersTableTotalCount').innerText = `${orders.length} pedidos`;
       document.getElementById('kpiSalesHint').innerText = `${orders.length} pedidos registrados`;
 
@@ -1867,15 +1832,6 @@
         toast.classList.remove('show');
       }, 3500);
     }
-
-    // Fluctuación de visitantes en vivo
-    setInterval(() => {
-      const base = 4;
-      const randomOffset = Math.floor(Math.random() * 5) - 2;
-      const live = Math.max(2, base + randomOffset);
-      const liveEl = document.getElementById('liveVisitorsCount');
-      if (liveEl) liveEl.innerText = live;
-    }, 4500);
 
     // INICIALIZACIÓN
     document.addEventListener('DOMContentLoaded', () => {
