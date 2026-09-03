@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIRON Admin | Dashboard & Control de Pedidos</title>
+  <title>VELORA Beauty Admin | Dashboard & Control de Pedidos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -532,9 +532,9 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="brand-box">
-      <div class="brand-logo">V</div>
+      <img src="assets/velora-logo.jpg" alt="VELORA Logo" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1.5px solid #FDA4AF;">
       <div>
-        <div class="brand-name">VIRON LAB</div>
+        <div class="brand-name">VELORA BEAUTY</div>
         <span class="brand-badge">ADMIN E-COMMERCE</span>
       </div>
     </div>
@@ -572,7 +572,7 @@
     <!-- TOP BAR -->
     <header class="topbar">
       <div class="topbar-left">
-        <h1>Centro de Operaciones VIRON</h1>
+        <h1>Centro de Operaciones VELORA Beauty</h1>
         <p>Monitoreo en tiempo real de tráfico, embudo y despacho de pedidos</p>
       </div>
 
@@ -740,16 +740,15 @@
         <div class="form-row">
           <label>Paquete / Unidades *</label>
           <select id="manualUnits" onchange="updateManualPrice()">
-            <option value="1">1 Unidad - S/ 149.90 (Con Funda de Regalo)</option>
-            <option value="2">2 Unidades - S/ 269.00 (Paquete Ahorro Extra)</option>
+            <option value="1">1x VELORA 5 en 1 - S/ 99.90</option>
+            <option value="2">2x VELORA 5 en 1 - S/ 169.90 (Ahorras S/ 29.90)</option>
+            <option value="3">3x VELORA 5 en 1 - S/ 229.90 (Ahorras S/ 69.80)</option>
           </select>
         </div>
         <div class="form-row">
           <label>Método de Pago al Recibir</label>
           <select id="manualPayment">
-            <option value="Yape / Plin">Yape / Plin</option>
-            <option value="Efectivo">Efectivo</option>
-            <option value="Tarjeta POS">Tarjeta POS</option>
+            <option value="Yape Oficial">Yape Oficial</option>
           </select>
         </div>
 
@@ -765,19 +764,18 @@
   <script>
     // 1. DATA INICIAL REALISTA
     const defaultOrders = [
-      { id: 'VR-1098', date: '2026-09-02 01:05', name: 'Mariana Paredes G.', phone: '987654321', city: 'Miraflores, Lima', address: 'Av. Larco 743, Dpto 502', units: 1, product: '1x Secador Express Pro + Funda', price: 149.90, payment: 'Yape / Plin', status: 'Pendiente' },
-      { id: 'VR-1097', date: '2026-09-02 00:48', name: 'Jorge Carranza T.', phone: '976543210', city: 'Los Olivos, Lima', address: 'Jr. Los Alisos 234', units: 2, product: '2x Secador Express Pro (Bundle)', price: 269.00, payment: 'Efectivo', status: 'Confirmado' },
-      { id: 'VR-1096', date: '2026-09-02 00:22', name: 'Rosa Angélica M.', phone: '965432109', city: 'Arequipa', address: 'Calle Mercaderes 120 (Envío Shalom)', units: 1, product: '1x Secador Express Pro + Funda', price: 149.90, payment: 'Yape / Plin', status: 'Confirmado' },
-      { id: 'VR-1095', date: '2026-09-01 23:55', name: 'Diego Ramos V.', phone: '954321098', city: 'San Isidro, Lima', address: 'Av. Conquistadores 890', units: 1, product: '1x Secador Express Pro + Funda', price: 149.90, payment: 'Tarjeta POS', status: 'En Camino' },
-      { id: 'VR-1094', date: '2026-09-01 23:14', name: 'Carlos Mendoza S.', phone: '943210987', city: 'Trujillo', address: 'Av. España 450 (Agencia Shalom)', units: 2, product: '2x Secador Express Pro (Bundle)', price: 269.00, payment: 'Yape / Plin', status: 'Entregado' },
-      { id: 'VR-1093', date: '2026-09-01 22:40', name: 'Lucía Morales B.', phone: '932109876', city: 'Surco, Lima', address: 'Av. Primavera 1120', units: 1, product: '1x Secador Express Pro + Funda', price: 149.90, payment: 'Yape / Plin', status: 'Entregado' }
+      { id: 'VL-1098', date: '2026-09-02 18:45', name: 'Camila Paredes G.', phone: '916102139', city: 'Lima', address: 'Agencia Shalom: Miraflores - Av. Benavides 2150', units: 1, product: '1x VELORA 5 en 1', price: 99.90, payment: 'Yape Oficial', status: 'Pendiente' },
+      { id: 'VL-1097', date: '2026-09-02 18:10', name: 'Valeria Mendoza S.', phone: '984512345', city: 'Arequipa', address: 'Agencia Shalom: Paucarpata - Av. Jesús / Kennedy', units: 2, product: '2x VELORA 5 en 1 (Ahorro S/29.90)', price: 169.90, payment: 'Yape Oficial', status: 'Confirmado' },
+      { id: 'VL-1096', date: '2026-09-02 17:35', name: 'Fiorella Gutiérrez M.', phone: '944123789', city: 'La Libertad', address: 'Agencia Shalom: Trujillo - Av. América Sur 1240', units: 3, product: '3x VELORA 5 en 1 (Ahorro S/69.80)', price: 229.90, payment: 'Yape Oficial', status: 'Confirmado' },
+      { id: 'VL-1095', date: '2026-09-02 16:50', name: 'Luciana Ramos T.', phone: '978654123', city: 'Cusco', address: 'Agencia Shalom: Wanchaq - Av. Huayruropata 1420', units: 1, product: '1x VELORA 5 en 1', price: 99.90, payment: 'Yape Oficial', status: 'En Camino' },
+      { id: 'VL-1094', date: '2026-09-02 15:20', name: 'Andrea Barrientos L.', phone: '951234876', city: 'Lambayeque', address: 'Agencia Shalom: Chiclayo - Av. Bolognesi 650', units: 2, product: '2x VELORA 5 en 1 (Ahorro S/29.90)', price: 169.90, payment: 'Yape Oficial', status: 'Entregado' }
     ];
 
     // Cargar órdenes de localStorage o inicializar
     function getOrders() {
-      const stored = localStorage.getItem('viron_orders');
+      const stored = localStorage.getItem('velora_orders') || localStorage.getItem('viron_orders');
       if (!stored) {
-        localStorage.setItem('viron_orders', JSON.stringify(defaultOrders));
+        localStorage.setItem('velora_orders', JSON.stringify(defaultOrders));
         return defaultOrders;
       }
       try {
@@ -788,13 +786,13 @@
     }
 
     function saveOrders(orders) {
-      localStorage.setItem('viron_orders', JSON.stringify(orders));
+      localStorage.setItem('velora_orders', JSON.stringify(orders));
       renderDashboard();
     }
 
     // Inicializar Visitas
     function getVisits() {
-      let visits = parseInt(localStorage.getItem('viron_visits_today') || '428', 10);
+      let visits = parseInt(localStorage.getItem('velora_visits_today') || localStorage.getItem('viron_visits_today') || '428', 10);
       return visits;
     }
 
@@ -856,7 +854,7 @@
 
         // WhatsApp pre-filled text
         const waMsg = encodeURIComponent(
-          `Hola ${order.name}! 👋 Te saludamos de VIRON.\n` +
+          `Hola ${order.name}! 👋 Te saludamos de VELORA Beauty.\n` +
           `Tenemos registrado tu pedido #${order.id} del *${order.product}* por S/ ${order.price.toFixed(2)}.\n` +
           `Dirección de entrega: ${order.address}, ${order.city}.\n\n` +
           `¿Nos confirmas para programar el despacho hoy mismo? ¡Muchas gracias!`
@@ -1013,7 +1011,7 @@
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.setAttribute('download', `VIRON_Pedidos_${new Date().toISOString().slice(0,10)}.csv`);
+      link.setAttribute('download', `VELORA_Pedidos_${new Date().toISOString().slice(0,10)}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1066,7 +1064,7 @@
 
     // SINCRONIZACIÓN EN TIEMPO REAL CON LA TIENDA
     window.addEventListener('storage', (e) => {
-      if (e.key === 'viron_orders' || e.key === 'viron_visits_today') {
+      if (e.key === 'velora_orders' || e.key === 'velora_visits_today' || e.key === 'viron_orders' || e.key === 'viron_visits_today') {
         renderDashboard();
       }
     });
