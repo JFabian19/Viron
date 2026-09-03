@@ -1728,6 +1728,95 @@
       padding: 4px 12px;
       border-radius: var(--radius-pill);
     }
+
+    /* ==========================================================
+       CRO & ADVANCED FORM VALIDATION ENHANCEMENTS
+       ========================================================== */
+    .field-error-msg {
+      display: none;
+      font-size: 10px;
+      font-weight: 700;
+      color: #DC2626;
+      margin-top: 2px;
+      line-height: 1.2;
+    }
+    .form-input.is-invalid, .form-select.is-invalid {
+      border-color: #EF4444 !important;
+      background-color: #FEF2F2 !important;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+    }
+    .form-input.is-valid, .form-select.is-valid {
+      border-color: #10B981 !important;
+      background-color: #F0FDF4 !important;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1) !important;
+    }
+    .input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    .valid-check-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #10B981;
+      font-size: 13px;
+      font-weight: 900;
+      pointer-events: none;
+      display: none;
+    }
+    .input-wrapper.is-valid .valid-check-icon {
+      display: block;
+    }
+
+    /* BARRA DE STOCK LIMITADO (CRO URGENCY) */
+    .stock-scarcity-bar {
+      background: #FFF1F2;
+      border: 1px solid #FECDD3;
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 2px;
+    }
+    .stock-scarcity-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 800;
+      color: #9F1239;
+    }
+    .stock-progress-track {
+      width: 100%;
+      height: 6px;
+      background: #FED7AA;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+    .stock-progress-fill {
+      width: 82%;
+      height: 100%;
+      background: linear-gradient(90deg, #F97316, #E11D48);
+      border-radius: var(--radius-pill);
+      animation: stockPulse 2s infinite ease-in-out;
+    }
+    @keyframes stockPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* MICRO SHAKE EN CASO DE ERROR */
+    @keyframes shakeForm {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .shake-error {
+      animation: shakeForm 0.35s ease-in-out;
+    }
+
   </style>
 </head>
 <body>
@@ -1901,10 +1990,20 @@
         </div>
       </div>
 
-      <!-- TEMPORIZADOR DE URGENCIA -->
+      <!-- TEMPORIZADOR DE URGENCIA & BARRA DE STOCK (CRO) -->
       <div class="countdown-timer-bar">
-        <span>⏳ LA OFERTA Y STOCK DISPONIBLE TERMINAN EN:</span>
+        <span>⏳ OFERTA FLASH POR TIEMPO LIMITADO:</span>
         <span class="countdown-digits" id="countdownTimer">14:58</span>
+      </div>
+
+      <div class="stock-scarcity-bar" aria-label="Stock limitado">
+        <div class="stock-scarcity-header">
+          <span>🔥 Quedan solo 8 unidades disponibles</span>
+          <span style="color: #BE185D;">¡Alta Demanda!</span>
+        </div>
+        <div class="stock-progress-track">
+          <div class="stock-progress-fill"></div>
+        </div>
       </div>
 
       <!-- 6. COPY Y PILLS -->
@@ -2404,19 +2503,32 @@
           <input type="text" name="b_website_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
 
           <div class="form-group">
-            <label class="form-label">Nombre y Apellido de quien retira *</label>
-            <input type="text" id="custName" class="form-input" placeholder="Ej. Ana Lucía Mendoza" required minlength="5">
+            <label class="form-label">Nombre y Apellido de quien retira en Shalom *</label>
+            <div class="input-wrapper" id="nameWrapper">
+              <input type="text" id="custName" class="form-input" placeholder="Ej. Ana Lucía Mendoza" required autocomplete="name" oninput="validateNameInput(this)">
+              <span class="valid-check-icon">✓</span>
+            </div>
+            <span class="field-error-msg" id="nameError">Ingresa un nombre y apellido real válido (sin letras al azar).</span>
           </div>
 
-          <!-- 2 Columnas para Teléfono y DNI -->
+          <!-- 2 Columnas para Teléfono y DNI con Validación en Tiempo Real -->
           <div class="form-grid-2">
             <div class="form-group" style="margin-bottom: 0;">
               <label class="form-label">WhatsApp (9 dígitos) *</label>
-              <input type="tel" id="custPhone" class="form-input" placeholder="916102139" required maxlength="9" pattern="9[0-9]{8}">
+              <div class="input-wrapper" id="phoneWrapper">
+                <input type="tel" id="custPhone" class="form-input" placeholder="916102139" required maxlength="9" inputmode="numeric" oninput="validatePhoneInput(this)">
+                <span class="valid-check-icon">✓</span>
+              </div>
+              <span class="field-error-msg" id="phoneError">Debe ser de 9 dígitos y empezar con 9.</span>
             </div>
+
             <div class="form-group" style="margin-bottom: 0;">
               <label class="form-label">DNI Titular (8 dígitos) *</label>
-              <input type="tel" id="custDNI" class="form-input" placeholder="DNI para Shalom" required maxlength="8" pattern="[0-9]{8}">
+              <div class="input-wrapper" id="dniWrapper">
+                <input type="tel" id="custDNI" class="form-input" placeholder="8 dígitos" required maxlength="8" inputmode="numeric" oninput="validateDniInput(this)">
+                <span class="valid-check-icon">✓</span>
+              </div>
+              <span class="field-error-msg" id="dniError">DNI debe tener 8 dígitos válidos.</span>
             </div>
           </div>
 
@@ -3244,6 +3356,15 @@
       document.body.removeChild(textArea);
     }
 
+    function triggerModalShake() {
+      const sheet = document.querySelector('.modal-sheet');
+      if (sheet) {
+        sheet.classList.remove('shake-error');
+        void sheet.offsetWidth; // trigger reflow
+        sheet.classList.add('shake-error');
+      }
+    }
+
     // ==========================================================
     // CONTROL DEL MODAL CENTRADO
     // ==========================================================
@@ -3275,6 +3396,163 @@
       }
     }
 
+
+    // ==========================================================
+    // VALIDACIÓN AVANZADA ANTI-SPAM & ANTI-KEYSMASH (CRO & CPA)
+    // ==========================================================
+    function checkRealFullName(name) {
+      const clean = name.trim();
+      // Solo letras, espacios, tildes y ñ
+      if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s\-\']+$/.test(clean)) {
+        return { valid: false, msg: "Solo se permiten letras y espacios." };
+      }
+      const parts = clean.split(/\s+/);
+      if (parts.length < 2) {
+        return { valid: false, msg: "Ingresa tu nombre y apellido (mínimo 2 palabras)." };
+      }
+      for (let p of parts) {
+        if (p.length < 2) {
+          return { valid: false, msg: "Cada palabra debe tener al menos 2 letras." };
+        }
+      }
+      // Repetición excesiva de caracteres (ej: "aaaa", "ssss")
+      if (/([a-zA-Z])\1{2,}/i.test(clean)) {
+        return { valid: false, msg: "El nombre contiene letras repetitivas sospechosas." };
+      }
+      // Patrones comunes de teclado al azar (keysmash)
+      const spamPatterns = [
+        /asdf/i, /qwer/i, /zxcv/i, /hjkl/i, /test/i, /prueba/i,
+        /fake/i, /null/i, /dsada/i, /sada/i, /fdsa/i, /lkjh/i,
+        /mnbv/i, /poiu/i, /aaaa/i, /bbbb/i, /cccc/i
+      ];
+      for (let sp of spamPatterns) {
+        if (sp.test(clean)) {
+          return { valid: false, msg: "Por favor ingresa un nombre y apellido real." };
+        }
+      }
+      // Proporción de vocales / consonantes (detectar basura sin vocales como 'sdfghj')
+      for (let p of parts) {
+        const vowels = (p.match(/[aeiouáéíóúü]/gi) || []).length;
+        if (vowels === 0 && p.length > 2) {
+          return { valid: false, msg: "Por favor ingresa un nombre y apellido real." };
+        }
+        if (/[bcdfghjklmnpqrstvwxyzñ]{5,}/i.test(p)) {
+          return { valid: false, msg: "El nombre ingresado no parece válido." };
+        }
+      }
+      return { valid: true, msg: "" };
+    }
+
+    function checkRealPhone(phone) {
+      const clean = phone.trim();
+      if (!/^9\d{8}$/.test(clean)) {
+        return { valid: false, msg: "El número debe tener 9 dígitos y empezar con 9." };
+      }
+      // Evitar secuencias obvias o repetitivas como 999999999, 987654321
+      if (/^9(\d)\1{7}$/.test(clean) || clean === '987654321' || clean === '912345678') {
+        return { valid: false, msg: "Ingresa un número de celular real." };
+      }
+      return { valid: true, msg: "" };
+    }
+
+    function checkRealDNI(dni) {
+      const clean = dni.trim();
+      if (!/^\d{8}$/.test(clean)) {
+        return { valid: false, msg: "El DNI debe tener exactamente 8 dígitos numéricos." };
+      }
+      // Evitar 00000000, 11111111, 12345678
+      if (/^(\d)\1{7}$/.test(clean) || clean === '12345678' || clean === '87654321') {
+        return { valid: false, msg: "Ingresa un DNI real para tu retiro en Shalom." };
+      }
+      return { valid: true, msg: "" };
+    }
+
+    // Validadores en tiempo real
+    function validateNameInput(input) {
+      const wrapper = document.getElementById('nameWrapper');
+      const errSpan = document.getElementById('nameError');
+      const val = input.value.trim();
+      if (!val) {
+        input.classList.remove('is-valid', 'is-invalid');
+        wrapper.classList.remove('is-valid');
+        errSpan.style.display = 'none';
+        return false;
+      }
+      const res = checkRealFullName(val);
+      if (res.valid) {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        wrapper.classList.add('is-valid');
+        errSpan.style.display = 'none';
+        return true;
+      } else {
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        wrapper.classList.remove('is-valid');
+        errSpan.textContent = res.msg;
+        errSpan.style.display = 'block';
+        return false;
+      }
+    }
+
+    function validatePhoneInput(input) {
+      // Filtrar solo números
+      input.value = input.value.replace(/\D/g, '').slice(0, 9);
+      const wrapper = document.getElementById('phoneWrapper');
+      const errSpan = document.getElementById('phoneError');
+      const val = input.value.trim();
+      if (!val) {
+        input.classList.remove('is-valid', 'is-invalid');
+        wrapper.classList.remove('is-valid');
+        errSpan.style.display = 'none';
+        return false;
+      }
+      const res = checkRealPhone(val);
+      if (res.valid) {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        wrapper.classList.add('is-valid');
+        errSpan.style.display = 'none';
+        return true;
+      } else {
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        wrapper.classList.remove('is-valid');
+        errSpan.textContent = res.msg;
+        errSpan.style.display = 'block';
+        return false;
+      }
+    }
+
+    function validateDniInput(input) {
+      // Filtrar solo números
+      input.value = input.value.replace(/\D/g, '').slice(0, 8);
+      const wrapper = document.getElementById('dniWrapper');
+      const errSpan = document.getElementById('dniError');
+      const val = input.value.trim();
+      if (!val) {
+        input.classList.remove('is-valid', 'is-invalid');
+        wrapper.classList.remove('is-valid');
+        errSpan.style.display = 'none';
+        return false;
+      }
+      const res = checkRealDNI(val);
+      if (res.valid) {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        wrapper.classList.add('is-valid');
+        errSpan.style.display = 'none';
+        return true;
+      } else {
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        wrapper.classList.remove('is-valid');
+        errSpan.textContent = res.msg;
+        errSpan.style.display = 'block';
+        return false;
+      }
+    }
+
     // ==========================================================
     // ENVÍO DE FORMULARIO CON ADVANCED MATCHING Y BLOQUEO ANTI-DUPLICADOS
     // ==========================================================
@@ -3303,29 +3581,47 @@
       const deptVal = deptSelect.value;
       const agencyVal = agencySelect.value;
 
-      if (!nameVal || nameVal.length < 5) {
-        alert('Por favor ingresa tu nombre y apellido completo.');
+      // 1. Validar Nombre
+      const nameCheck = checkRealFullName(nameVal);
+      if (!nameCheck.valid) {
+        validateNameInput(nameInput);
         nameInput.focus();
+        triggerModalShake();
+        alert('⚠️ ' + nameCheck.msg);
         return;
       }
-      if (!phoneVal || !/^9\d{8}$/.test(phoneVal)) {
-        alert('Por favor ingresa un número de WhatsApp peruano válido (9 dígitos que empiece con 9).');
+
+      // 2. Validar WhatsApp
+      const phoneCheck = checkRealPhone(phoneVal);
+      if (!phoneCheck.valid) {
+        validatePhoneInput(phoneInput);
         phoneInput.focus();
+        triggerModalShake();
+        alert('⚠️ ' + phoneCheck.msg);
         return;
       }
-      if (!dniVal || !/^\d{8}$/.test(dniVal)) {
-        alert('Por favor ingresa un DNI válido de 8 dígitos para el retiro en Shalom.');
+
+      // 3. Validar DNI
+      const dniCheck = checkRealDNI(dniVal);
+      if (!dniCheck.valid) {
+        validateDniInput(dniInput);
         dniInput.focus();
+        triggerModalShake();
+        alert('⚠️ ' + dniCheck.msg);
         return;
       }
+
+      // 4. Validar Departamento y Agencia
       if (!deptVal) {
-        alert('Por favor selecciona tu departamento.');
+        alert('⚠️ Por favor selecciona tu departamento.');
         deptSelect.focus();
+        triggerModalShake();
         return;
       }
       if (!agencyVal) {
-        alert('Por favor selecciona la Agencia Oficial Shalom donde retirarás tu pedido.');
+        alert('⚠️ Por favor selecciona la Agencia Oficial Shalom donde retirarás tu pedido.');
         agencySelect.focus();
+        triggerModalShake();
         return;
       }
 
