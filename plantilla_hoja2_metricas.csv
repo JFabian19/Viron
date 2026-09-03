@@ -1,0 +1,9 @@
+Métrica,Fórmula Automática
+Ventas Totales (S/),"=IFERROR(SUM(Pedidos!J2:J), 0)"
+Total de Pedidos Registrados,"=MAX(0, COUNTA(Pedidos!A2:A)-1)"
+Pedidos Pendientes,"=COUNTIF(Pedidos!L2:L, ""Pendiente"")"
+Pedidos Confirmados,"=COUNTIF(Pedidos!L2:L, ""Confirmado"")"
+Pedidos En Camino,"=COUNTIF(Pedidos!L2:L, ""En Camino"")"
+Pedidos Entregados,"=COUNTIF(Pedidos!L2:L, ""Entregado"")"
+Pedidos Cancelados,"=COUNTIF(Pedidos!L2:L, ""Cancelado"")"
+Ticket Promedio (S/),"=IFERROR(AVERAGE(Pedidos!J2:J), 0)"

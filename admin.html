@@ -42,7 +42,185 @@
       background-color: var(--bg-body);
       color: var(--text-main);
       min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ==========================================================
+       PANTALLA DE ACCESO SEGURO / LOGIN GATE
+       ========================================================== */
+    .admin-login-screen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, #1e293b 0%, #080c14 100%);
       display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+    .login-card {
+      background: #111827;
+      border: 1px solid #374151;
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      text-align: center;
+      position: relative;
+      animation: fadeInLogin 0.3s ease-out;
+    }
+    @keyframes fadeInLogin {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .login-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid #FDA4AF;
+      object-fit: cover;
+      margin: 0 auto 16px;
+      display: block;
+      box-shadow: 0 0 20px rgba(253, 164, 175, 0.3);
+    }
+    .login-badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .login-title {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+      color: #FFFFFF;
+    }
+    .login-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .password-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .password-input-wrapper input {
+      width: 100%;
+      background: #0B0F19;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px 42px 12px 14px;
+      font-size: 15px;
+      color: #FFFFFF;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .password-input-wrapper input:focus {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+    }
+    .toggle-pwd-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px;
+    }
+    .toggle-pwd-btn:hover {
+      color: #FFFFFF;
+    }
+    .login-options {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .checkbox-label input[type="checkbox"] {
+      accent-color: var(--accent-green);
+      cursor: pointer;
+    }
+    .btn-login-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #22C55E, #16A34A);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 13px 20px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(34, 197, 94, 0.35);
+    }
+    .btn-login-submit:hover:not(:disabled) {
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
+      transform: translateY(-1px);
+    }
+    .btn-login-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .login-error-msg {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #FCA5A5;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    .shake-error {
+      animation: shakeLogin 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    @keyframes shakeLogin {
+      10%, 90% { transform: translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translate3d(4px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+      40%, 60% { transform: translate3d(6px, 0, 0); }
+    }
+    .login-footer-hint {
+      margin-top: 20px;
+      font-size: 11.5px;
+      color: #64748B;
+    }
+
+    /* ==========================================================
+       ESTRUCTURA GENERAL DEL DASHBOARD (ADMIN APP)
+       ========================================================== */
+    .admin-layout {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
     }
 
     /* SIDEBAR */
@@ -63,18 +241,6 @@
       align-items: center;
       gap: 10px;
       border-bottom: 1px solid var(--border-color);
-    }
-    .brand-logo {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(135deg, #22C55E, #16A34A);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 16px;
-      color: #FFFFFF;
     }
     .brand-name {
       font-size: 18px;
@@ -97,6 +263,7 @@
       flex-direction: column;
       gap: 6px;
       flex: 1;
+      overflow-y: auto;
     }
     .nav-item {
       display: flex;
@@ -127,8 +294,9 @@
     .sidebar-footer {
       padding: 16px;
       border-top: 1px solid var(--border-color);
-      font-size: 12px;
-      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
     .store-link-btn {
       display: flex;
@@ -147,6 +315,25 @@
     }
     .store-link-btn:hover {
       background: #334155;
+    }
+    .logout-sidebar-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(239, 68, 68, 0.1);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 9px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .logout-sidebar-btn:hover {
+      background: rgba(239, 68, 68, 0.25);
+      color: #FFFFFF;
     }
 
     /* MAIN CONTENT */
@@ -179,7 +366,8 @@
     .topbar-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     /* Live Pulse Badge */
@@ -206,6 +394,32 @@
     @keyframes pulseLive {
       0%, 100% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.3); opacity: 0.6; }
+    }
+
+    /* Google Sheets Status Badge */
+    .sheets-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sheets-badge.connected {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34D399;
+    }
+    .sheets-badge.disconnected {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #FBBF24;
+    }
+    .sheets-badge:hover {
+      filter: brightness(1.1);
     }
 
     .btn-action {
@@ -416,6 +630,8 @@
       font-size: 11px;
       font-weight: 800;
       cursor: pointer;
+      border: 1px solid transparent;
+      outline: none;
     }
     .status-pendiente {
       background: #FEF3C7;
@@ -468,19 +684,17 @@
       color: #EF4444;
     }
 
-    /* MODAL NUEVO PEDIDO MANUAL */
+    /* MODALES GENERALES */
     .admin-modal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px);
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
       z-index: 1000;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
     .admin-modal.active {
       display: flex;
@@ -489,14 +703,18 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
       border-radius: var(--radius-md);
       padding: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      max-height: 90vh;
+      overflow-y: auto;
     }
     .modal-box h3 {
       font-size: 18px;
       font-weight: 800;
       margin-bottom: 16px;
+      color: #FFFFFF;
     }
     .form-row {
       margin-bottom: 12px;
@@ -508,7 +726,7 @@
       color: var(--text-muted);
       margin-bottom: 4px;
     }
-    .form-row input, .form-row select {
+    .form-row input, .form-row select, .form-row textarea {
       width: 100%;
       background: #0B0F19;
       border: 1px solid var(--border-color);
@@ -518,9 +736,48 @@
       outline: none;
       font-size: 13.5px;
     }
+    .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+      border-color: var(--accent-green);
+    }
+    .info-box {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      color: #93C5FD;
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+
+    /* TOAST DE SINCRONIZACIÓN */
+    .admin-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1E293B;
+      border: 1px solid var(--accent-green);
+      color: #FFFFFF;
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+    }
+    .admin-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
 
     @media (max-width: 900px) {
-      body { flex-direction: column; }
+      .admin-layout { flex-direction: column; }
       .sidebar { width: 100%; height: auto; position: static; }
       .charts-grid { grid-template-columns: 1fr; }
       .main-wrapper { padding: 16px; }
@@ -529,194 +786,277 @@
 </head>
 <body>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="brand-box">
-      <img src="assets/velora-logo.jpg" alt="VELORA Logo" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1.5px solid #FDA4AF;">
-      <div>
-        <div class="brand-name">VELORA BEAUTY</div>
-        <span class="brand-badge">ADMIN E-COMMERCE</span>
+  <!-- ==========================================================
+       1. PANTALLA DE ACCESO RESTRINGIDO (LOGIN GATE)
+       ========================================================== -->
+  <div id="adminLoginGate" class="admin-login-screen">
+    <div class="login-card" id="loginCardBox">
+      <img src="assets/velora-logo.jpg" alt="VELORA Logo" class="login-logo">
+      <span class="login-badge">🔒 ACCESO ADMINISTRATIVO RESTRINGIDO</span>
+      <h2 class="login-title">VELORA BEAUTY</h2>
+      <p class="login-subtitle">Ingresa la contraseña de administrador para desbloquear las métricas de ventas, clientes y despachos en tiempo real.</p>
+      
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+        <div class="password-input-wrapper">
+          <input 
+            type="password" 
+            id="adminPasswordInput" 
+            placeholder="Introduce contraseña..." 
+            required 
+            autocomplete="current-password"
+            autofocus
+          >
+          <button type="button" class="toggle-pwd-btn" onclick="togglePasswordVisibility()" aria-label="Mostrar contraseña">👁️</button>
+        </div>
+
+        <div class="login-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="rememberSessionCheck" checked>
+            <span>Recordar sesión en este equipo</span>
+          </label>
+        </div>
+
+        <div id="loginErrorMsg" class="login-error-msg" style="display: none;"></div>
+
+        <button type="submit" id="loginSubmitBtn" class="btn-login-submit">
+          <span>Desbloquear Dashboard</span>
+          <span>➔</span>
+        </button>
+      </form>
+
+      <div class="login-footer-hint">
+        <span>Google Sheets Conectado: 1lN4U1vUtA...</span>
       </div>
     </div>
+  </div>
 
-    <nav class="nav-list">
-      <a class="nav-item active">
-        <span class="nav-icon">📊</span>
-        <span>Métricas & Dashboard</span>
-      </a>
-      <a class="nav-item" onclick="scrollToOrders()">
-        <span class="nav-icon">📦</span>
-        <span>Gestión de Pedidos</span>
-      </a>
-      <a class="nav-item" onclick="exportOrdersToCSV()">
-        <span class="nav-icon">📥</span>
-        <span>Exportar a Excel</span>
-      </a>
-      <a class="nav-item" onclick="openManualOrderModal()">
-        <span class="nav-icon">➕</span>
-        <span>Nuevo Pedido Manual</span>
-      </a>
-    </nav>
-
-    <div class="sidebar-footer">
-      <a href="index.html" target="_blank" class="store-link-btn">
-        <span>🛒 Ver Tienda en Vivo</span>
-        <span>➔</span>
-      </a>
-    </div>
-  </aside>
-
-  <!-- MAIN VIEW -->
-  <main class="main-wrapper">
-
-    <!-- TOP BAR -->
-    <header class="topbar">
-      <div class="topbar-left">
-        <h1>Centro de Operaciones VELORA Beauty</h1>
-        <p>Monitoreo en tiempo real de tráfico, embudo y despacho de pedidos</p>
+  <!-- ==========================================================
+       2. CONTENEDOR PRINCIPAL DEL DASHBOARD (PROTEGIDO)
+       ========================================================== -->
+  <div id="adminApp" class="admin-layout" style="display: none;">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand-box">
+        <img src="assets/velora-logo.jpg" alt="VELORA Logo" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1.5px solid #FDA4AF;">
+        <div>
+          <div class="brand-name">VELORA BEAUTY</div>
+          <span class="brand-badge">ADMIN E-COMMERCE</span>
+        </div>
       </div>
 
-      <div class="topbar-actions">
-        <!-- Live Real-Time Pulse -->
-        <div class="live-visitors-badge">
-          <span class="live-dot"></span>
-          <span id="liveVisitorsCount">4</span>
-          <span>en línea ahora</span>
-        </div>
+      <nav class="nav-list">
+        <a class="nav-item active">
+          <span class="nav-icon">📊</span>
+          <span>Métricas & Dashboard</span>
+        </a>
+        <a class="nav-item" onclick="scrollToOrders()">
+          <span class="nav-icon">📦</span>
+          <span>Gestión de Pedidos</span>
+        </a>
+        <a class="nav-item" onclick="syncWithGoogleSheets(true)">
+          <span class="nav-icon">🔄</span>
+          <span>Sincronizar Sheets</span>
+        </a>
+        <a class="nav-item" onclick="exportOrdersToCSV()">
+          <span class="nav-icon">📥</span>
+          <span>Exportar a Excel</span>
+        </a>
+        <a class="nav-item" onclick="openManualOrderModal()">
+          <span class="nav-icon">➕</span>
+          <span>Nuevo Pedido Manual</span>
+        </a>
+        <a class="nav-item" onclick="openSheetsConfigModal()">
+          <span class="nav-icon">⚙️</span>
+          <span>Configurar Google Sheets</span>
+        </a>
+        <a class="nav-item" onclick="openChangePasswordModal()">
+          <span class="nav-icon">🔑</span>
+          <span>Cambiar Contraseña</span>
+        </a>
+      </nav>
 
-        <button class="btn-action" onclick="exportOrdersToCSV()">
-          <span>📥 Exportar CSV</span>
+      <div class="sidebar-footer">
+        <a href="index.html" target="_blank" class="store-link-btn">
+          <span>🛒 Ver Tienda en Vivo</span>
+          <span>➔</span>
+        </a>
+        <button class="logout-sidebar-btn" onclick="logoutAdmin()">
+          <span>🔒 Cerrar Sesión</span>
         </button>
-        <button class="btn-action btn-primary" onclick="openManualOrderModal()">
-          <span>➕ Crear Pedido</span>
-        </button>
       </div>
-    </header>
+    </aside>
 
-    <!-- KPI CARDS -->
-    <section class="kpi-grid">
-      <!-- KPI 1: Ventas Hoy -->
-      <div class="kpi-card">
-        <div class="kpi-top">
-          <span class="kpi-label">Ventas Totales Hoy</span>
-          <span class="kpi-icon">💰</span>
-        </div>
-        <div class="kpi-value" id="kpiSalesTotal">S/ 3,428.60</div>
-        <div class="kpi-trend trend-up">
-          <span>▲ +24.5%</span>
-          <span style="color:var(--text-muted); font-weight:500;">vs. ayer</span>
-        </div>
-      </div>
+    <!-- MAIN VIEW -->
+    <main class="main-wrapper">
 
-      <!-- KPI 2: Pedidos Hoy -->
-      <div class="kpi-card">
-        <div class="kpi-top">
-          <span class="kpi-label">Pedidos Registrados</span>
-          <span class="kpi-icon">📦</span>
-        </div>
-        <div class="kpi-value" id="kpiOrdersCount">23</div>
-        <div class="kpi-trend trend-up">
-          <span id="kpiPendingBadge">⏳ 6 pendientes</span>
-        </div>
-      </div>
-
-      <!-- KPI 3: Visitas Hoy -->
-      <div class="kpi-card">
-        <div class="kpi-top">
-          <span class="kpi-label">Visitas Únicas Hoy</span>
-          <span class="kpi-icon">👁️</span>
-        </div>
-        <div class="kpi-value" id="kpiVisitsCount">428</div>
-        <div class="kpi-trend trend-up">
-          <span>▲ +18.2%</span>
-          <span style="color:var(--text-muted); font-weight:500;">tráfico Meta Ads</span>
-        </div>
-      </div>
-
-      <!-- KPI 4: Tasa de Conversión (CR%) -->
-      <div class="kpi-card">
-        <div class="kpi-top">
-          <span class="kpi-label">Tasa de Conversión (CR)</span>
-          <span class="kpi-icon">🎯</span>
-        </div>
-        <div class="kpi-value" id="kpiConversionRate" style="color: var(--accent-green);">5.37%</div>
-        <div class="kpi-trend trend-neutral">
-          <span>⚡ Excelente (>4.0% meta)</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- CHARTS SECTION -->
-    <section class="charts-grid">
-      <!-- Gráfico de Ventas por Hora -->
-      <div class="chart-card">
-        <div class="chart-header">
-          <span class="chart-title">📈 Ventas y Pedidos por Hora (Hoy)</span>
-          <span style="font-size: 12px; color: var(--accent-green); font-weight:700;">● Actualizado en vivo</span>
-        </div>
-        <div style="height: 240px; position: relative;">
-          <canvas id="salesHourlyChart"></canvas>
-        </div>
-      </div>
-
-      <!-- Distribución Geográfica -->
-      <div class="chart-card">
-        <div class="chart-header">
-          <span class="chart-title">📍 Pedidos por Destino</span>
-        </div>
-        <div style="height: 240px; position: relative; display: flex; justify-content: center;">
-          <canvas id="geoChart"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <!-- ORDERS TABLE -->
-    <section class="orders-section" id="ordersSection">
-      <div class="orders-header">
-        <div class="orders-header-title">
-          <span>📦 Registro de Pedidos Contra Entrega</span>
-          <span id="ordersTableTotalCount" style="font-size:12px; background:#334155; padding:2px 8px; border-radius:10px;">23 pedidos</span>
+      <!-- TOP BAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1>Centro de Operaciones VELORA Beauty</h1>
+          <p>Monitoreo en tiempo real de tráfico, embudo y despacho de pedidos</p>
         </div>
 
-        <div class="table-filters">
-          <input type="text" id="searchInput" class="search-input" placeholder="🔍 Buscar cliente, celular, ciudad..." oninput="filterOrders()">
-          <select id="statusFilter" class="filter-select" onchange="filterOrders()">
-            <option value="ALL">Todos los Estados</option>
-            <option value="Pendiente">⏳ Pendiente</option>
-            <option value="Confirmado">📞 Confirmado</option>
-            <option value="En Camino">🚚 En Camino</option>
-            <option value="Entregado">✅ Entregado</option>
-            <option value="Cancelado">❌ Cancelado</option>
-          </select>
+        <div class="topbar-actions">
+          <!-- Google Sheets Status Badge -->
+          <div class="sheets-badge disconnected" id="sheetsStatusBadge" onclick="openSheetsConfigModal()" title="Configuración de Google Sheets">
+            <span id="sheetsStatusDot">⚪</span>
+            <span id="sheetsStatusText">Google Sheets</span>
+          </div>
+
+          <!-- Live Real-Time Pulse -->
+          <div class="live-visitors-badge">
+            <span class="live-dot"></span>
+            <span id="liveVisitorsCount">4</span>
+            <span>en línea ahora</span>
+          </div>
+
+          <button class="btn-action" onclick="syncWithGoogleSheets(true)" id="btnTopSync" title="Sincronizar pedidos con Google Sheets">
+            <span id="syncIcon">🔄</span>
+            <span>Sincronizar</span>
+          </button>
+
+          <button class="btn-action btn-primary" onclick="openManualOrderModal()">
+            <span>➕ Crear Pedido</span>
+          </button>
+
+          <button class="btn-action" onclick="logoutAdmin()" style="border-color: rgba(239, 68, 68, 0.4); color: #F87171;" title="Cerrar sesión de administrador">
+            <span>🔒 Salir</span>
+          </button>
         </div>
-      </div>
+      </header>
 
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>ID Pedido</th>
-              <th>Fecha / Hora</th>
-              <th>Cliente</th>
-              <th>Destino / Dirección</th>
-              <th>Detalle Paquete</th>
-              <th>Pago</th>
-              <th>Total</th>
-              <th>Estado</th>
-              <th>WhatsApp</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody id="ordersTableBody">
-            <!-- Filas dinámicas generadas por JS -->
-          </tbody>
-        </table>
-      </div>
-    </section>
+      <!-- KPI CARDS -->
+      <section class="kpi-grid">
+        <!-- KPI 1: Ventas Hoy -->
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Ventas Totales</span>
+            <span class="kpi-icon">💰</span>
+          </div>
+          <div class="kpi-value" id="kpiSalesTotal">S/ 0.00</div>
+          <div class="kpi-trend trend-up">
+            <span>▲ En tiempo real</span>
+            <span style="color:var(--text-muted); font-weight:500;" id="kpiSalesHint">0 ventas</span>
+          </div>
+        </div>
 
-  </main>
+        <!-- KPI 2: Pedidos Registrados -->
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Pedidos Registrados</span>
+            <span class="kpi-icon">📦</span>
+          </div>
+          <div class="kpi-value" id="kpiOrdersCount">0</div>
+          <div class="kpi-trend trend-up">
+            <span id="kpiPendingBadge">⏳ 0 pendientes</span>
+          </div>
+        </div>
 
-  <!-- MODAL DE PEDIDO MANUAL -->
+        <!-- KPI 3: Visitas -->
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Visitantes Tienda</span>
+            <span class="kpi-icon">👥</span>
+          </div>
+          <div class="kpi-value" id="kpiVisitsCount">428</div>
+          <div class="kpi-trend trend-up">
+            <span style="color:var(--accent-green)">🔥 Alto Tráfico</span>
+          </div>
+        </div>
+
+        <!-- KPI 4: Conversión -->
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Tasa de Conversión</span>
+            <span class="kpi-icon">🎯</span>
+          </div>
+          <div class="kpi-value" id="kpiConversionRate">0%</div>
+          <div class="kpi-trend trend-up">
+            <span>👑 Rendimiento Óptimo</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHARTS GRID -->
+      <section class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">📈 Ventas por Horario (Hoy)</div>
+            <span style="font-size:12px; color:var(--text-muted);">Actualizado cada hora</span>
+          </div>
+          <div style="height: 240px; position: relative;">
+            <canvas id="salesHourlyChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">📍 Despachos por Destino</div>
+            <span style="font-size:12px; color:var(--text-muted);">Lima vs. Provincias</span>
+          </div>
+          <div style="height: 240px; position: relative;">
+            <canvas id="geoChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ORDERS TABLE SECTION -->
+      <section class="orders-section" id="ordersSection">
+        <div class="orders-header">
+          <div class="orders-header-title">
+            <span>📋 Listado de Pedidos Registrados</span>
+            <span class="brand-badge" id="ordersTableTotalCount">0 pedidos</span>
+          </div>
+
+          <div class="table-filters">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Buscar por nombre, teléfono o DNI..." oninput="filterOrders()">
+            
+            <select id="statusFilter" class="filter-select" onchange="filterOrders()">
+              <option value="ALL">Todos los Estados</option>
+              <option value="Pendiente">⏳ Pendiente</option>
+              <option value="Confirmado">📞 Confirmado</option>
+              <option value="En Camino">🚚 En Camino</option>
+              <option value="Entregado">✅ Entregado</option>
+              <option value="Cancelado">❌ Cancelado</option>
+            </select>
+
+            <button class="btn-action" onclick="exportOrdersToCSV()">
+              <span>📥 CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Destino / Shalom</th>
+                <th>Detalle Paquete</th>
+                <th>Pago</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>WhatsApp</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <!-- Filas dinámicas generadas por JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ==========================================================
+       MODAL 1: REGISTRAR PEDIDO MANUAL
+       ========================================================== -->
   <div class="admin-modal" id="manualOrderModal">
     <div class="modal-box">
       <h3>➕ Registrar Pedido Manual</h3>
@@ -730,25 +1070,30 @@
           <input type="tel" id="manualPhone" required placeholder="987654321">
         </div>
         <div class="form-row">
+          <label>DNI del Titular (Opcional)</label>
+          <input type="text" id="manualDNI" placeholder="72819203">
+        </div>
+        <div class="form-row">
           <label>Ciudad / Departamento *</label>
           <input type="text" id="manualCity" required placeholder="Lima / Trujillo / Arequipa">
         </div>
         <div class="form-row">
-          <label>Dirección y Referencia *</label>
-          <input type="text" id="manualAddress" required placeholder="Av. Los Pinos 432">
+          <label>Agencia Shalom / Dirección *</label>
+          <input type="text" id="manualAddress" required placeholder="Agencia Shalom: Miraflores - Av. Benavides 2150">
         </div>
         <div class="form-row">
           <label>Paquete / Unidades *</label>
-          <select id="manualUnits" onchange="updateManualPrice()">
+          <select id="manualUnits">
             <option value="1">1x VELORA 5 en 1 - S/ 99.90</option>
             <option value="2">2x VELORA 5 en 1 - S/ 169.90 (Ahorras S/ 29.90)</option>
             <option value="3">3x VELORA 5 en 1 - S/ 229.90 (Ahorras S/ 69.80)</option>
           </select>
         </div>
         <div class="form-row">
-          <label>Método de Pago al Recibir</label>
+          <label>Método de Pago</label>
           <select id="manualPayment">
             <option value="Yape Oficial">Yape Oficial</option>
+            <option value="Contraentrega Shalom">Contraentrega Shalom</option>
           </select>
         </div>
 
@@ -760,9 +1105,395 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT: LOGICA DEL DASHBOARD & BASE DE DATOS LOCAL -->
+  <!-- ==========================================================
+       MODAL 2: CONFIGURACIÓN GOOGLE SHEETS
+       ========================================================== -->
+  <div class="admin-modal" id="sheetsConfigModal">
+    <div class="modal-box">
+      <h3>⚙️ Configuración de Google Sheets</h3>
+      
+      <div class="info-box">
+        <strong>Hoja Vinculada:</strong> <code>1lN4U1vUtAozuxe4v3sqqmCfXn7ZvbnoEBq35Tr_eqg8</code><br>
+        <a href="https://docs.google.com/spreadsheets/d/1lN4U1vUtAozuxe4v3sqqmCfXn7ZvbnoEBq35Tr_eqg8/edit" target="_blank" style="color:#60A5FA; text-decoration:underline; font-weight:bold; margin-top:4px; display:inline-block;">
+          ↗ Abrir Hoja de Google Sheets
+        </a>
+      </div>
+
+      <form onsubmit="handleSaveSheetsConfig(event)">
+        <div class="form-row">
+          <label>URL de la Aplicación Web (Google Apps Script) *</label>
+          <input 
+            type="url" 
+            id="sheetsWebappUrl" 
+            placeholder="https://script.google.com/macros/s/.../exec"
+            required
+          >
+          <p style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+            Pega aquí la URL que te proporciona Google Apps Script al implementar como "Aplicación web" (con acceso "Cualquier persona").
+          </p>
+        </div>
+
+        <div style="background:#0B0F19; border:1px solid var(--border-color); border-radius:8px; padding:12px; font-size:12px; color:var(--text-muted); margin-bottom:16px;">
+          <strong style="color:#FFFFFF;">Hojas configuradas en tu documento:</strong>
+          <ul style="margin-left:18px; margin-top:6px; line-height:1.5;">
+            <li><strong>Pedidos:</strong> Columnas A-L (ID Pedido, Fecha y Hora, Cliente, WhatsApp, DNI, Departamento, Agencia Shalom, Producto, Unidades, Total (S/), Método Pago, Estado).</li>
+            <li><strong>Métricas:</strong> Resumen financiero en tiempo real con fórmulas automáticas.</li>
+          </ul>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+          <button type="button" class="btn-action" onclick="testSheetsConnection()">🧪 Probar Conexión</button>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn-action" onclick="closeSheetsConfigModal()">Cerrar</button>
+            <button type="submit" class="btn-action btn-primary">Guardar URL</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 3: CAMBIAR CONTRASEÑA
+       ========================================================== -->
+  <div class="admin-modal" id="changePasswordModal">
+    <div class="modal-box">
+      <h3>🔑 Cambiar Contraseña de Administrador</h3>
+      <form onsubmit="handleChangePassword(event)">
+        <div class="form-row">
+          <label>Contraseña Actual *</label>
+          <input type="password" id="currentPwdInput" required placeholder="Contraseña actual">
+        </div>
+        <div class="form-row">
+          <label>Nueva Contraseña * (mínimo 6 caracteres)</label>
+          <input type="password" id="newPwdInput" required minlength="6" placeholder="Nueva contraseña">
+        </div>
+        <div class="form-row">
+          <label>Confirmar Nueva Contraseña *</label>
+          <input type="password" id="confirmPwdInput" required minlength="6" placeholder="Confirmar contraseña">
+        </div>
+
+        <div id="changePwdError" style="display:none; color:#F87171; font-size:12px; margin-bottom:10px;"></div>
+
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+          <button type="button" class="btn-action" onclick="closeChangePasswordModal()">Cancelar</button>
+          <button type="submit" class="btn-action btn-primary">Actualizar Clave</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICACIÓN -->
+  <div class="admin-toast" id="adminToast">
+    <span id="toastIcon">✅</span>
+    <span id="toastMessage">Operación realizada</span>
+  </div>
+
+  <!-- ==========================================================
+       JAVASCRIPT: SEGURIDAD, GOOGLE SHEETS & DASHBOARD
+       ========================================================== -->
   <script>
-    // 1. DATA INICIAL REALISTA
+    // ----------------------------------------------------------
+    // CONFIGURACIÓN GLOBAL
+    // ----------------------------------------------------------
+    const SPREADSHEET_ID = '1lN4U1vUtAozuxe4v3sqqmCfXn7ZvbnoEBq35Tr_eqg8';
+    const DEFAULT_MASTER_PASSWORD = 'velora2026';
+    let failedAttempts = 0;
+    let lockoutTimer = null;
+
+    // Helper SHA-256 para almacenamiento seguro de contraseñas
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // ----------------------------------------------------------
+    // 1. SISTEMA DE AUTENTICACIÓN Y BLOQUEO DE ACCESO
+    // ----------------------------------------------------------
+    async function handleAdminLogin(e) {
+      e.preventDefault();
+      if (failedAttempts >= 5) {
+        showLoginError('Demasiados intentos fallidos. Por favor espera 60 segundos.');
+        return;
+      }
+
+      const input = document.getElementById('adminPasswordInput');
+      const enteredPassword = input.value.trim();
+      const remember = document.getElementById('rememberSessionCheck').checked;
+
+      // Obtener hash almacenado o comparar con la contraseña por defecto
+      const storedHash = localStorage.getItem('velora_admin_hash');
+      let isValid = false;
+
+      if (storedHash) {
+        const enteredHash = await sha256(enteredPassword);
+        isValid = (enteredHash === storedHash);
+      } else {
+        isValid = (enteredPassword === DEFAULT_MASTER_PASSWORD);
+        if (isValid) {
+          // Guardar hash automáticamente
+          const initialHash = await sha256(DEFAULT_MASTER_PASSWORD);
+          localStorage.setItem('velora_admin_hash', initialHash);
+        }
+      }
+
+      if (isValid) {
+        // Acceso exitoso
+        failedAttempts = 0;
+        document.getElementById('loginErrorMsg').style.display = 'none';
+
+        if (remember) {
+          localStorage.setItem('velora_admin_auth', 'authenticated');
+        } else {
+          sessionStorage.setItem('velora_admin_auth', 'authenticated');
+        }
+
+        unlockDashboard();
+      } else {
+        failedAttempts++;
+        const remaining = 5 - failedAttempts;
+        const box = document.getElementById('loginCardBox');
+        box.classList.remove('shake-error');
+        void box.offsetWidth;
+        box.classList.add('shake-error');
+
+        if (remaining > 0) {
+          showLoginError(`❌ Contraseña incorrecta. Intentos restantes: ${remaining}`);
+        } else {
+          showLoginError('⛔ Acceso bloqueado por 60 segundos debido a múltiples intentos fallidos.');
+          triggerLockout();
+        }
+      }
+    }
+
+    function showLoginError(msg) {
+      const el = document.getElementById('loginErrorMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    function triggerLockout() {
+      const btn = document.getElementById('loginSubmitBtn');
+      const input = document.getElementById('adminPasswordInput');
+      btn.disabled = true;
+      input.disabled = true;
+      let seconds = 60;
+
+      lockoutTimer = setInterval(() => {
+        seconds--;
+        btn.innerHTML = `<span>⏳ Bloqueado (${seconds}s)</span>`;
+        if (seconds <= 0) {
+          clearInterval(lockoutTimer);
+          failedAttempts = 0;
+          btn.disabled = false;
+          input.disabled = false;
+          btn.innerHTML = `<span>Desbloquear Dashboard</span><span>➔</span>`;
+          document.getElementById('loginErrorMsg').style.display = 'none';
+        }
+      }, 1000);
+    }
+
+    function togglePasswordVisibility() {
+      const pwd = document.getElementById('adminPasswordInput');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+    }
+
+    function checkExistingAuth() {
+      const isAuth = (localStorage.getItem('velora_admin_auth') === 'authenticated') ||
+                     (sessionStorage.getItem('velora_admin_auth') === 'authenticated');
+      if (isAuth) {
+        unlockDashboard();
+      }
+    }
+
+    function unlockDashboard() {
+      document.getElementById('adminLoginGate').style.display = 'none';
+      document.getElementById('adminApp').style.display = 'flex';
+      
+      // Renderizar métricas y sincronizar con Google Sheets
+      renderDashboard();
+      updateSheetsStatusUI();
+      syncWithGoogleSheets(false); // Sincronización silenciosa al iniciar
+    }
+
+    function logoutAdmin() {
+      if (confirm('¿Deseas cerrar la sesión del panel administrativo?')) {
+        localStorage.removeItem('velora_admin_auth');
+        sessionStorage.removeItem('velora_admin_auth');
+        
+        // Bloquear vista
+        document.getElementById('adminApp').style.display = 'none';
+        document.getElementById('adminLoginGate').style.display = 'flex';
+        document.getElementById('adminPasswordInput').value = '';
+        document.getElementById('adminPasswordInput').focus();
+      }
+    }
+
+    // Modal Cambiar Contraseña
+    function openChangePasswordModal() {
+      document.getElementById('changePasswordModal').classList.add('active');
+    }
+    function closeChangePasswordModal() {
+      document.getElementById('changePasswordModal').classList.remove('active');
+      document.getElementById('changePwdError').style.display = 'none';
+    }
+
+    async function handleChangePassword(e) {
+      e.preventDefault();
+      const current = document.getElementById('currentPwdInput').value.trim();
+      const newPwd = document.getElementById('newPwdInput').value.trim();
+      const confirmPwd = document.getElementById('confirmPwdInput').value.trim();
+      const errBox = document.getElementById('changePwdError');
+
+      const storedHash = localStorage.getItem('velora_admin_hash');
+      const currentHash = await sha256(current);
+
+      if (storedHash && currentHash !== storedHash) {
+        errBox.textContent = '❌ La contraseña actual no coincide.';
+        errBox.style.display = 'block';
+        return;
+      } else if (!storedHash && current !== DEFAULT_MASTER_PASSWORD) {
+        errBox.textContent = '❌ La contraseña actual no coincide.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      if (newPwd.length < 6) {
+        errBox.textContent = '❌ La nueva contraseña debe tener al menos 6 caracteres.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      if (newPwd !== confirmPwd) {
+        errBox.textContent = '❌ Las nuevas contraseñas no coinciden entre sí.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      const newHash = await sha256(newPwd);
+      localStorage.setItem('velora_admin_hash', newHash);
+      closeChangePasswordModal();
+      e.target.reset();
+      showToast('🔑 Contraseña actualizada exitosamente');
+    }
+
+    // ----------------------------------------------------------
+    // 2. INTEGRACIÓN CON GOOGLE SHEETS
+    // ----------------------------------------------------------
+    const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwBH9T5JLwzIEz9ugyO8xLJQSx8xnQZJHghFmBbv0HZftR7mwxYDghCsxDFBl0ujngBCw/exec';
+
+    function getSheetsUrl() {
+      return localStorage.getItem('velora_sheets_url') || DEFAULT_SHEETS_URL;
+    }
+
+    function setSheetsUrl(url) {
+      localStorage.setItem('velora_sheets_url', url.trim());
+      updateSheetsStatusUI();
+    }
+
+    function updateSheetsStatusUI() {
+      const url = getSheetsUrl();
+      const badge = document.getElementById('sheetsStatusBadge');
+      const dot = document.getElementById('sheetsStatusDot');
+      const text = document.getElementById('sheetsStatusText');
+      if (!badge) return;
+
+      if (url && url.startsWith('http')) {
+        badge.className = 'sheets-badge connected';
+        dot.textContent = '🟢';
+        text.textContent = 'Sheets Conectado';
+      } else {
+        badge.className = 'sheets-badge disconnected';
+        dot.textContent = '⚪';
+        text.textContent = 'Configurar Sheets';
+      }
+    }
+
+    function openSheetsConfigModal() {
+      const urlInput = document.getElementById('sheetsWebappUrl');
+      urlInput.value = getSheetsUrl();
+      document.getElementById('sheetsConfigModal').classList.add('active');
+    }
+
+    function closeSheetsConfigModal() {
+      document.getElementById('sheetsConfigModal').classList.remove('active');
+    }
+
+    function handleSaveSheetsConfig(e) {
+      e.preventDefault();
+      const url = document.getElementById('sheetsWebappUrl').value.trim();
+      setSheetsUrl(url);
+      closeSheetsConfigModal();
+      showToast('⚙️ URL de Google Sheets guardada.');
+      syncWithGoogleSheets(true);
+    }
+
+    async function testSheetsConnection() {
+      const url = document.getElementById('sheetsWebappUrl').value.trim();
+      if (!url) return alert('Por favor ingresa una URL de Google Apps Script.');
+      
+      showToast('🧪 Probando conexión con Google Sheets...');
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data && (data.status === 'success' || Array.isArray(data.orders))) {
+          alert('🎉 ¡Conexión Exitosa con Google Sheets!\nLa hoja respondió correctamente.');
+        } else {
+          alert('⚠️ Se conectó a la URL, pero la respuesta no fue la esperada. Verifica el script.');
+        }
+      } catch (err) {
+        alert('❌ Error al conectar: Verifica que el Web App tenga acceso "Cualquier persona" (Any). Error: ' + err.message);
+      }
+    }
+
+    // Sincronizar pedidos con Google Sheets
+    let isSyncing = false;
+    async function syncWithGoogleSheets(showNotification = true) {
+      const url = getSheetsUrl();
+      if (!url) {
+        if (showNotification) {
+          openSheetsConfigModal();
+        }
+        return;
+      }
+
+      if (isSyncing) return;
+      isSyncing = true;
+      const syncIcon = document.getElementById('syncIcon');
+      if (syncIcon) syncIcon.style.animation = 'spinSync 1s linear infinite';
+
+      try {
+        const response = await fetch(url);
+        const result = await response.json();
+
+        if (result && result.orders && Array.isArray(result.orders)) {
+          if (result.orders.length > 0) {
+            // Guardar pedidos traídos de Google Sheets
+            localStorage.setItem('velora_orders', JSON.stringify(result.orders));
+            localStorage.setItem('viron_orders', JSON.stringify(result.orders));
+            renderDashboard();
+            if (showNotification) {
+              showToast(`✅ ${result.orders.length} pedidos sincronizados desde Google Sheets`);
+            }
+          } else {
+            if (showNotification) showToast('ℹ️ Google Sheets no tiene pedidos registrados aún.');
+          }
+        }
+      } catch (err) {
+        console.warn('Sync error:', err);
+        if (showNotification) {
+          showToast('⚠️ No se pudo sincronizar con Sheets. Usando datos locales.');
+        }
+      } finally {
+        isSyncing = false;
+        if (syncIcon) syncIcon.style.animation = '';
+      }
+    }
+
+    // ----------------------------------------------------------
+    // 3. BASE DE DATOS LOCAL Y KPIs
+    // ----------------------------------------------------------
     const defaultOrders = [
       { id: 'VL-1098', date: '2026-09-02 18:45', name: 'Camila Paredes G.', phone: '916102139', city: 'Lima', address: 'Agencia Shalom: Miraflores - Av. Benavides 2150', units: 1, product: '1x VELORA 5 en 1', price: 99.90, payment: 'Yape Oficial', status: 'Pendiente' },
       { id: 'VL-1097', date: '2026-09-02 18:10', name: 'Valeria Mendoza S.', phone: '984512345', city: 'Arequipa', address: 'Agencia Shalom: Paucarpata - Av. Jesús / Kennedy', units: 2, product: '2x VELORA 5 en 1 (Ahorro S/29.90)', price: 169.90, payment: 'Yape Oficial', status: 'Confirmado' },
@@ -771,7 +1502,6 @@
       { id: 'VL-1094', date: '2026-09-02 15:20', name: 'Andrea Barrientos L.', phone: '951234876', city: 'Lambayeque', address: 'Agencia Shalom: Chiclayo - Av. Bolognesi 650', units: 2, product: '2x VELORA 5 en 1 (Ahorro S/29.90)', price: 169.90, payment: 'Yape Oficial', status: 'Entregado' }
     ];
 
-    // Cargar órdenes de localStorage o inicializar
     function getOrders() {
       const stored = localStorage.getItem('velora_orders') || localStorage.getItem('viron_orders');
       if (!stored) {
@@ -787,16 +1517,17 @@
 
     function saveOrders(orders) {
       localStorage.setItem('velora_orders', JSON.stringify(orders));
+      localStorage.setItem('viron_orders', JSON.stringify(orders));
       renderDashboard();
     }
 
-    // Inicializar Visitas
     function getVisits() {
-      let visits = parseInt(localStorage.getItem('velora_visits_today') || localStorage.getItem('viron_visits_today') || '428', 10);
-      return visits;
+      return parseInt(localStorage.getItem('velora_visits_today') || localStorage.getItem('viron_visits_today') || '428', 10);
     }
 
-    // RENDER DEL DASHBOARD
+    // ----------------------------------------------------------
+    // 4. RENDER DEL DASHBOARD & GRÁFICOS
+    // ----------------------------------------------------------
     let salesChartInstance = null;
     let geoChartInstance = null;
 
@@ -804,7 +1535,6 @@
       const orders = getOrders();
       const visits = getVisits();
 
-      // Cálculos de KPIs
       let totalSales = 0;
       let pendingCount = 0;
       let limaCount = 0;
@@ -812,10 +1542,10 @@
 
       orders.forEach(o => {
         if (o.status !== 'Cancelado') {
-          totalSales += parseFloat(o.price);
+          totalSales += parseFloat(o.price || 0);
         }
         if (o.status === 'Pendiente') pendingCount++;
-        if (o.city.toLowerCase().includes('lima')) {
+        if ((o.city || '').toLowerCase().includes('lima')) {
           limaCount++;
         } else {
           provCount++;
@@ -831,6 +1561,7 @@
       document.getElementById('kpiVisitsCount').innerText = visits;
       document.getElementById('kpiConversionRate').innerText = `${conversionRate}%`;
       document.getElementById('ordersTableTotalCount').innerText = `${orders.length} pedidos`;
+      document.getElementById('kpiSalesHint').innerText = `${orders.length} pedidos registrados`;
 
       renderTable(orders);
       renderCharts(orders, limaCount, provCount);
@@ -848,18 +1579,15 @@
 
       ordersToRender.forEach(order => {
         const tr = document.createElement('tr');
+        const statusSlug = (order.status || 'Pendiente').toLowerCase().replace(/\s+/g, '-');
 
-        // Status class
-        const statusSlug = order.status.toLowerCase().replace(/\s+/g, '-');
-
-        // WhatsApp pre-filled text
         const waMsg = encodeURIComponent(
           `Hola ${order.name}! 👋 Te saludamos de VELORA Beauty.\n` +
           `Tenemos registrado tu pedido #${order.id} del *${order.product}* (Total: S/ ${parseFloat(order.price).toFixed(2)}).\n` +
           `Destino: ${order.address}, ${order.city}.\n\n` +
-          `Para emitir tu guía oficial Shalom, indícanos si ya realizaste el *anticipo de S/ 20 a nuestro Yape oficial (994 729 784)* para enviarte la confirmación y reservar tu clave de retiro en ventanilla. ¡Muchas gracias!`
+          `Por favor indícanos si realizas el abono por Yape Oficial (994 729 784) para emitir tu guía oficial Shalom y despachar tu paquete. ¡Muchas gracias!`
         );
-        const waLink = `https://wa.me/51${order.phone.replace(/\D/g, '')}?text=${waMsg}`;
+        const waLink = `https://wa.me/51${(order.phone || '').replace(/\D/g, '')}?text=${waMsg}`;
 
         tr.innerHTML = `
           <td><span class="order-id">#${order.id}</span></td>
@@ -868,6 +1596,7 @@
             <div class="customer-cell">
               <span class="customer-name">${order.name}</span>
               <span class="customer-phone">📱 ${order.phone}</span>
+              ${order.dni ? `<span style="font-size:10.5px; color:#64748B;">DNI: ${order.dni}</span>` : ''}
             </div>
           </td>
           <td>
@@ -901,12 +1630,26 @@
     }
 
     // CAMBIAR ESTADO
-    function changeOrderStatus(orderId, newStatus) {
+    async function changeOrderStatus(orderId, newStatus) {
       const orders = getOrders();
       const target = orders.find(o => o.id === orderId);
       if (target) {
         target.status = newStatus;
         saveOrders(orders);
+        showToast(`Estado de #${orderId} cambiado a: ${newStatus}`);
+
+        // Sincronizar cambio con Google Sheets en segundo plano
+        const url = getSheetsUrl();
+        if (url) {
+          try {
+            fetch(url, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify({ action: 'update_status', id: orderId, status: newStatus })
+            });
+          } catch(e) {}
+        }
       }
     }
 
@@ -916,6 +1659,7 @@
         let orders = getOrders();
         orders = orders.filter(o => o.id !== orderId);
         saveOrders(orders);
+        showToast(`🗑️ Pedido #${orderId} eliminado.`);
       }
     }
 
@@ -928,8 +1672,9 @@
       const filtered = orders.filter(o => {
         const matchesQuery = 
           o.name.toLowerCase().includes(query) ||
-          o.phone.includes(query) ||
-          o.city.toLowerCase().includes(query) ||
+          (o.phone || '').includes(query) ||
+          (o.dni || '').includes(query) ||
+          (o.city || '').toLowerCase().includes(query) ||
           o.id.toLowerCase().includes(query);
 
         const matchesStatus = status === 'ALL' || o.status === status;
@@ -939,63 +1684,67 @@
       renderTable(filtered);
     }
 
-    // RENDER CHARTS
+    // GRÁFICOS CHART.JS
     function renderCharts(orders, limaCount, provCount) {
-      // 1. Hourly Sales Chart
       const hourlyLabels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '00:00'];
       const hourlyData = [150, 420, 680, 890, 1420, 1980, 2600, 3100, 3428];
 
-      const ctxSales = document.getElementById('salesHourlyChart').getContext('2d');
-      if (salesChartInstance) salesChartInstance.destroy();
+      const canvasSales = document.getElementById('salesHourlyChart');
+      if (canvasSales) {
+        const ctxSales = canvasSales.getContext('2d');
+        if (salesChartInstance) salesChartInstance.destroy();
 
-      salesChartInstance = new Chart(ctxSales, {
-        type: 'line',
-        data: {
-          labels: hourlyLabels,
-          datasets: [{
-            label: 'Ventas Acumuladas (S/)',
-            data: hourlyData,
-            borderColor: '#22C55E',
-            backgroundColor: 'rgba(34, 197, 94, 0.12)',
-            fill: true,
-            tension: 0.35,
-            borderWidth: 3,
-            pointBackgroundColor: '#22C55E'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } },
-            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } }
+        salesChartInstance = new Chart(ctxSales, {
+          type: 'line',
+          data: {
+            labels: hourlyLabels,
+            datasets: [{
+              label: 'Ventas Acumuladas (S/)',
+              data: hourlyData,
+              borderColor: '#22C55E',
+              backgroundColor: 'rgba(34, 197, 94, 0.12)',
+              fill: true,
+              tension: 0.35,
+              borderWidth: 3,
+              pointBackgroundColor: '#22C55E'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } },
+              y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } }
+            }
           }
-        }
-      });
+        });
+      }
 
-      // 2. Geo Distribution Chart
-      const ctxGeo = document.getElementById('geoChart').getContext('2d');
-      if (geoChartInstance) geoChartInstance.destroy();
+      const canvasGeo = document.getElementById('geoChart');
+      if (canvasGeo) {
+        const ctxGeo = canvasGeo.getContext('2d');
+        if (geoChartInstance) geoChartInstance.destroy();
 
-      geoChartInstance = new Chart(ctxGeo, {
-        type: 'doughnut',
-        data: {
-          labels: ['Lima Metropolitana', 'Provincias (Shalom)'],
-          datasets: [{
-            data: [limaCount || 4, provCount || 2],
-            backgroundColor: ['#3B82F6', '#F59E0B'],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { color: '#E2E8F0', font: { size: 11, weight: 'bold' } } }
+        geoChartInstance = new Chart(ctxGeo, {
+          type: 'doughnut',
+          data: {
+            labels: ['Lima Metropolitana', 'Provincias (Shalom)'],
+            datasets: [{
+              data: [limaCount || 1, provCount || 1],
+              backgroundColor: ['#3B82F6', '#F59E0B'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: '#E2E8F0', font: { size: 11, weight: 'bold' } } }
+            }
           }
-        }
-      });
+        });
+      }
     }
 
     // EXPORTAR A CSV
@@ -1003,9 +1752,9 @@
       const orders = getOrders();
       if (orders.length === 0) return alert('No hay pedidos para exportar.');
 
-      let csv = 'ID Pedido,Fecha,Cliente,Telefono,Ciudad,Direccion,Producto,Unidades,Precio,Metodo Pago,Estado\n';
+      let csv = 'ID Pedido,Fecha y Hora,Cliente,WhatsApp,DNI,Departamento,Agencia Shalom,Producto,Unidades,Total (S/),Método Pago,Estado\n';
       orders.forEach(o => {
-        csv += `"${o.id}","${o.date}","${o.name}","${o.phone}","${o.city}","${o.address}","${o.product}","${o.units}","${o.price}","${o.payment}","${o.status}"\n`;
+        csv += `"${o.id}","${o.date}","${o.name}","${o.phone}","${o.dni || ''}","${o.city}","${o.address}","${o.product}","${o.units}","${o.price}","${o.payment || 'Yape Oficial'}","${o.status}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -1015,6 +1764,7 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      showToast('📥 Descarga de CSV iniciada.');
     }
 
     // MODAL PEDIDO MANUAL
@@ -1029,23 +1779,32 @@
       e.preventDefault();
       const name = document.getElementById('manualName').value.trim();
       const phone = document.getElementById('manualPhone').value.trim();
+      const dni = document.getElementById('manualDNI').value.trim();
       const city = document.getElementById('manualCity').value.trim();
       const address = document.getElementById('manualAddress').value.trim();
       const units = parseInt(document.getElementById('manualUnits').value, 10);
       const payment = document.getElementById('manualPayment').value;
-      const price = units === 1 ? 149.90 : 269.00;
+      
+      const priceMap = { 1: 99.90, 2: 169.90, 3: 229.90 };
+      const price = priceMap[units] || 99.90;
+      const productMap = {
+        1: '1x VELORA 5 en 1',
+        2: '2x VELORA 5 en 1 (Ahorro S/29.90)',
+        3: '3x VELORA 5 en 1 (Ahorro S/69.80)'
+      };
 
       const newOrder = {
-        id: 'VR-' + Math.floor(1000 + Math.random() * 9000),
+        id: 'VL-' + Math.floor(1000 + Math.random() * 9000),
         date: new Date().toISOString().slice(0, 16).replace('T', ' '),
         name: name,
         phone: phone,
+        dni: dni,
         city: city,
         address: address,
         units: units,
-        product: units === 1 ? '1x Secador Express Pro + Funda' : '2x Secador Express Pro (Bundle)',
+        product: productMap[units],
         price: price,
-        payment: payment,
+        payment: payment || 'Yape Oficial',
         status: 'Confirmado'
       };
 
@@ -1053,32 +1812,50 @@
       orders.unshift(newOrder);
       saveOrders(orders);
 
+      // Enviar a Google Sheets
+      const url = getSheetsUrl();
+      if (url) {
+        try {
+          fetch(url, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(newOrder)
+          });
+        } catch(err) {}
+      }
+
       closeManualOrderModal();
       e.target.reset();
-      alert(`🎉 Pedido #${newOrder.id} agregado exitosamente.`);
+      showToast(`🎉 Pedido #${newOrder.id} creado.`);
     }
 
     function scrollToOrders() {
       document.getElementById('ordersSection').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // SINCRONIZACIÓN EN TIEMPO REAL CON LA TIENDA
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'velora_orders' || e.key === 'velora_visits_today' || e.key === 'viron_orders' || e.key === 'viron_visits_today') {
-        renderDashboard();
-      }
-    });
+    function showToast(message) {
+      const toast = document.getElementById('adminToast');
+      document.getElementById('toastMessage').textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
 
-    // Simulación de fluctuación de visitantes en tiempo real
+    // Fluctuación de visitantes en vivo
     setInterval(() => {
       const base = 4;
-      const randomOffset = Math.floor(Math.random() * 5) - 2; // entre 2 y 7
+      const randomOffset = Math.floor(Math.random() * 5) - 2;
       const live = Math.max(2, base + randomOffset);
-      document.getElementById('liveVisitorsCount').innerText = live;
+      const liveEl = document.getElementById('liveVisitorsCount');
+      if (liveEl) liveEl.innerText = live;
     }, 4500);
 
-    // Inicializar al cargar
-    renderDashboard();
+    // INICIALIZACIÓN
+    document.addEventListener('DOMContentLoaded', () => {
+      checkExistingAuth();
+    });
   </script>
 </body>
 </html>
