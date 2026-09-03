@@ -1577,6 +1577,24 @@
       padding: 2px 6px;
       border-radius: 4px;
     }
+    .copy-yape-btn {
+      background: var(--color-yape);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      font-size: 10.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .copy-yape-btn:active {
+      transform: scale(0.95);
+      background: #5B166A;
+    }
 
     /* TRUST BAR MODAL */
     .modal-trust-bar {
@@ -1719,7 +1737,7 @@
     <!-- 1. TOP ANNOUNCEMENT BAR -->
     <aside class="announcement-bar" aria-label="Anuncio principal">
       <span>🚚</span>
-      <span>ENVÍO GRATIS VÍA SHALOM | S/ 20 ANTICIPO YAPE | ENTREGA CON CLAVE</span>
+      <span>ENVÍO GRATIS SHALOM | ANTICIPO S/ 20 AL YAPE: 994 729 784 | ENTREGA CON CLAVE</span>
     </aside>
 
     <!-- 2. CABECERA MOBILE -->
@@ -1753,7 +1771,7 @@
       <div class="infinity-marquee-track">
         <span class="marquee-item">🚚 ENVÍO GRATIS A NIVEL NACIONAL VÍA SHALOM</span>
         <span class="marquee-bullet">✦</span>
-        <span class="marquee-item">💜 RESERVA CON S/ 20 DE ANTICIPO POR YAPE</span>
+        <span class="marquee-item">💜 RESERVA CON S/ 20 AL YAPE: 994 729 784</span>
         <span class="marquee-bullet">✦</span>
         <span class="marquee-item">🔑 RETIRO CON CLAVE DE SEGURIDAD Y DNI</span>
         <span class="marquee-bullet">✦</span>
@@ -1771,7 +1789,7 @@
         <!-- Duplicado para ciclo continuo -->
         <span class="marquee-item">🚚 ENVÍO GRATIS A NIVEL NACIONAL VÍA SHALOM</span>
         <span class="marquee-bullet">✦</span>
-        <span class="marquee-item">💜 RESERVA CON S/ 20 DE ANTICIPO POR YAPE</span>
+        <span class="marquee-item">💜 RESERVA CON S/ 20 AL YAPE: 994 729 784</span>
         <span class="marquee-bullet">✦</span>
         <span class="marquee-item">🔑 RETIRO CON CLAVE DE SEGURIDAD Y DNI</span>
         <span class="marquee-bullet">✦</span>
@@ -1928,7 +1946,7 @@
           </div>
           <div class="sy-text">
             <strong>Anticipo de S/ 20 para Despacho:</strong><br>
-            Abonas solo <strong>S/ 20 por Yape</strong> para emitir tu guía oficial Shalom. El saldo se cancela al llegar tu pedido y te compartimos la <strong>clave secreta de entrega</strong> para retirar en ventanilla.
+            Abonas solo <strong>S/ 20 al Yape oficial: 994 729 784</strong> para emitir tu guía oficial Shalom. El saldo se cancela al llegar tu pedido y te compartimos la <strong>clave secreta de entrega</strong> para retirar en ventanilla.
           </div>
         </div>
       </div>
@@ -2389,7 +2407,7 @@
         <div class="security-notice-box">
           <span>🔐</span>
           <div class="security-notice-text">
-            <strong>¿Cómo funciona la entrega?</strong> Primero abonas <strong>S/ 20 de anticipo por Yape</strong> para emitir tu guía oficial Shalom. Al llegar tu paquete a la agencia, abonas el saldo restante y <strong>te compartimos la clave secreta</strong> para retirar con tu DNI.
+            <strong>¿Cómo funciona la entrega?</strong> Primero abonas <strong>S/ 20 de anticipo al Yape: 994 729 784</strong> para emitir tu guía oficial Shalom. Al llegar tu paquete a la agencia, abonas el saldo restante y <strong>te compartimos la clave secreta</strong> para retirar con tu DNI.
           </div>
         </div>
 
@@ -2460,16 +2478,19 @@
             </select>
           </div>
 
-          <!-- YAPE COMPACTO -->
+          <!-- YAPE COMPACTO CON NÚMERO Y BOTÓN COPIAR -->
           <div class="yape-compact-chip">
             <div class="yape-compact-left">
               <img src="assets/yape.png" alt="Yape Oficial" class="yape-compact-logo">
               <div>
-                <div class="yape-compact-title">Pago Exclusivo: Yape Oficial</div>
+                <div class="yape-compact-title">Yape Oficial: <strong style="color:var(--color-yape); font-size:13.5px; letter-spacing:0.5px;">994 729 784</strong></div>
                 <div class="yape-compact-sub">Anticipo de S/ 20 para emitir tu guía Shalom</div>
               </div>
             </div>
-            <span class="yape-compact-badge">S/ 20.00</span>
+            <button type="button" class="copy-yape-btn" onclick="copyYapeNumber()" id="copyYapeBtn" aria-label="Copiar número de Yape">
+              <span>📋</span>
+              <span id="copyYapeBtnText">Copiar</span>
+            </button>
           </div>
 
           <button type="submit" id="submitOrderBtn" class="cta-btn-primary" style="padding: 12px; font-size: 13.5px;">
@@ -3201,6 +3222,40 @@
       document.getElementById('submitBtnText').innerText = data.submitText;
     }
 
+    // COPIAR NÚMERO DE YAPE
+    function copyYapeNumber() {
+      const num = "994729784";
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(num).then(() => {
+          showCopiedState();
+        }).catch(() => {
+          fallbackCopy(num);
+        });
+      } else {
+        fallbackCopy(num);
+      }
+    }
+
+    function showCopiedState() {
+      const btnText = document.getElementById('copyYapeBtnText');
+      if (btnText) {
+        btnText.textContent = '¡Copiado!';
+        setTimeout(() => { btnText.textContent = 'Copiar'; }, 2500);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showCopiedState();
+      } catch (err) {}
+      document.body.removeChild(textArea);
+    }
+
     // ==========================================================
     // CONTROL DEL MODAL CENTRADO
     // ==========================================================
@@ -3348,12 +3403,12 @@
         `📍 *Departamento:* ${deptVal}\n` +
         `🏢 *Agencia Shalom:* ${agencyVal}\n` +
         `📱 *Teléfono:* ${phoneVal}\n\n` +
-        `Por favor facilítenme su número oficial de Yape para transferir el anticipo de S/ 20 y emitir mi guía Shalom. ¡Muchas gracias!`;
+        `Ya registré su número de Yape oficial (*994 729 784*) para transferir el anticipo de S/ 20 y enviarles la captura del comprobante para emitir mi guía Shalom. ¡Muchas gracias!`;
 
       closeCheckoutModal();
       window.open(`https://api.whatsapp.com/send?phone=${storeWhatsApp}&text=${encodeURIComponent(msgText)}`, '_blank');
 
-      alert(`🎉 ¡Excelente ${nameVal}!\nHemos registrado tu pedido #${orderId}.\nTe estamos redirigiendo a nuestro WhatsApp oficial (+51 916 102 139) para coordinar el anticipo de S/ 20 por Yape, emitir tu guía Shalom y compartirte tu clave secreta de entrega.`);
+      alert(`🎉 ¡Excelente ${nameVal}!\nHemos registrado tu pedido #${orderId}.\nTe estamos redirigiendo a nuestro WhatsApp oficial (+51 916 102 139) para enviar la captura del anticipo de S/ 20 a nuestro Yape oficial (994 729 784), emitir tu guía Shalom y recibir tu clave secreta de entrega.`);
 
       setTimeout(() => {
         isSubmitting = false;
