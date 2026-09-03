@@ -3064,6 +3064,17 @@
     function openCheckoutModal() {
       document.getElementById('codModal').classList.add('active');
       document.body.style.overflow = 'hidden';
+
+      if (typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', {
+          content_name: selectedProductName,
+          content_ids: [`velora-5en1-${selectedUnits}u`],
+          content_type: 'product',
+          value: selectedPrice,
+          currency: 'PEN',
+          num_items: selectedUnits
+        });
+      }
     }
 
     function closeCheckoutModal() {
