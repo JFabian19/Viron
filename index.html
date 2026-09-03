@@ -1914,22 +1914,22 @@
       <div class="slider-viewport" id="sliderViewport">
         <div class="slider-track" id="sliderTrack">
           <div class="slide-item" onclick="openImageLightbox(0)" style="cursor: zoom-in;">
-            <img src="assets/velora-features.png" alt="Velora Beauty 5 en 1" fetchpriority="high">
+            <img src="assets/velora-features.webp" alt="Velora Beauty 5 en 1" fetchpriority="high" decoding="async">
           </div>
           <div class="slide-item" onclick="openImageLightbox(1)" style="cursor: zoom-in;">
-            <img src="assets/velora-model.png" alt="Clienta usando la Secadora Velora 5 en 1" loading="lazy">
+            <img src="assets/velora-model.webp" alt="Clienta usando la Secadora Velora 5 en 1" loading="lazy">
           </div>
           <div class="slide-item" onclick="openImageLightbox(2)" style="cursor: zoom-in;">
-            <img src="assets/velora-step.png" alt="Resultados con Velora 5 en 1" loading="lazy">
+            <img src="assets/velora-step.webp" alt="Resultados con Velora 5 en 1" loading="lazy">
           </div>
           <div class="slide-item" onclick="openImageLightbox(3)" style="cursor: zoom-in;">
-            <img src="assets/velora-box.png" alt="Contenido del paquete Velora 5 en 1" loading="lazy">
+            <img src="assets/velora-box.webp" alt="Contenido del paquete Velora 5 en 1" loading="lazy">
           </div>
           <div class="slide-item" onclick="openImageLightbox(4)" style="cursor: zoom-in;">
-            <img src="assets/velora-review.png" alt="Opiniones Velora 5 en 1" loading="lazy">
+            <img src="assets/velora-review.webp" alt="Opiniones Velora 5 en 1" loading="lazy">
           </div>
           <div class="slide-item" onclick="openImageLightbox(5)" style="cursor: zoom-in;">
-            <img src="assets/velora-ad.png" alt="De cabello húmedo a lista para salir" loading="lazy">
+            <img src="assets/velora-ad.webp" alt="De cabello húmedo a lista para salir" loading="lazy">
           </div>
         </div>
 
@@ -1945,22 +1945,22 @@
 
       <div class="thumbnails-scroller" id="thumbnailsScroller">
         <button class="thumb-btn active" data-index="0" aria-label="Ver Imagen 1">
-          <img src="assets/velora-features.png" alt="Miniatura 1">
+          <img src="assets/velora-features.webp" alt="Miniatura 1">
         </button>
         <button class="thumb-btn" data-index="1" aria-label="Ver Imagen 2">
-          <img src="assets/velora-model.png" alt="Miniatura 2">
+          <img src="assets/velora-model.webp" alt="Miniatura 2">
         </button>
         <button class="thumb-btn" data-index="2" aria-label="Ver Imagen 3">
-          <img src="assets/velora-step.png" alt="Miniatura 3">
+          <img src="assets/velora-step.webp" alt="Miniatura 3">
         </button>
         <button class="thumb-btn" data-index="3" aria-label="Ver Imagen 4">
-          <img src="assets/velora-box.png" alt="Miniatura 4">
+          <img src="assets/velora-box.webp" alt="Miniatura 4">
         </button>
         <button class="thumb-btn" data-index="4" aria-label="Ver Imagen 5">
-          <img src="assets/velora-review.png" alt="Miniatura 5">
+          <img src="assets/velora-review.webp" alt="Miniatura 5">
         </button>
         <button class="thumb-btn" data-index="5" aria-label="Ver Imagen 6">
-          <img src="assets/velora-ad.png" alt="Miniatura 6">
+          <img src="assets/velora-ad.webp" alt="Miniatura 6">
         </button>
       </div>
     </section>
@@ -2204,8 +2204,8 @@
       <div class="video-demo-container">
         <div class="video-card">
           <span class="video-overlay-badge">🎥 Peinado & Ondas</span>
-          <video id="ugcVideo1" playsinline loop muted autoplay poster="assets/velora-model.png">
-            <source src="assets/velora-video1.mp4" type="video/mp4">
+          <video id="ugcVideo1" playsinline loop muted preload="none" poster="assets/velora-model.webp" class="lazy-video">
+            <source data-src="assets/velora-video1.mp4" type="video/mp4">
           </video>
           <div class="video-controls-bar">
             <button class="video-action-btn" onclick="togglePlayPause('ugcVideo1', this)" aria-label="Pausar o reproducir">⏸</button>
@@ -2215,8 +2215,8 @@
 
         <div class="video-card">
           <span class="video-overlay-badge">✨ Secado & Cepillado</span>
-          <video id="ugcVideo2" playsinline loop muted autoplay poster="assets/velora-features.png">
-            <source src="assets/velora-video2.mp4" type="video/mp4">
+          <video id="ugcVideo2" playsinline loop muted preload="none" poster="assets/velora-features.webp" class="lazy-video">
+            <source data-src="assets/velora-video2.mp4" type="video/mp4">
           </video>
           <div class="video-controls-bar">
             <button class="video-action-btn" onclick="togglePlayPause('ugcVideo2', this)" aria-label="Pausar o reproducir">⏸</button>
@@ -2227,7 +2227,7 @@
 
       <!-- GIF DE MONTAJE FÁCIL (100% COMPLETO SIN RECORTES) -->
       <div class="demo-gif-card">
-        <img src="assets/velora-gift.webp" alt="Montaje fácil y seguro de los cabezales de Velora" class="demo-gif-img">
+        <img src="assets/velora-gift.webp" alt="Montaje fácil y seguro de los cabezales de Velora" class="demo-gif-img" loading="lazy" decoding="async">
         <div class="demo-gif-footer">
           <span>🔄</span>
           <div class="demo-gif-text">
@@ -2287,7 +2287,7 @@
 
       <!-- FOTO REAL DEL SET -->
       <div class="box-photo-wrap">
-        <img src="assets/velora-box.png" alt="Contenido real del paquete Velora 5 en 1">
+        <img src="assets/velora-box.webp" alt="Contenido real del paquete Velora 5 en 1" loading="lazy" decoding="async">
       </div>
 
       <!-- 11. RESEÑAS VERIFICADAS -->
@@ -2626,7 +2626,7 @@
       </button>
 
       <div class="lightbox-image-container">
-        <img id="lightboxImage" src="assets/velora-features.png" alt="Imagen ampliada de la Secadora Velora 5 en 1">
+        <img id="lightboxImage" src="assets/velora-features.webp" alt="Imagen ampliada de la Secadora Velora 5 en 1">
       </div>
 
       <button class="lightbox-nav-btn prev" onclick="changeLightboxSlide(-1)" aria-label="Imagen anterior">◀</button>
@@ -3704,12 +3704,12 @@
     // HERO SLIDER TÁCTIL
     // ==========================================================
     const productImages = [
-      'assets/velora-features.png',
-      'assets/velora-model.png',
-      'assets/velora-step.png',
-      'assets/velora-box.png',
-      'assets/velora-review.png',
-      'assets/velora-ad.png'
+      'assets/velora-features.webp',
+      'assets/velora-model.webp',
+      'assets/velora-step.webp',
+      'assets/velora-box.webp',
+      'assets/velora-review.webp',
+      'assets/velora-ad.webp'
     ];
     let currentSlide = 0;
     const totalSlides = productImages.length;
@@ -3887,6 +3887,52 @@
       showNextToast();
       setInterval(showNextToast, 20000);
     }, 5000);
+
+    // ==========================================================
+    // OPTIMIZACIÓN DE RENDIMIENTO: LAZY LOAD DE VIDEOS
+    // ==========================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      const lazyVideos = document.querySelectorAll('video.lazy-video');
+
+      if ('IntersectionObserver' in window) {
+        const videoObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            const video = entry.target;
+            const source = video.querySelector('source');
+
+            if (entry.isIntersecting) {
+              if (source && source.dataset.src) {
+                source.src = source.dataset.src;
+                source.removeAttribute('data-src');
+                video.load();
+              }
+              const playPromise = video.play();
+              if (playPromise !== undefined) {
+                playPromise.catch(() => {});
+              }
+            } else {
+              if (!video.paused) {
+                video.pause();
+              }
+            }
+          });
+        }, { rootMargin: '150px 0px', threshold: 0.2 });
+
+        lazyVideos.forEach(v => videoObserver.observe(v));
+      } else {
+        // Fallback para navegadores antiguos sin IntersectionObserver
+        lazyVideos.forEach(video => {
+          const source = video.querySelector('source');
+          if (source && source.dataset.src) {
+            source.src = source.dataset.src;
+            source.removeAttribute('data-src');
+            video.load();
+            video.play().catch(() => {});
+          }
+        });
+      }
+    });
+
   </script>
 </body>
 </html>
