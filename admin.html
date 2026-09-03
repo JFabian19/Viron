@@ -1436,14 +1436,25 @@
       showToast('🧪 Probando conexión con Google Sheets...');
       try {
         const res = await fetch(url);
-        const data = await res.json();
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch(errJson) {
+          if (text.includes('accounts.google.com') || text.includes('signin') || text.includes('ServiceLogin')) {
+            alert('⚠️ ATENCIÓN - Error de Permisos en Google Apps Script:\n\nGoogle devolvió la pantalla de inicio de sesión de Google.\n\nEsto sucede porque en la configuración de la implementación pusiste "Quién tiene acceso: Solo yo".\n\nCÓMO RESOLVERLO:\n1. Abre Apps Script.\n2. Ve a: Implementar > Nueva implementación.\n3. En "Quién tiene acceso", selecciona obligatoriamente: "Cualquier persona" (Anyone).\n4. Haz clic en Implementar y copia la nueva URL.');
+            return;
+          }
+          throw new Error('La URL no devolvió JSON válido.');
+        }
+
         if (data && (data.status === 'success' || Array.isArray(data.orders))) {
-          alert('🎉 ¡Conexión Exitosa con Google Sheets!\nLa hoja respondió correctamente.');
+          alert('🎉 ¡Conexión Exitosa con Google Sheets!\nLa hoja respondió correctamente y está 100% sincronizada.');
         } else {
-          alert('⚠️ Se conectó a la URL, pero la respuesta no fue la esperada. Verifica el script.');
+          alert('⚠️ Se conectó a la URL, pero la respuesta no fue la esperada. Revisa el código del script.');
         }
       } catch (err) {
-        alert('❌ Error al conectar: Verifica que el Web App tenga acceso "Cualquier persona" (Any). Error: ' + err.message);
+        alert('❌ Error al conectar: ' + err.message);
       }
     }
 
@@ -1465,7 +1476,21 @@
 
       try {
         const response = await fetch(url);
-        const result = await response.json();
+        const text = await response.text();
+        let result;
+
+        try {
+          result = JSON.parse(text);
+        } catch (jsonErr) {
+          if (text.includes('accounts.google.com') || text.includes('signin')) {
+            console.warn('Google Apps Script requiere permiso público (Cualquier persona).');
+            if (showNotification) {
+              showToast('⚠️ Google Apps Script pide login. Cambia acceso a "Cualquier persona".');
+            }
+            return;
+          }
+          throw jsonErr;
+        }
 
         if (result && result.orders && Array.isArray(result.orders)) {
           if (result.orders.length > 0) {
@@ -1477,7 +1502,7 @@
               showToast(`✅ ${result.orders.length} pedidos sincronizados desde Google Sheets`);
             }
           } else {
-            if (showNotification) showToast('ℹ️ Google Sheets no tiene pedidos registrados aún.');
+            if (showNotification) showToast('ℹ️ Google Sheets conectado (sin pedidos aún).');
           }
         }
       } catch (err) {
