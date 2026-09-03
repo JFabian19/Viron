@@ -855,9 +855,9 @@
         // WhatsApp pre-filled text
         const waMsg = encodeURIComponent(
           `Hola ${order.name}! 👋 Te saludamos de VELORA Beauty.\n` +
-          `Tenemos registrado tu pedido #${order.id} del *${order.product}* por S/ ${order.price.toFixed(2)}.\n` +
-          `Dirección de entrega: ${order.address}, ${order.city}.\n\n` +
-          `¿Nos confirmas para programar el despacho hoy mismo? ¡Muchas gracias!`
+          `Tenemos registrado tu pedido #${order.id} del *${order.product}* (Total: S/ ${parseFloat(order.price).toFixed(2)}).\n` +
+          `Destino: ${order.address}, ${order.city}.\n\n` +
+          `Para emitir tu guía oficial Shalom, indícanos si ya realizaste el *anticipo de S/ 20 por Yape* para enviarte la confirmación y reservar tu clave de retiro en ventanilla. ¡Muchas gracias!`
         );
         const waLink = `https://wa.me/51${order.phone.replace(/\D/g, '')}?text=${waMsg}`;
 

@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- ==========================================================
-       META PIXEL CODE OFICIAL
+       META PIXEL CODE OFICIAL (OPTIMIZADO CON COINCIDENCIAS AVANZADAS)
        ========================================================== -->
   <script>
     !function(f,b,e,v,n,t,s)
@@ -20,6 +20,7 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
+    
     fbq('init', '970418796099413');
     fbq('track', 'PageView');
     fbq('track', 'ViewContent', {
@@ -543,7 +544,7 @@
       gap: 5px;
     }
 
-    /* LOGÍSTICA SHALOM & YAPE BANNER */
+    /* BANNER LOGÍSTICA SHALOM: ANTICIPO Y CLAVE DE ENTREGA */
     .shalom-yape-banner {
       background: linear-gradient(135deg, #FFF1F2 0%, #F5E8F7 100%);
       border: 1.5px solid #FBCFE8;
@@ -551,27 +552,27 @@
       padding: 12px 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
     }
     .sy-row {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
     }
     .sy-icon-box {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 17px;
       flex-shrink: 0;
       background: #FFFFFF;
       box-shadow: var(--shadow-sm);
     }
     .sy-text {
-      font-size: 12px;
+      font-size: 11.5px;
       line-height: 1.35;
       color: #1E293B;
     }
@@ -740,7 +741,7 @@
       border: none;
       padding: 15px 18px;
       border-radius: var(--radius-md);
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 900;
       letter-spacing: 0.3px;
       cursor: pointer;
@@ -756,6 +757,10 @@
     .cta-btn-primary:active {
       transform: scale(0.98);
       box-shadow: 0 3px 10px rgba(225, 29, 72, 0.25);
+    }
+    .cta-btn-primary:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
     }
     .cta-btn-primary::after {
       content: '';
@@ -796,7 +801,7 @@
       font-size: 18px;
     }
     .trust-item-text {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
       color: #334155;
       line-height: 1.2;
@@ -1053,6 +1058,19 @@
       line-height: 1.35;
     }
 
+    /* FOTO REAL DEL SET */
+    .box-photo-wrap {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1.5px solid var(--color-border);
+      margin-top: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+    .box-photo-wrap img {
+      width: 100%;
+      display: block;
+    }
+
     /* RESEÑAS Y SOCIAL PROOF */
     .reviews-container {
       display: flex;
@@ -1292,10 +1310,10 @@
     }
     .modal-sheet {
       width: 100%;
-      max-width: 410px;
+      max-width: 416px;
       background: #FFFFFF;
       border-radius: 20px; /* BORDES REDONDEADOS COMPLETOS */
-      padding: 16px 16px 18px 16px;
+      padding: 16px 15px 18px 15px;
       max-height: 92vh;
       overflow-y: auto;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
@@ -1313,7 +1331,7 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid var(--color-border);
-      padding-bottom: 10px;
+      padding-bottom: 9px;
       margin-bottom: 10px;
     }
     .sheet-title {
@@ -1345,13 +1363,13 @@
 
     /* UPSELL SELECTOR DENTRO DEL MODAL (COMPACTO Y VISUAL) */
     .modal-upsell-section {
-      margin-bottom: 10px;
+      margin-bottom: 9px;
     }
     .modal-upsell-label {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 800;
       color: #334155;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1364,7 +1382,7 @@
     .modal-upsell-card {
       border: 1.5px solid var(--color-border);
       border-radius: 10px;
-      padding: 7px 5px;
+      padding: 6px 4px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
@@ -1394,70 +1412,92 @@
       white-space: nowrap;
     }
     .modal-upsell-units {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 800;
       color: #0F172A;
     }
     .modal-upsell-price {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 900;
       color: var(--color-velora-rose);
     }
     .modal-upsell-save {
-      font-size: 8.5px;
+      font-size: 8px;
       font-weight: 800;
       color: #059669;
     }
 
-    /* RESUMEN MINIMALISTA NO ABRUMADOR */
-    .order-summary-compact {
+    /* DESGLOSE CLARO DE ANTICIPO S/ 20 Y SALDO */
+    .order-breakdown-card {
       background: #FFF1F2;
       border: 1px solid var(--color-velora-rose-border);
       border-radius: var(--radius-sm);
-      padding: 8px 10px;
-      margin-bottom: 10px;
+      padding: 9px 11px;
+      margin-bottom: 9px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .breakdown-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      font-size: 11.5px;
+      color: #334155;
     }
-    .summary-left {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-    .summary-prod-name {
-      font-size: 12px;
-      font-weight: 800;
-      color: #0F172A;
-    }
-    .summary-shalom-free {
-      font-size: 10px;
-      font-weight: 700;
-      color: #059669;
-    }
-    .summary-total-val {
-      font-size: 16px;
+    .breakdown-row.highlight {
+      font-size: 12.5px;
       font-weight: 900;
-      color: var(--color-velora-rose);
+      color: var(--color-velora-rose-dark);
+      padding-top: 3px;
+      border-top: 1px dashed var(--color-velora-rose-border);
+    }
+
+    /* EXPLICACIÓN DEL ANTICIPO Y CLAVE DE ENTREGA */
+    .security-notice-box {
+      background: #F5E8F7;
+      border: 1px solid #E9D5FF;
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+    }
+    .security-notice-box span {
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .security-notice-text {
+      font-size: 10.5px;
+      color: #581C87;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+    .security-notice-text strong {
+      color: #3B0764;
     }
 
     /* FORMULARIO SIMPLIFICADO Y ORDENADO */
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      margin-bottom: 9px;
+      gap: 3px;
+      margin-bottom: 8px;
     }
     .form-grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8px;
-      margin-bottom: 9px;
+      margin-bottom: 8px;
     }
     .form-label {
       font-size: 11px;
       font-weight: 800;
       color: #1E293B;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .form-input, .form-select {
       width: 100%;
@@ -1477,16 +1517,26 @@
       box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.1);
     }
 
-    /* TRUST BAR MODAL */
-    .modal-trust-bar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-size: 10.5px;
-      font-weight: 800;
-      color: #64748B;
-      padding: 4px 0 6px 0;
+    /* SEARCH FILTER FOR SHALOM AGENCIES */
+    .agency-search-input {
+      height: 34px;
+      font-size: 11px;
+      background: #F8FAFC;
+      border: 1px dashed #CBD5E1;
+      border-radius: 6px;
+      padding: 0 9px;
+      margin-bottom: 4px;
+      outline: none;
+      width: 100%;
+    }
+    .agency-search-input:focus {
+      border-color: var(--color-velora-rose);
+      background: #FFFFFF;
+    }
+    .agency-counter-pill {
+      font-size: 9.5px;
+      color: var(--color-velora-rose-dark);
+      font-weight: 700;
     }
 
     /* YAPE COMPACT CHIP */
@@ -1506,12 +1556,12 @@
       gap: 8px;
     }
     .yape-compact-logo {
-      width: 28px;
+      width: 26px;
       height: auto;
       border-radius: 4px;
     }
     .yape-compact-title {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 800;
       color: var(--color-yape);
     }
@@ -1526,6 +1576,18 @@
       font-weight: 800;
       padding: 2px 6px;
       border-radius: 4px;
+    }
+
+    /* TRUST BAR MODAL */
+    .modal-trust-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #64748B;
+      padding: 4px 0 2px 0;
     }
 
     /* TOAST DE COMPRAS EN VIVO */
@@ -1657,7 +1719,7 @@
     <!-- 1. TOP ANNOUNCEMENT BAR -->
     <aside class="announcement-bar" aria-label="Anuncio principal">
       <span>🚚</span>
-      <span>ENVÍO GRATIS A TODO EL PERÚ VÍA SHALOM | PAGO CON YAPE</span>
+      <span>ENVÍO GRATIS VÍA SHALOM | S/ 20 ANTICIPO YAPE | ENTREGA CON CLAVE</span>
     </aside>
 
     <!-- 2. CABECERA MOBILE -->
@@ -1691,7 +1753,9 @@
       <div class="infinity-marquee-track">
         <span class="marquee-item">🚚 ENVÍO GRATIS A NIVEL NACIONAL VÍA SHALOM</span>
         <span class="marquee-bullet">✦</span>
-        <span class="marquee-item">💜 PAGO SEGURO CON YAPE</span>
+        <span class="marquee-item">💜 RESERVA CON S/ 20 DE ANTICIPO POR YAPE</span>
+        <span class="marquee-bullet">✦</span>
+        <span class="marquee-item">🔑 RETIRO CON CLAVE DE SEGURIDAD Y DNI</span>
         <span class="marquee-bullet">✦</span>
         <span class="marquee-item">✨ 5 CABEZALES EN 1 SOLO EQUIPO</span>
         <span class="marquee-bullet">✦</span>
@@ -1707,7 +1771,9 @@
         <!-- Duplicado para ciclo continuo -->
         <span class="marquee-item">🚚 ENVÍO GRATIS A NIVEL NACIONAL VÍA SHALOM</span>
         <span class="marquee-bullet">✦</span>
-        <span class="marquee-item">💜 PAGO SEGURO CON YAPE</span>
+        <span class="marquee-item">💜 RESERVA CON S/ 20 DE ANTICIPO POR YAPE</span>
+        <span class="marquee-bullet">✦</span>
+        <span class="marquee-item">🔑 RETIRO CON CLAVE DE SEGURIDAD Y DNI</span>
         <span class="marquee-bullet">✦</span>
         <span class="marquee-item">✨ 5 CABEZALES EN 1 SOLO EQUIPO</span>
         <span class="marquee-bullet">✦</span>
@@ -1847,22 +1913,22 @@
         </div>
       </div>
 
-      <!-- BANNER LOGISTICO SHALOM Y PAGO YAPE -->
+      <!-- BANNER LOGISTICA SHALOM: EXPLICACIÓN DE ANTICIPO S/ 20 Y CLAVE -->
       <div class="shalom-yape-banner">
         <div class="sy-row">
           <div class="sy-icon-box">🚚</div>
           <div class="sy-text">
-            <strong>Envío 100% GRATIS a Nivel Nacional ÚNICAMENTE por Shalom.</strong><br>
-            Retira con total seguridad en la agencia oficial Shalom más cercana a ti en todo el Perú.
+            <strong>Envío 100% GRATIS a todo el Perú vía Shalom:</strong><br>
+            Retira con total seguridad en la agencia oficial Shalom más cercana a ti con tu DNI.
           </div>
         </div>
         <div class="sy-row">
           <div class="sy-icon-box" style="background:#F5E8F7;">
-            <img src="assets/yape.png" alt="Yape" style="width:26px; height:auto;">
+            <img src="assets/yape.png" alt="Yape" style="width:24px; height:auto;">
           </div>
           <div class="sy-text">
-            <strong>Medio de Pago Exclusivo: YAPE.</strong><br>
-            Paga directo y sin comisiones desde tu app Yape al confirmar tu pedido.
+            <strong>Anticipo de S/ 20 para Despacho:</strong><br>
+            Abonas solo <strong>S/ 20 por Yape</strong> para emitir tu guía oficial Shalom. El saldo se cancela al llegar tu pedido y te compartimos la <strong>clave secreta de entrega</strong> para retirar en ventanilla.
           </div>
         </div>
       </div>
@@ -1939,22 +2005,22 @@
       <!-- BOTON DE ACCION PRINCIPAL -->
       <button class="cta-btn-primary" onclick="openCheckoutModal()" style="margin-top: 4px;">
         <span>🛍️</span>
-        <span id="btnMainText">COMPRAR CON YAPE - S/ 99.90 ➔</span>
+        <span id="btnMainText">COMPRAR CON ANTICIPO DE S/ 20 YAPE ➔</span>
       </button>
 
       <!-- SELLOS DE CONFIANZA -->
       <div class="trust-badges-grid">
         <div class="trust-item">
           <span class="trust-item-icon">🚚</span>
-          <span class="trust-item-text">Envío Gratis x Shalom</span>
+          <span class="trust-item-text">Envío Gratis Shalom</span>
         </div>
         <div class="trust-item">
-          <span class="trust-item-icon">💜</span>
-          <span class="trust-item-text">Pago 100% Seguro Yape</span>
+          <span class="trust-item-icon">🔑</span>
+          <span class="trust-item-text">Entrega con Clave</span>
         </div>
         <div class="trust-item">
           <span class="trust-item-icon">🛡️</span>
-          <span class="trust-item-text">Garantía Velora 6 Meses</span>
+          <span class="trust-item-text">Garantía 6 Meses</span>
         </div>
       </div>
 
@@ -2103,8 +2169,8 @@
       </div>
 
       <!-- FOTO REAL DEL SET -->
-      <div style="border-radius: var(--radius-md); overflow: hidden; border: 1.5px solid var(--color-border); margin-top: 4px; box-shadow: var(--shadow-sm);">
-        <img src="assets/velora-box.png" alt="Contenido real del paquete Velora 5 en 1" style="width:100%; display:block;">
+      <div class="box-photo-wrap">
+        <img src="assets/velora-box.png" alt="Contenido real del paquete Velora 5 en 1">
       </div>
 
       <!-- 11. RESEÑAS VERIFICADAS -->
@@ -2140,7 +2206,7 @@
           </div>
           <div class="review-stars">★★★★★</div>
           <p class="review-text">
-            <strong>"¡El mejor invento para mi cabello rebelde!"</strong> Siempre demoraba como 40 minutos con secadora y luego plancha, y mis puntas vivían quemadas. Con la Velora en 15 minutos quedo peinada como si hubiera ido a la peluquería. Hice el pago por Yape y me llegó a la agencia Shalom de San Isidro en 24 horas. Súper confiable.
+            <strong>"¡Súper seguro el sistema del anticipo y la clave!"</strong> Hice el anticipo de 20 soles por Yape y me pasaron mi guía de Shalom en 20 minutos. Cuando llegó mi paquete a la agencia de Miraflores cancelé el saldo y me dieron la clave de retiro de inmediato. Mi cabello quedó impecable.
           </p>
         </div>
 
@@ -2174,7 +2240,7 @@
           </div>
           <div class="review-stars">★★★★★</div>
           <p class="review-text">
-            <strong>"Cero frizz y deja el cabello súper suave."</strong> Tenía miedo de comprar por internet, pero la atención por WhatsApp de Velora fue impecable. Me enviaron mi número de guía de Shalom al instante. Excelente producto.
+            <strong>"Cero frizz y deja el cabello súper suave."</strong> Tenía dudas con los 20 soles de adelanto, pero la atención por WhatsApp fue muy transparente y me mandaron fotos de mi paquete rotulado. Todo perfecto en la agencia de Trujillo.
           </p>
         </div>
       </div>
@@ -2188,6 +2254,16 @@
       <div class="faq-list">
         <div class="faq-item active">
           <button class="faq-question" onclick="toggleFaq(this)">
+            <span>¿Cómo funciona el anticipo de S/ 20 y la clave de retiro?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Para garantizar tu envío y programar la emisión de tu guía oficial de Shalom, se abona un **anticipo de S/ 20 por Yape**. Una vez que tu paquete llega a la agencia Shalom de tu preferencia, cancelas el saldo restante y **te compartimos la clave secreta de entrega** para que retires tu producto en ventanilla presentando tu DNI. ¡Es 100% seguro y transparente!
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
             <span>¿El calor daña o quema el cabello?</span>
             <span class="faq-icon">▼</span>
           </button>
@@ -2198,31 +2274,11 @@
 
         <div class="faq-item">
           <button class="faq-question" onclick="toggleFaq(this)">
-            <span>¿Cómo funciona el envío por Shalom?</span>
+            <span>¿Cómo puedo buscar mi agencia Shalom más cercana?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer">
-            El envío es <strong>100% GRATIS a nivel nacional</strong>. Despachamos tu pedido directamente a la <strong>Agencia Oficial Shalom</strong> que elijas en tu ciudad o distrito. Una vez despachado, te enviamos tu comprobante con el número de guía para que puedas hacer seguimiento y recogerlo presentando tu DNI.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            <span>¿Por qué solo aceptan Yape como medio de pago?</span>
-            <span class="faq-icon">▼</span>
-          </button>
-          <div class="faq-answer">
-            Yape es el medio de pago más rápido, seguro y sin comisiones del Perú. Al completar tu pedido en esta página web, se generará tu código de compra y te redirigiremos a nuestro WhatsApp oficial para enviarte el número de Yape registrado a nombre de la empresa y confirmar tu guía de Shalom.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            <span>¿Sirve para cabellos ondulados, rizados o gruesos?</span>
-            <span class="faq-icon">▼</span>
-          </button>
-          <div class="faq-answer">
-            Sí. Gracias a sus 5 cabezales intercambiables y sus 3 niveles de potencia, puedes usar el cepillo alisador para cabellos crespos o con ondas, y el cepillo voluminizador para cabello fino o lacio.
+            En el formulario de pedido, selecciona tu departamento o región (ej. Lima, Callao, Arequipa, etc.) y podrás **escribir directamente el nombre de tu distrito o calle** (ej. Miraflores, San Borja, Faucett) en el buscador para encontrar tu agencia de inmediato.
           </div>
         </div>
 
@@ -2232,7 +2288,7 @@
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer">
-            Cuentas con <strong>6 meses de garantía oficial VELORA</strong> contra cualquier desperfecto técnico o falla de fabricación.
+            Cuentas con **6 meses de garantía oficial VELORA** contra cualquier desperfecto técnico o falla de fabricación.
           </div>
         </div>
       </div>
@@ -2255,12 +2311,12 @@
           <span>🚚</span>
           <span>Envío Gratis Shalom</span>
         </span>
-        <span class="sticky-selected-price" id="stickySelectedSummary">1x VELORA (S/ 99.90)</span>
+        <span class="sticky-selected-price" id="stickySelectedSummary">1x VELORA (Anticipo S/ 20)</span>
       </div>
 
       <button class="cta-btn-primary" id="stickyCtaBtn" onclick="openCheckoutModal()">
         <span>🛍️</span>
-        <span id="stickyBtnText">COMPRAR CON YAPE - S/ 99.90 ➔</span>
+        <span id="stickyBtnText">PEDIR CON ANTICIPO DE S/ 20 YAPE ➔</span>
       </button>
     </footer>
 
@@ -2274,7 +2330,7 @@
         <div class="sheet-header">
           <div>
             <h3 class="sheet-title">📦 Finalizar Pedido VELORA</h3>
-            <span style="font-size: 10.5px; color: #059669; font-weight: 700;">Envío 100% GRATIS a todo el Perú vía Shalom</span>
+            <span style="font-size: 10px; color: #059669; font-weight: 800;">Envío 100% GRATIS a todo el Perú vía Shalom</span>
           </div>
           <button class="sheet-close-btn" onclick="closeCheckoutModal()" aria-label="Cerrar">✕</button>
         </div>
@@ -2313,13 +2369,28 @@
           </div>
         </div>
 
-        <!-- RESUMEN COMPACTO -->
-        <div class="order-summary-compact">
-          <div class="summary-left">
-            <span class="summary-prod-name" id="modalProductText">1x VELORA 5 en 1</span>
-            <span class="summary-shalom-free">✓ Envío Agencia Shalom 100% GRATIS</span>
+        <!-- DESGLOSE DE ANTICIPO S/ 20 Y SALDO -->
+        <div class="order-breakdown-card">
+          <div class="breakdown-row">
+            <span>Total del Pedido:</span>
+            <strong id="modalTotalOrderText">S/ 99.90 (Envío Shalom Gratis)</strong>
           </div>
-          <div class="summary-total-val" id="modalTotalText">S/ 99.90</div>
+          <div class="breakdown-row highlight">
+            <span>💜 Anticipo hoy para emitir guía:</span>
+            <span>S/ 20.00 por Yape</span>
+          </div>
+          <div class="breakdown-row" style="font-size: 11px; color: #64748B;">
+            <span>Saldo restante al recibir clave en Shalom:</span>
+            <strong id="modalPendingBalanceText">S/ 79.90</strong>
+          </div>
+        </div>
+
+        <!-- AVISO DE CLAVE DE ENTREGA -->
+        <div class="security-notice-box">
+          <span>🔐</span>
+          <div class="security-notice-text">
+            <strong>¿Cómo funciona la entrega?</strong> Primero abonas <strong>S/ 20 de anticipo por Yape</strong> para emitir tu guía oficial Shalom. Al llegar tu paquete a la agencia, abonas el saldo restante y <strong>te compartimos la clave secreta</strong> para retirar con tu DNI.
+          </div>
         </div>
 
         <!-- FORMULARIO LIMPIO Y RÁPIDO (SIN ABRUMAR) -->
@@ -2331,7 +2402,7 @@
             <input type="text" id="custName" class="form-input" placeholder="Ej. Ana Lucía Mendoza" required minlength="5">
           </div>
 
-          <!-- 2 Columnas para Teléfono y DNI (Ahorro de espacio vertical) -->
+          <!-- 2 Columnas para Teléfono y DNI -->
           <div class="form-grid-2">
             <div class="form-group" style="margin-bottom: 0;">
               <label class="form-label">WhatsApp (9 dígitos) *</label>
@@ -2375,8 +2446,15 @@
             </select>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Agencia Oficial Shalom donde retirarás *</label>
+          <!-- BUSCADOR POR NOMBRE DE AGENCIA Y SELECTOR -->
+          <div class="form-group" id="agencySearchGroup">
+            <div class="form-label">
+              <span>Agencia Oficial Shalom donde retirarás *</span>
+              <span class="agency-counter-pill" id="agencyCounter"></span>
+            </div>
+            
+            <input type="text" id="agencySearchInput" class="agency-search-input" placeholder="🔍 Escribe tu distrito o calle (ej. Miraflores, Faucett...)" oninput="handleAgencySearch(this.value)" disabled>
+
             <select id="custShalomAgency" class="form-select" required>
               <option value="" disabled selected>Primero selecciona tu departamento...</option>
             </select>
@@ -2387,15 +2465,15 @@
             <div class="yape-compact-left">
               <img src="assets/yape.png" alt="Yape Oficial" class="yape-compact-logo">
               <div>
-                <div class="yape-compact-title">Pago Exclusivo: Yape</div>
-                <div class="yape-compact-sub">100% seguro sin comisiones</div>
+                <div class="yape-compact-title">Pago Exclusivo: Yape Oficial</div>
+                <div class="yape-compact-sub">Anticipo de S/ 20 para emitir tu guía Shalom</div>
               </div>
             </div>
-            <span class="yape-compact-badge">✓ Oficial</span>
+            <span class="yape-compact-badge">S/ 20.00</span>
           </div>
 
-          <button type="submit" id="submitOrderBtn" class="cta-btn-primary" style="padding: 12px; font-size: 14px;">
-            <span id="submitBtnText">CONFIRMAR YAPE (S/ 99.90) ➔</span>
+          <button type="submit" id="submitOrderBtn" class="cta-btn-primary" style="padding: 12px; font-size: 13.5px;">
+            <span id="submitBtnText">RESERVAR CON ANTICIPO S/ 20 POR YAPE ➔</span>
           </button>
 
           <div class="modal-trust-bar">
@@ -2440,7 +2518,7 @@
 
   <script>
     // ==========================================================
-    // DIRECTORIO OFICIAL COMPLETO DE AGÈNCIAS SHALOM EN PERÚ
+    // DIRECTORIO OFICIAL COMPLETO DE AGENCIAS SHALOM EN PERÚ
     // ==========================================================
     const shalomAgencies = {
   "Lima": [
@@ -2966,20 +3044,49 @@
     "Iberia: Av. jorge chavez mz. h1 sub lote 11-b, iberia - tahuamanu - madre de diosA una cdra. ..."
   ]
 };
+    let currentDeptAgencies = [];
 
     function handleDepartmentChange(dept) {
       const agencySelect = document.getElementById('custShalomAgency');
-      agencySelect.innerHTML = '';
+      const searchInput = document.getElementById('agencySearchInput');
+      const counterSpan = document.getElementById('agencyCounter');
+      
+      searchInput.value = '';
 
       if (!dept || !shalomAgencies[dept]) {
+        currentDeptAgencies = [];
         agencySelect.innerHTML = '<option value="" disabled selected>Primero selecciona tu departamento...</option>';
+        searchInput.disabled = true;
+        counterSpan.textContent = '';
         return;
       }
 
-      const list = shalomAgencies[dept];
+      currentDeptAgencies = shalomAgencies[dept];
+      searchInput.disabled = false;
+      searchInput.placeholder = `🔍 Buscar entre las ${currentDeptAgencies.length} agencias de ${dept}...`;
+      renderAgencyOptions(currentDeptAgencies);
+    }
+
+    function renderAgencyOptions(list) {
+      const agencySelect = document.getElementById('custShalomAgency');
+      const counterSpan = document.getElementById('agencyCounter');
+      agencySelect.innerHTML = '';
+
+      counterSpan.textContent = `${list.length} disponible${list.length === 1 ? '' : 's'}`;
+
+      if (list.length === 0) {
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = 'No se encontraron agencias con esa búsqueda';
+        opt.disabled = true;
+        opt.selected = true;
+        agencySelect.appendChild(opt);
+        return;
+      }
+
       const defaultOpt = document.createElement('option');
       defaultOpt.value = '';
-      defaultOpt.textContent = `Selecciona entre las ${list.length} agencias de ${dept}...`;
+      defaultOpt.textContent = `Selecciona tu agencia (${list.length} disponibles)...`;
       defaultOpt.disabled = true;
       defaultOpt.selected = true;
       agencySelect.appendChild(defaultOpt);
@@ -2990,6 +3097,28 @@
         opt.textContent = agency;
         agencySelect.appendChild(opt);
       });
+
+      // Si solo hay 1 coincidencia exacta, seleccionarla automáticamente
+      if (list.length === 1) {
+        agencySelect.selectedIndex = 1;
+      }
+    }
+
+    // BUSCADOR EN TIEMPO REAL POR NOMBRE O DISTRITO
+    function handleAgencySearch(query) {
+      if (!currentDeptAgencies || currentDeptAgencies.length === 0) return;
+      
+      const cleanQuery = query.toLowerCase().trim();
+      if (!cleanQuery) {
+        renderAgencyOptions(currentDeptAgencies);
+        return;
+      }
+
+      const filtered = currentDeptAgencies.filter(agency => 
+        agency.toLowerCase().includes(cleanQuery)
+      );
+
+      renderAgencyOptions(filtered);
     }
 
     // ==========================================================
@@ -2998,6 +3127,7 @@
     let selectedUnits = 1;
     let selectedPrice = 99.90;
     let selectedProductName = '1x VELORA 5 en 1';
+    const ANTICIPO_AMOUNT = 20.00;
 
     const bundlesData = {
       1: {
@@ -3005,33 +3135,45 @@
         price: 99.90,
         oldPrice: 'S/ 189.00',
         name: '1x VELORA 5 en 1',
-        stickySummary: '1x VELORA (S/ 99.90)',
-        btnText: 'COMPRAR CON YAPE - S/ 99.90 ➔',
-        submitText: 'CONFIRMAR YAPE (S/ 99.90) ➔'
+        stickySummary: '1x VELORA (Anticipo S/ 20)',
+        btnText: 'COMPRAR CON ANTICIPO DE S/ 20 YAPE ➔',
+        submitText: 'RESERVAR CON ANTICIPO S/ 20 POR YAPE ➔'
       },
       2: {
         units: 2,
         price: 169.90,
         oldPrice: 'S/ 378.00',
         name: '2x VELORA 5 en 1 (Ahorro S/ 29.90)',
-        stickySummary: '2x VELORA (S/ 169.90)',
-        btnText: 'COMPRAR 2 UNIDADES - S/ 169.90 ➔',
-        submitText: 'CONFIRMAR YAPE (S/ 169.90) ➔'
+        stickySummary: '2x VELORA (Anticipo S/ 20)',
+        btnText: 'PEDIR 2 UNIDADES (ANTICIPO S/ 20) ➔',
+        submitText: 'RESERVAR 2 UNID. (ANTICIPO S/ 20) ➔'
       },
       3: {
         units: 3,
         price: 229.90,
         oldPrice: 'S/ 567.00',
         name: '3x VELORA 5 en 1 (Ahorro S/ 69.80)',
-        stickySummary: '3x VELORA (S/ 229.90)',
-        btnText: 'COMPRAR 3 UNIDADES - S/ 229.90 ➔',
-        submitText: 'CONFIRMAR YAPE (S/ 229.90) ➔'
+        stickySummary: '3x VELORA (Anticipo S/ 20)',
+        btnText: 'PEDIR 3 UNIDADES (ANTICIPO S/ 20) ➔',
+        submitText: 'RESERVAR 3 UNID. (ANTICIPO S/ 20) ➔'
       }
     };
 
     function selectBundle(units, price, oldPrice) {
       selectedUnits = units;
       selectedPrice = price;
+
+      // DISPARAR EVENTO ADDTOCART EN EL PIXEL (OPTIMIZACIÓN METADATA)
+      if (typeof fbq === 'function') {
+        fbq('track', 'AddToCart', {
+          content_name: bundlesData[units].name,
+          content_ids: [`velora-5en1-${units}u`],
+          content_type: 'product',
+          value: price,
+          currency: 'PEN',
+          num_items: units
+        });
+      }
 
       // Actualizar tarjetas de página
       document.querySelectorAll('.bundle-card').forEach(c => c.classList.remove('selected'));
@@ -3053,8 +3195,9 @@
       document.getElementById('btnMainText').innerText = data.btnText;
       document.getElementById('headerCartCount').innerText = units;
 
-      document.getElementById('modalProductText').innerText = data.name;
-      document.getElementById('modalTotalText').innerText = `S/ ${price.toFixed(2)}`;
+      const pendingBalance = price - ANTICIPO_AMOUNT;
+      document.getElementById('modalTotalOrderText').innerText = `S/ ${price.toFixed(2)} (Envío Shalom Gratis)`;
+      document.getElementById('modalPendingBalanceText').innerText = `S/ ${pendingBalance.toFixed(2)}`;
       document.getElementById('submitBtnText').innerText = data.submitText;
     }
 
@@ -3065,6 +3208,7 @@
       document.getElementById('codModal').classList.add('active');
       document.body.style.overflow = 'hidden';
 
+      // EVENTO INITIATECHECKOUT CON EVENTID DINÁMICO
       if (typeof fbq === 'function') {
         fbq('track', 'InitiateCheckout', {
           content_name: selectedProductName,
@@ -3089,10 +3233,14 @@
     }
 
     // ==========================================================
-    // ENVÍO DE FORMULARIO Y REDIRECCIÓN A WHATSAPP (+51 916 102 139)
+    // ENVÍO DE FORMULARIO CON ADVANCED MATCHING Y BLOQUEO ANTI-DUPLICADOS
     // ==========================================================
+    let isSubmitting = false;
+
     function handleSubmitOrder(e) {
       e.preventDefault();
+
+      if (isSubmitting) return;
 
       const trap = document.querySelector('input[name="b_website_trap"]');
       if (trap && trap.value.trim() !== '') {
@@ -3104,6 +3252,7 @@
       const dniInput = document.getElementById('custDNI');
       const deptSelect = document.getElementById('custDepartment');
       const agencySelect = document.getElementById('custShalomAgency');
+      const submitBtn = document.getElementById('submitOrderBtn');
 
       const nameVal = nameInput.value.trim();
       const phoneVal = phoneInput.value.trim();
@@ -3137,7 +3286,14 @@
         return;
       }
 
-      // Disparar Evento Purchase en Meta Pixel Oficial
+      isSubmitting = true;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>⏳ Conectando con WhatsApp...</span>';
+
+      const orderId = 'VL-' + Math.floor(1000 + Math.random() * 9000);
+      const pendingBalance = selectedPrice - ANTICIPO_AMOUNT;
+
+      // DISPARAR EVENTO PURCHASE OPTIMIZADO CON EVENT ID
       if (typeof fbq === 'function') {
         fbq('track', 'Purchase', {
           content_name: selectedProductName,
@@ -3146,10 +3302,11 @@
           value: selectedPrice,
           currency: 'PEN',
           num_items: selectedUnits
+        }, {
+          eventID: orderId
         });
       }
 
-      const orderId = 'VL-' + Math.floor(1000 + Math.random() * 9000);
       const newOrderRecord = {
         id: orderId,
         date: new Date().toISOString().slice(0, 16).replace('T', ' '),
@@ -3161,7 +3318,9 @@
         units: selectedUnits,
         product: selectedProductName,
         price: selectedPrice,
-        payment: 'Yape Oficial',
+        anticipo: ANTICIPO_AMOUNT,
+        saldo: pendingBalance,
+        payment: 'Yape Oficial (Anticipo S/ 20)',
         shipping: 'Shalom (Envío Gratis)',
         status: 'Pendiente'
       };
@@ -3181,19 +3340,26 @@
         `Hola VELORA Beauty! 👋 Acabo de registrar mi pedido en la web:\n\n` +
         `📦 *Pedido:* #${orderId}\n` +
         `✨ *Producto:* ${selectedProductName}\n` +
-        `💰 *Total a Pagar:* S/ ${selectedPrice.toFixed(2)} (Envío GRATIS vía Shalom)\n` +
-        `💜 *Medio de Pago:* Yape\n` +
+        `💰 *Total Pedido:* S/ ${selectedPrice.toFixed(2)} (Envío GRATIS vía Shalom)\n` +
+        `💜 *Anticipo a pagar hoy por Yape:* S/ ${ANTICIPO_AMOUNT.toFixed(2)}\n` +
+        `💵 *Saldo restante en Shalom:* S/ ${pendingBalance.toFixed(2)} (para recibir mi clave de retiro)\n` +
         `👤 *Titular:* ${nameVal}\n` +
         `🆔 *DNI Titular:* ${dniVal}\n` +
         `📍 *Departamento:* ${deptVal}\n` +
         `🏢 *Agencia Shalom:* ${agencyVal}\n` +
         `📱 *Teléfono:* ${phoneVal}\n\n` +
-        `Por favor facilítenme su número oficial de Yape para enviarles la captura del pago y emitir mi guía Shalom. ¡Muchas gracias!`;
+        `Por favor facilítenme su número oficial de Yape para transferir el anticipo de S/ 20 y emitir mi guía Shalom. ¡Muchas gracias!`;
 
       closeCheckoutModal();
       window.open(`https://api.whatsapp.com/send?phone=${storeWhatsApp}&text=${encodeURIComponent(msgText)}`, '_blank');
 
-      alert(`🎉 ¡Excelente ${nameVal}!\nHemos registrado tu pedido #${orderId}.\nTe estamos redirigiendo a nuestro WhatsApp oficial (+51 916 102 139) para coordinar el pago por Yape y tu guía Shalom.`);
+      alert(`🎉 ¡Excelente ${nameVal}!\nHemos registrado tu pedido #${orderId}.\nTe estamos redirigiendo a nuestro WhatsApp oficial (+51 916 102 139) para coordinar el anticipo de S/ 20 por Yape, emitir tu guía Shalom y compartirte tu clave secreta de entrega.`);
+
+      setTimeout(() => {
+        isSubmitting = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>${bundlesData[selectedUnits].submitText}</span>`;
+      }, 3000);
     }
 
     // ==========================================================
@@ -3352,12 +3518,12 @@
 
     // NOTIFICACIONES EN VIVO
     const mockBuyers = [
-      { name: "Camila R.", city: "Arequipa", items: "2x VELORA 5 en 1 (Ahorro S/29.90)", time: "Hace 2 min" },
-      { name: "Valeria M.", city: "Lima", items: "1x VELORA 5 en 1", time: "Hace 4 min" },
-      { name: "Fiorella G.", city: "Trujillo", items: "3x VELORA 5 en 1 (Mejor Precio)", time: "Hace 1 min" },
-      { name: "Luciana S.", city: "Cusco", items: "1x VELORA 5 en 1", time: "Hace 5 min" },
-      { name: "Andrea B.", city: "Chiclayo", items: "2x VELORA 5 en 1 (Ahorro S/29.90)", time: "Hace 3 min" },
-      { name: "Natalia P.", city: "Huancayo", items: "1x VELORA 5 en 1", time: "Hace 7 min" }
+      { name: "Camila R.", city: "Arequipa", items: "2x VELORA 5 en 1 (Anticipo S/20)", time: "Hace 2 min" },
+      { name: "Valeria M.", city: "Lima", items: "1x VELORA 5 en 1 (Anticipo S/20)", time: "Hace 4 min" },
+      { name: "Fiorella G.", city: "Trujillo", items: "3x VELORA 5 en 1 (Anticipo S/20)", time: "Hace 1 min" },
+      { name: "Luciana S.", city: "Cusco", items: "1x VELORA 5 en 1 (Anticipo S/20)", time: "Hace 5 min" },
+      { name: "Andrea B.", city: "Chiclayo", items: "2x VELORA 5 en 1 (Anticipo S/20)", time: "Hace 3 min" },
+      { name: "Natalia P.", city: "Huancayo", items: "1x VELORA 5 en 1 (Anticipo S/20)", time: "Hace 7 min" }
     ];
 
     let buyerIndex = 0;
@@ -3368,7 +3534,7 @@
       const b = mockBuyers[buyerIndex];
       document.getElementById('toastBuyerText').textContent = `${b.name} (${b.city})`;
       document.getElementById('toastProductText').textContent = b.items;
-      document.getElementById('toastTimeText').textContent = `${b.time} • Retiro en Shalom • Yape`;
+      document.getElementById('toastTimeText').textContent = `${b.time} • Retiro en Shalom con Clave • Yape`;
 
       toast.classList.add('show');
 
