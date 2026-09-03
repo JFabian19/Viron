@@ -1737,7 +1737,7 @@
     <!-- 1. TOP ANNOUNCEMENT BAR -->
     <aside class="announcement-bar" aria-label="Anuncio principal">
       <span>🚚</span>
-      <span>ENVÍO GRATIS SHALOM | ANTICIPO S/ 20 AL YAPE: 994 729 784 | ENTREGA CON CLAVE</span>
+      <span>🚚 ENVÍO GRATIS A TODO EL PERÚ VÍA SHALOM | PAGO SEGURO CON YAPE</span>
     </aside>
 
     <!-- 2. CABECERA MOBILE -->
@@ -1771,9 +1771,9 @@
       <div class="infinity-marquee-track">
         <span class="marquee-item">🚚 ENVÍO GRATIS A NIVEL NACIONAL VÍA SHALOM</span>
         <span class="marquee-bullet">✦</span>
-        <span class="marquee-item">💜 RESERVA CON S/ 20 AL YAPE: 994 729 784</span>
+        <span class="marquee-item">💜 PAGO SEGURO CON YAPE</span>
         <span class="marquee-bullet">✦</span>
-        <span class="marquee-item">🔑 RETIRO CON CLAVE DE SEGURIDAD Y DNI</span>
+        <span class="marquee-item">📦 RECOJO SEGURO EN AGENCIA SHALOM</span>
         <span class="marquee-bullet">✦</span>
         <span class="marquee-item">✨ 5 CABEZALES EN 1 SOLO EQUIPO</span>
         <span class="marquee-bullet">✦</span>
@@ -1789,9 +1789,9 @@
         <!-- Duplicado para ciclo continuo -->
         <span class="marquee-item">🚚 ENVÍO GRATIS A NIVEL NACIONAL VÍA SHALOM</span>
         <span class="marquee-bullet">✦</span>
-        <span class="marquee-item">💜 RESERVA CON S/ 20 AL YAPE: 994 729 784</span>
+        <span class="marquee-item">💜 PAGO SEGURO CON YAPE</span>
         <span class="marquee-bullet">✦</span>
-        <span class="marquee-item">🔑 RETIRO CON CLAVE DE SEGURIDAD Y DNI</span>
+        <span class="marquee-item">📦 RECOJO SEGURO EN AGENCIA SHALOM</span>
         <span class="marquee-bullet">✦</span>
         <span class="marquee-item">✨ 5 CABEZALES EN 1 SOLO EQUIPO</span>
         <span class="marquee-bullet">✦</span>
@@ -1931,7 +1931,7 @@
         </div>
       </div>
 
-      <!-- BANNER LOGISTICA SHALOM: EXPLICACIÓN DE ANTICIPO S/ 20 Y CLAVE -->
+      <!-- BANNER LOGISTICA SHALOM Y PAGO YAPE -->
       <div class="shalom-yape-banner">
         <div class="sy-row">
           <div class="sy-icon-box">🚚</div>
@@ -1945,8 +1945,8 @@
             <img src="assets/yape.png" alt="Yape" style="width:24px; height:auto;">
           </div>
           <div class="sy-text">
-            <strong>Anticipo de S/ 20 para Despacho:</strong><br>
-            Abonas solo <strong>S/ 20 al Yape oficial: 994 729 784</strong> para emitir tu guía oficial Shalom. El saldo se cancela al llegar tu pedido y te compartimos la <strong>clave secreta de entrega</strong> para retirar en ventanilla.
+            <strong>Medio de Pago: Yape Oficial</strong><br>
+            Paga fácil y seguro sin comisiones. Coordinación y confirmación inmediata por WhatsApp.
           </div>
         </div>
       </div>
@@ -2023,7 +2023,7 @@
       <!-- BOTON DE ACCION PRINCIPAL -->
       <button class="cta-btn-primary" onclick="openCheckoutModal()" style="margin-top: 4px;">
         <span>🛍️</span>
-        <span id="btnMainText">COMPRAR CON ANTICIPO DE S/ 20 YAPE ➔</span>
+        <span id="btnMainText">REALIZAR PEDIDO - S/ 99.90 ➔</span>
       </button>
 
       <!-- SELLOS DE CONFIANZA -->
@@ -2329,12 +2329,12 @@
           <span>🚚</span>
           <span>Envío Gratis Shalom</span>
         </span>
-        <span class="sticky-selected-price" id="stickySelectedSummary">1x VELORA (Anticipo S/ 20)</span>
+        <span class="sticky-selected-price" id="stickySelectedSummary">1x VELORA (S/ 99.90)</span>
       </div>
 
       <button class="cta-btn-primary" id="stickyCtaBtn" onclick="openCheckoutModal()">
         <span>🛍️</span>
-        <span id="stickyBtnText">PEDIR CON ANTICIPO DE S/ 20 YAPE ➔</span>
+        <span id="stickyBtnText">REALIZAR PEDIDO - S/ 99.90 ➔</span>
       </button>
     </footer>
 
@@ -2387,27 +2387,15 @@
           </div>
         </div>
 
-        <!-- DESGLOSE DE ANTICIPO S/ 20 Y SALDO -->
-        <div class="order-breakdown-card">
-          <div class="breakdown-row">
-            <span>Total del Pedido:</span>
-            <strong id="modalTotalOrderText">S/ 99.90 (Envío Shalom Gratis)</strong>
+        <!-- RESUMEN DEL PEDIDO LIMPIO Y ELEGANTE -->
+        <div class="order-breakdown-card" style="background:#FFF1F2; border:1px solid var(--color-velora-rose-border); padding:10px 12px; border-radius:10px; margin-bottom:10px;">
+          <div class="breakdown-row" style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:800; font-size:12.5px; color:#0F172A;" id="modalSummaryTitle">1x VELORA 5 en 1</span>
+            <strong style="color:var(--color-velora-rose); font-size:16px;" id="modalTotalOrderText">S/ 99.90</strong>
           </div>
-          <div class="breakdown-row highlight">
-            <span>💜 Anticipo hoy para emitir guía:</span>
-            <span>S/ 20.00 por Yape</span>
-          </div>
-          <div class="breakdown-row" style="font-size: 11px; color: #64748B;">
-            <span>Saldo restante al recibir clave en Shalom:</span>
-            <strong id="modalPendingBalanceText">S/ 79.90</strong>
-          </div>
-        </div>
-
-        <!-- AVISO DE CLAVE DE ENTREGA -->
-        <div class="security-notice-box">
-          <span>🔐</span>
-          <div class="security-notice-text">
-            <strong>¿Cómo funciona la entrega?</strong> Primero abonas <strong>S/ 20 de anticipo al Yape: 994 729 784</strong> para emitir tu guía oficial Shalom. Al llegar tu paquete a la agencia, abonas el saldo restante y <strong>te compartimos la clave secreta</strong> para retirar con tu DNI.
+          <div class="breakdown-row" style="font-size:10.5px; color:#059669; font-weight:700; margin-top:2px;">
+            <span>🚚 Envío a Nivel Nacional vía Shalom:</span>
+            <span>100% GRATIS</span>
           </div>
         </div>
 
@@ -2478,13 +2466,13 @@
             </select>
           </div>
 
-          <!-- YAPE COMPACTO CON NÚMERO Y BOTÓN COPIAR -->
+          <!-- MEDIO DE PAGO: YAPE OFICIAL -->
           <div class="yape-compact-chip">
             <div class="yape-compact-left">
               <img src="assets/yape.png" alt="Yape Oficial" class="yape-compact-logo">
               <div>
-                <div class="yape-compact-title">Yape Oficial: <strong style="color:var(--color-yape); font-size:13.5px; letter-spacing:0.5px;">994 729 784</strong></div>
-                <div class="yape-compact-sub">Anticipo de S/ 20 para emitir tu guía Shalom</div>
+                <div class="yape-compact-title">Medio de Pago: <strong>Yape Oficial</strong></div>
+                <div class="yape-compact-sub">Número Oficial: <strong style="color:var(--color-yape);">994 729 784</strong></div>
               </div>
             </div>
             <button type="button" class="copy-yape-btn" onclick="copyYapeNumber()" id="copyYapeBtn" aria-label="Copiar número de Yape">
@@ -2494,7 +2482,7 @@
           </div>
 
           <button type="submit" id="submitOrderBtn" class="cta-btn-primary" style="padding: 12px; font-size: 13.5px;">
-            <span id="submitBtnText">RESERVAR CON ANTICIPO S/ 20 POR YAPE ➔</span>
+            <span id="submitBtnText">REALIZAR PEDIDO (S/ 99.90) ➔</span>
           </button>
 
           <div class="modal-trust-bar">
@@ -3156,27 +3144,27 @@
         price: 99.90,
         oldPrice: 'S/ 189.00',
         name: '1x VELORA 5 en 1',
-        stickySummary: '1x VELORA (Anticipo S/ 20)',
-        btnText: 'COMPRAR CON ANTICIPO DE S/ 20 YAPE ➔',
-        submitText: 'RESERVAR CON ANTICIPO S/ 20 POR YAPE ➔'
+        stickySummary: '1x VELORA (S/ 99.90)',
+        btnText: 'REALIZAR PEDIDO - S/ 99.90 ➔',
+        submitText: 'REALIZAR PEDIDO (S/ 99.90) ➔'
       },
       2: {
         units: 2,
         price: 169.90,
         oldPrice: 'S/ 378.00',
         name: '2x VELORA 5 en 1 (Ahorro S/ 29.90)',
-        stickySummary: '2x VELORA (Anticipo S/ 20)',
-        btnText: 'PEDIR 2 UNIDADES (ANTICIPO S/ 20) ➔',
-        submitText: 'RESERVAR 2 UNID. (ANTICIPO S/ 20) ➔'
+        stickySummary: '2x VELORA (S/ 169.90)',
+        btnText: 'REALIZAR PEDIDO - S/ 169.90 ➔',
+        submitText: 'REALIZAR PEDIDO (S/ 169.90) ➔'
       },
       3: {
         units: 3,
         price: 229.90,
         oldPrice: 'S/ 567.00',
         name: '3x VELORA 5 en 1 (Ahorro S/ 69.80)',
-        stickySummary: '3x VELORA (Anticipo S/ 20)',
-        btnText: 'PEDIR 3 UNIDADES (ANTICIPO S/ 20) ➔',
-        submitText: 'RESERVAR 3 UNID. (ANTICIPO S/ 20) ➔'
+        stickySummary: '3x VELORA (S/ 229.90)',
+        btnText: 'REALIZAR PEDIDO - S/ 229.90 ➔',
+        submitText: 'REALIZAR PEDIDO (S/ 229.90) ➔'
       }
     };
 
@@ -3216,9 +3204,9 @@
       document.getElementById('btnMainText').innerText = data.btnText;
       document.getElementById('headerCartCount').innerText = units;
 
-      const pendingBalance = price - ANTICIPO_AMOUNT;
-      document.getElementById('modalTotalOrderText').innerText = `S/ ${price.toFixed(2)} (Envío Shalom Gratis)`;
-      document.getElementById('modalPendingBalanceText').innerText = `S/ ${pendingBalance.toFixed(2)}`;
+      document.getElementById('modalTotalOrderText').innerText = `S/ ${price.toFixed(2)}`;
+      const titleElem = document.getElementById('modalSummaryTitle');
+      if (titleElem) titleElem.innerText = data.name;
       document.getElementById('submitBtnText').innerText = data.submitText;
     }
 
@@ -3392,23 +3380,22 @@
 
       const storeWhatsApp = "51916102139";
       const msgText = 
-        `Hola VELORA Beauty! 👋 Acabo de registrar mi pedido en la web:\n\n` +
+        `Hola VELORA Beauty! 👋 Acabo de realizar mi pedido en la web:\n\n` +
         `📦 *Pedido:* #${orderId}\n` +
         `✨ *Producto:* ${selectedProductName}\n` +
-        `💰 *Total Pedido:* S/ ${selectedPrice.toFixed(2)} (Envío GRATIS vía Shalom)\n` +
-        `💜 *Anticipo a pagar hoy por Yape:* S/ ${ANTICIPO_AMOUNT.toFixed(2)}\n` +
-        `💵 *Saldo restante en Shalom:* S/ ${pendingBalance.toFixed(2)} (para recibir mi clave de retiro)\n` +
+        `💰 *Total:* S/ ${selectedPrice.toFixed(2)} (Envío GRATIS vía Shalom)\n` +
+        `💜 *Medio de Pago:* Yape (994 729 784)\n` +
         `👤 *Titular:* ${nameVal}\n` +
         `🆔 *DNI Titular:* ${dniVal}\n` +
         `📍 *Departamento:* ${deptVal}\n` +
         `🏢 *Agencia Shalom:* ${agencyVal}\n` +
         `📱 *Teléfono:* ${phoneVal}\n\n` +
-        `Ya registré su número de Yape oficial (*994 729 784*) para transferir el anticipo de S/ 20 y enviarles la captura del comprobante para emitir mi guía Shalom. ¡Muchas gracias!`;
+        `Por favor confírmenme para coordinar mi despacho por Shalom y recibir mi clave de entrega. ¡Muchas gracias!`;
 
       closeCheckoutModal();
       window.open(`https://api.whatsapp.com/send?phone=${storeWhatsApp}&text=${encodeURIComponent(msgText)}`, '_blank');
 
-      alert(`🎉 ¡Excelente ${nameVal}!\nHemos registrado tu pedido #${orderId}.\nTe estamos redirigiendo a nuestro WhatsApp oficial (+51 916 102 139) para enviar la captura del anticipo de S/ 20 a nuestro Yape oficial (994 729 784), emitir tu guía Shalom y recibir tu clave secreta de entrega.`);
+      alert(`🎉 ¡Excelente ${nameVal}!\nHemos registrado tu pedido #${orderId}.\nTe estamos redirigiendo a nuestro WhatsApp oficial (+51 916 102 139) para confirmar tu pedido y coordinar el despacho por Shalom.`);
 
       setTimeout(() => {
         isSubmitting = false;
@@ -3589,7 +3576,7 @@
       const b = mockBuyers[buyerIndex];
       document.getElementById('toastBuyerText').textContent = `${b.name} (${b.city})`;
       document.getElementById('toastProductText').textContent = b.items;
-      document.getElementById('toastTimeText').textContent = `${b.time} • Retiro en Shalom con Clave • Yape`;
+      document.getElementById('toastTimeText').textContent = `${b.time} • Retiro en Shalom • Yape`;
 
       toast.classList.add('show');
 
