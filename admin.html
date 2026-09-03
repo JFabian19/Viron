@@ -497,6 +497,22 @@
       font-size: 15px;
       font-weight: 800;
     }
+    .btn-chart-toggle {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-chart-toggle.active {
+      background: #1E293B;
+      color: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
 
     /* ORDERS TABLE SECTION */
     .orders-section {
@@ -950,8 +966,11 @@
       <section class="charts-grid">
         <div class="chart-card">
           <div class="chart-header">
-            <div class="chart-title">📈 Ventas por Horario (Hoy)</div>
-            <span style="font-size:12px; color:var(--text-muted);">Actualizado cada hora</span>
+            <div>
+              <div class="chart-title">📈 Ventas Diarias Reales</div>
+              <span style="font-size:12px; color:var(--text-muted);" id="salesChartSubtitle">Últimos 7 días en soles</span>
+            </div>
+            <span style="font-size:11px; background:rgba(34,197,94,0.15); color:#4ADE80; padding:2px 8px; border-radius:4px; font-weight:700;">En vivo</span>
           </div>
           <div style="height: 240px; position: relative;">
             <canvas id="salesHourlyChart"></canvas>
@@ -960,8 +979,14 @@
 
         <div class="chart-card">
           <div class="chart-header">
-            <div class="chart-title">📍 Despachos por Destino</div>
-            <span style="font-size:12px; color:var(--text-muted);">Lima vs. Provincias</span>
+            <div>
+              <div class="chart-title" id="chart2Title">📦 Control de Estados de Pedido</div>
+              <span style="font-size:12px; color:var(--text-muted);" id="chart2Subtitle">Embudo operativo en vivo</span>
+            </div>
+            <div style="display:flex; gap:4px; background:#0B0F19; padding:2px; border-radius:6px; border:1px solid var(--border-color);">
+              <button type="button" class="btn-chart-toggle active" id="btnModeStatus" onclick="toggleChart2('status')">Estados</button>
+              <button type="button" class="btn-chart-toggle" id="btnModeGeo" onclick="toggleChart2('geo')">Destinos</button>
+            </div>
           </div>
           <div style="height: 240px; position: relative;">
             <canvas id="geoChart"></canvas>
@@ -1554,7 +1579,7 @@
       document.getElementById('kpiSalesHint').innerText = `${orders.length} pedidos registrados`;
 
       renderTable(orders);
-      renderCharts(orders, limaCount, provCount);
+      renderCharts(orders);
     }
 
     // RENDER TABLA
@@ -1674,10 +1699,52 @@
       renderTable(filtered);
     }
 
-    // GRÁFICOS CHART.JS
-    function renderCharts(orders, limaCount, provCount) {
-      const hourlyLabels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '00:00'];
-      const hourlyData = [150, 420, 680, 890, 1420, 1980, 2600, 3100, 3428];
+    // CONTROL DE MODO PARA GRÁFICO 2
+    let chart2Mode = 'status'; // 'status' o 'geo'
+
+    function toggleChart2(mode) {
+      chart2Mode = mode;
+      const btnStatus = document.getElementById('btnModeStatus');
+      const btnGeo = document.getElementById('btnModeGeo');
+      if (btnStatus) btnStatus.classList.toggle('active', mode === 'status');
+      if (btnGeo) btnGeo.classList.toggle('active', mode === 'geo');
+      const orders = getOrders();
+      renderChart2(orders);
+    }
+
+    // GRÁFICOS CHART.JS CON DATOS 100% REALES
+    function renderCharts(orders) {
+      renderChart1(orders);
+      renderChart2(orders);
+    }
+
+    function renderChart1(orders) {
+      // 1. VENTAS REALES ÚLTIMOS 7 DÍAS
+      const daysLabels = [];
+      const daysData = [];
+      let totalWeekSales = 0;
+
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const iso = d.toISOString().slice(0, 10);
+        const label = d.toLocaleDateString('es-PE', { day: '2-digit', month: 'short' });
+        daysLabels.push(label);
+
+        let daySum = 0;
+        orders.forEach(o => {
+          if (o.status !== 'Cancelado' && (o.date || '').startsWith(iso)) {
+            daySum += parseFloat(o.price || 0);
+          }
+        });
+        daysData.push(daySum);
+        totalWeekSales += daySum;
+      }
+
+      const subEl = document.getElementById('salesChartSubtitle');
+      if (subEl) {
+        subEl.innerText = `Semana: S/ ${totalWeekSales.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
+      }
 
       const canvasSales = document.getElementById('salesHourlyChart');
       if (canvasSales) {
@@ -1687,50 +1754,146 @@
         salesChartInstance = new Chart(ctxSales, {
           type: 'line',
           data: {
-            labels: hourlyLabels,
+            labels: daysLabels,
             datasets: [{
-              label: 'Ventas Acumuladas (S/)',
-              data: hourlyData,
+              label: 'Ventas (S/)',
+              data: daysData,
               borderColor: '#22C55E',
-              backgroundColor: 'rgba(34, 197, 94, 0.12)',
+              backgroundColor: 'rgba(34, 197, 94, 0.14)',
               fill: true,
-              tension: 0.35,
+              tension: 0.3,
               borderWidth: 3,
-              pointBackgroundColor: '#22C55E'
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } },
-              y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } }
-            }
-          }
-        });
-      }
-
-      const canvasGeo = document.getElementById('geoChart');
-      if (canvasGeo) {
-        const ctxGeo = canvasGeo.getContext('2d');
-        if (geoChartInstance) geoChartInstance.destroy();
-
-        geoChartInstance = new Chart(ctxGeo, {
-          type: 'doughnut',
-          data: {
-            labels: ['Lima Metropolitana', 'Provincias (Shalom)'],
-            datasets: [{
-              data: [limaCount || 1, provCount || 1],
-              backgroundColor: ['#3B82F6', '#F59E0B'],
-              borderWidth: 0
+              pointRadius: 5,
+              pointHoverRadius: 7,
+              pointBackgroundColor: '#22C55E',
+              pointBorderColor: '#FFFFFF',
+              pointBorderWidth: 2
             }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: { position: 'bottom', labels: { color: '#E2E8F0', font: { size: 11, weight: 'bold' } } }
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => ` Ventas: S/ ${parseFloat(ctx.raw || 0).toFixed(2)}`
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: { color: '#94A3B8', font: { weight: 'bold', size: 11 } }
+              },
+              y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: {
+                  color: '#94A3B8',
+                  callback: (val) => `S/ ${val}`
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    function renderChart2(orders) {
+      const canvasGeo = document.getElementById('geoChart');
+      if (!canvasGeo) return;
+      const ctxGeo = canvasGeo.getContext('2d');
+      if (geoChartInstance) geoChartInstance.destroy();
+
+      if (chart2Mode === 'status') {
+        const titleEl = document.getElementById('chart2Title');
+        const subEl = document.getElementById('chart2Subtitle');
+        if (titleEl) titleEl.innerText = '📦 Control de Estados de Pedido';
+        if (subEl) subEl.innerText = 'Embudo operativo en vivo';
+
+        let pending = 0, confirmed = 0, inTransit = 0, delivered = 0, cancelled = 0;
+        orders.forEach(o => {
+          const s = (o.status || 'Pendiente').toLowerCase();
+          if (s.includes('pend')) pending++;
+          else if (s.includes('conf')) confirmed++;
+          else if (s.includes('camin')) inTransit++;
+          else if (s.includes('entreg')) delivered++;
+          else if (s.includes('cancel')) cancelled++;
+          else pending++;
+        });
+
+        const totalOrders = orders.length;
+        const labels = ['⏳ Pendientes', '📞 Confirmados', '🚚 En Camino', '✅ Entregados', '❌ Cancelados'];
+        const data = [pending, confirmed, inTransit, delivered, cancelled];
+        const colors = ['#F59E0B', '#3B82F6', '#8B5CF6', '#10B981', '#EF4444'];
+
+        geoChartInstance = new Chart(ctxGeo, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: totalOrders === 0 ? [1] : data,
+              backgroundColor: totalOrders === 0 ? ['#334155'] : colors,
+              borderWidth: 0,
+              hoverOffset: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { color: '#E2E8F0', font: { size: 11, weight: '600' }, boxWidth: 12, padding: 8 }
+              },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => totalOrders === 0 ? 'Sin pedidos registrados' : ` ${ctx.label}: ${ctx.raw} pedidos`
+                }
+              }
+            }
+          }
+        });
+      } else {
+        const titleEl = document.getElementById('chart2Title');
+        const subEl = document.getElementById('chart2Subtitle');
+        if (titleEl) titleEl.innerText = '📍 Destinos de Entrega';
+        if (subEl) subEl.innerText = 'Lima vs Provincias Shalom';
+
+        let lima = 0, prov = 0;
+        orders.forEach(o => {
+          const city = (o.city || '').toLowerCase();
+          if (city.includes('lima')) lima++;
+          else prov++;
+        });
+
+        const totalOrders = orders.length;
+
+        geoChartInstance = new Chart(ctxGeo, {
+          type: 'doughnut',
+          data: {
+            labels: ['Lima Metropolitana', 'Provincias (Shalom)'],
+            datasets: [{
+              data: totalOrders === 0 ? [1] : [lima, prov],
+              backgroundColor: totalOrders === 0 ? ['#334155'] : ['#3B82F6', '#F97316'],
+              borderWidth: 0,
+              hoverOffset: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { color: '#E2E8F0', font: { size: 11, weight: 'bold' }, boxWidth: 12, padding: 10 }
+              },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => totalOrders === 0 ? 'Sin pedidos registrados' : ` ${ctx.label}: ${ctx.raw} pedidos`
+                }
+              }
             }
           }
         });
