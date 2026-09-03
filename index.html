@@ -2498,14 +2498,14 @@
           </div>
         </div>
 
-        <!-- FORMULARIO LIMPIO Y RÁPIDO (SIN ABRUMAR) -->
-        <form id="orderForm" onsubmit="handleSubmitOrder(event)">
+        <!-- FORMULARIO LIMPIO Y RÁPIDO (SIN ABRUMAR) CON SOPORTE COMPLETO DE AUTOFILL (META & BROWSERS) -->
+        <form id="orderForm" onsubmit="handleSubmitOrder(event)" autocomplete="on">
           <input type="text" name="b_website_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
 
           <div class="form-group">
-            <label class="form-label">Nombre y Apellido de quien retira en Shalom *</label>
+            <label class="form-label" for="custName">Nombre y Apellido de quien retira en Shalom *</label>
             <div class="input-wrapper" id="nameWrapper">
-              <input type="text" id="custName" class="form-input" placeholder="Ej. Ana Lucía Mendoza" required autocomplete="name" oninput="validateNameInput(this)">
+              <input type="text" id="custName" name="name" class="form-input" placeholder="Ej. Ana Lucía Mendoza" required autocomplete="name" oninput="validateNameInput(this)" onchange="validateNameInput(this)">
               <span class="valid-check-icon">✓</span>
             </div>
             <span class="field-error-msg" id="nameError">Ingresa un nombre y apellido real válido (sin letras al azar).</span>
@@ -2514,18 +2514,18 @@
           <!-- 2 Columnas para Teléfono y DNI con Validación en Tiempo Real -->
           <div class="form-grid-2">
             <div class="form-group" style="margin-bottom: 0;">
-              <label class="form-label">WhatsApp (9 dígitos) *</label>
+              <label class="form-label" for="custPhone">WhatsApp (9 dígitos) *</label>
               <div class="input-wrapper" id="phoneWrapper">
-                <input type="tel" id="custPhone" class="form-input" placeholder="916102139" required maxlength="9" inputmode="numeric" oninput="validatePhoneInput(this)">
+                <input type="tel" id="custPhone" name="phone" class="form-input" placeholder="916102139" required maxlength="16" inputmode="numeric" autocomplete="tel" oninput="validatePhoneInput(this)" onchange="validatePhoneInput(this)">
                 <span class="valid-check-icon">✓</span>
               </div>
               <span class="field-error-msg" id="phoneError">Debe ser de 9 dígitos y empezar con 9.</span>
             </div>
 
             <div class="form-group" style="margin-bottom: 0;">
-              <label class="form-label">DNI Titular (8 dígitos) *</label>
+              <label class="form-label" for="custDNI">DNI Titular (8 dígitos) *</label>
               <div class="input-wrapper" id="dniWrapper">
-                <input type="tel" id="custDNI" class="form-input" placeholder="8 dígitos" required maxlength="8" inputmode="numeric" oninput="validateDniInput(this)">
+                <input type="tel" id="custDNI" name="dni" class="form-input" placeholder="8 dígitos" required maxlength="8" inputmode="numeric" autocomplete="off" oninput="validateDniInput(this)" onchange="validateDniInput(this)">
                 <span class="valid-check-icon">✓</span>
               </div>
               <span class="field-error-msg" id="dniError">DNI debe tener 8 dígitos válidos.</span>
@@ -3496,18 +3496,25 @@
     }
 
     function validatePhoneInput(input) {
-      // Filtrar solo números
-      input.value = input.value.replace(/\D/g, '').slice(0, 9);
+      // Manejar prefijo internacional de Perú (+51 o 51) habitual en autocompletar de Facebook/Google
+      let val = input.value.replace(/\D/g, '');
+      if (val.length >= 11 && val.startsWith('519')) {
+        val = val.slice(2);
+      } else if (val.length > 9 && val.startsWith('51')) {
+        val = val.slice(2);
+      }
+      input.value = val.slice(0, 9);
+
       const wrapper = document.getElementById('phoneWrapper');
       const errSpan = document.getElementById('phoneError');
-      const val = input.value.trim();
-      if (!val) {
+      const cleanVal = input.value.trim();
+      if (!cleanVal) {
         input.classList.remove('is-valid', 'is-invalid');
         wrapper.classList.remove('is-valid');
         errSpan.style.display = 'none';
         return false;
       }
-      const res = checkRealPhone(val);
+      const res = checkRealPhone(cleanVal);
       if (res.valid) {
         input.classList.remove('is-invalid');
         input.classList.add('is-valid');
@@ -3574,6 +3581,11 @@
       const deptSelect = document.getElementById('custDepartment');
       const agencySelect = document.getElementById('custShalomAgency');
       const submitBtn = document.getElementById('submitOrderBtn');
+
+      // Limpiar y validar automáticamente por si se completó vía Autofill de Meta/Navegador
+      validateNameInput(nameInput);
+      validatePhoneInput(phoneInput);
+      validateDniInput(dniInput);
 
       const nameVal = nameInput.value.trim();
       const phoneVal = phoneInput.value.trim();
@@ -3930,6 +3942,16 @@
             video.play().catch(() => {});
           }
         });
+      }
+
+      // Soporte reactivo para autocompletado de Meta (Facebook/Instagram) y Navegadores
+      const nameInputEl = document.getElementById('custName');
+      const phoneInputEl = document.getElementById('custPhone');
+      if (nameInputEl) {
+        ['change', 'blur'].forEach(ev => nameInputEl.addEventListener(ev, () => validateNameInput(nameInputEl)));
+      }
+      if (phoneInputEl) {
+        ['change', 'blur'].forEach(ev => phoneInputEl.addEventListener(ev, () => validatePhoneInput(phoneInputEl)));
       }
     });
 
