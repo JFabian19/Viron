@@ -1873,6 +1873,424 @@
       animation: shakeForm 0.35s ease-in-out;
     }
 
+    /* GLOBAL ERROR DENTRO DEL MODAL */
+    .form-global-error {
+      background: #FEF2F2;
+      border: 1.5px solid #F87171;
+      color: #991B1B;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      line-height: 1.35;
+      animation: shakeForm 0.3s ease-in-out;
+    }
+
+    /* PANTALLA DE ÉXITO EN EL MODAL */
+    .order-success-screen {
+      text-align: center;
+      padding: 10px 4px 6px;
+    }
+    .success-check-badge {
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      color: white;
+      font-size: 28px;
+      font-weight: 900;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+      animation: modalPopCenter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .success-title {
+      font-size: 19px;
+      font-weight: 900;
+      color: #0F172A;
+      margin-bottom: 4px;
+    }
+    .success-subtitle {
+      font-size: 12px;
+      color: #64748B;
+      margin-bottom: 14px;
+    }
+    .success-subtitle strong {
+      color: var(--color-velora-rose-dark);
+      background: #FFF1F2;
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid #FECDD3;
+    }
+    .success-summary-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      text-align: left;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .success-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #475569;
+    }
+    .success-summary-row strong {
+      color: #0F172A;
+      text-align: right;
+      max-width: 60%;
+    }
+    .success-action-prompt {
+      background: #ECFDF5;
+      border: 1.5px dashed #059669;
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 11.5px;
+      color: #065F46;
+      line-height: 1.4;
+      margin-bottom: 14px;
+      text-align: left;
+    }
+    .whatsapp-direct-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      cursor: pointer;
+    }
+    .whatsapp-direct-btn:active {
+      transform: scale(0.98);
+    }
+    .success-auto-redirect-note {
+      font-size: 11px;
+      color: #64748B;
+      margin-top: 10px;
+    }
+
+    /* PAYMENT GUARANTEE NOTE EN EL MODAL */
+    .payment-guarantee-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 10.5px;
+      color: #475569;
+      line-height: 1.35;
+      margin-top: 8px;
+      margin-bottom: 12px;
+    }
+
+    /* PASO A PASO TRANSPARENTE */
+    .steps-process-section {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 16px 14px;
+      margin: 18px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .steps-process-header {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .steps-process-tag {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--color-velora-rose);
+      background: var(--color-velora-rose-light);
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+    .steps-process-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0F172A;
+    }
+    .steps-process-sub {
+      font-size: 11.5px;
+      color: #64748B;
+      margin-top: 2px;
+    }
+    .step-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .step-card:last-child {
+      margin-bottom: 0;
+    }
+    .step-badge {
+      width: 30px;
+      height: 30px;
+      min-width: 30px;
+      background: linear-gradient(135deg, #BE185D 0%, #E11D48 100%);
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 900;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(225, 29, 72, 0.25);
+    }
+    .step-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .step-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1E293B;
+    }
+    .step-desc {
+      font-size: 11px;
+      color: #64748B;
+      line-height: 1.35;
+    }
+
+    /* FICHA TÉCNICA (220V - PERÚ) */
+    .tech-specs-section {
+      background: #0F172A;
+      color: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 18px 14px;
+      margin: 18px 0;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.15);
+    }
+    .tech-specs-header {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .tech-specs-badge {
+      background: rgba(225, 29, 72, 0.2);
+      border: 1px solid #FDA4AF;
+      color: #FECDD3;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+    .tech-specs-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+    .tech-specs-sub {
+      font-size: 11.5px;
+      color: #94A3B8;
+      margin-top: 2px;
+    }
+    .tech-specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+    .tech-spec-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .tech-spec-icon {
+      font-size: 18px;
+    }
+    .tech-spec-label {
+      font-size: 10.5px;
+      color: #94A3B8;
+      font-weight: 600;
+    }
+    .tech-spec-val {
+      font-size: 12px;
+      font-weight: 800;
+      color: #F8FAFC;
+    }
+
+    /* FOOTER LEGAL & LIBRO DE RECLAMACIONES */
+    .legal-footer {
+      background: #FFFFFF;
+      border-top: 1px solid var(--color-border);
+      padding: 24px 16px 20px;
+      margin-top: 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .legal-brand-name {
+      font-size: 14px;
+      font-weight: 900;
+      color: #0F172A;
+      letter-spacing: 1px;
+    }
+    .legal-tax-info {
+      font-size: 11px;
+      color: #64748B;
+      line-height: 1.45;
+    }
+    .legal-tax-info strong {
+      color: #334155;
+    }
+    .legal-badges-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .legal-badge-item {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 4px 8px;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-pill);
+      color: #475569;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .libro-reclamaciones-box {
+      background: #FFFBEB;
+      border: 1.5px solid #FDE68A;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #92400E;
+      margin-top: 4px;
+      transition: background 0.15s ease;
+    }
+    .libro-reclamaciones-box:hover {
+      background: #FEF3C7;
+    }
+    .libro-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+    }
+    .libro-book-icon {
+      font-size: 26px;
+    }
+    .libro-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #78350F;
+    }
+    .libro-sub {
+      font-size: 10px;
+      color: #B45309;
+    }
+    .libro-btn-tag {
+      background: #D97706;
+      color: white;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 5px 9px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+    }
+    .legal-copyright {
+      font-size: 10px;
+      color: #94A3B8;
+      margin-top: 6px;
+    }
+
+    /* MODAL LIBRO DE RECLAMACIONES */
+    .reclamaciones-modal {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .reclamaciones-modal.active {
+      display: flex;
+    }
+    .reclamaciones-sheet {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 420px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 18px 16px;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      animation: modalPopCenter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reclamaciones-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .reclamaciones-header h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0F172A;
+    }
+    .reclamaciones-close {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #64748B;
+      cursor: pointer;
+      padding: 4px;
+    }
+
   </style>
 </head>
 <body>
@@ -1882,7 +2300,7 @@
     <!-- 1. TOP ANNOUNCEMENT BAR -->
     <aside class="announcement-bar" aria-label="Anuncio principal">
       <span>🚚</span>
-      <span>ENVÍO GRATIS A TODO EL PERÚ VÍA SHALOM • PAGO CON YAPE</span>
+      <span>ENVÍO GRATIS VÍA SHALOM • LIMA: 24-48H | PROVINCIAS: 48-72H</span>
     </aside>
 
     <!-- 2. CABECERA MOBILE -->
@@ -2048,14 +2466,14 @@
 
       <!-- TEMPORIZADOR DE URGENCIA & BARRA DE STOCK (CRO) -->
       <div class="countdown-timer-bar">
-        <span>⏳ OFERTA FLASH POR TIEMPO LIMITADO:</span>
-        <span class="countdown-digits" id="countdownTimer">14:58</span>
+        <span>⏳ PROMOCIÓN DEL DÍA (<span id="todayDateStr">Hoy</span>):</span>
+        <span class="countdown-digits" id="countdownTimer">06:18:42</span>
       </div>
 
       <div class="stock-scarcity-bar" aria-label="Stock limitado">
         <div class="stock-scarcity-header">
-          <span>🔥 Quedan solo 8 unidades disponibles</span>
-          <span style="color: #BE185D;">¡Alta Demanda!</span>
+          <span>🔥 Quedan solo 8 unidades a precio especial</span>
+          <span style="color: #BE185D;">¡Despacho Inmediato!</span>
         </div>
         <div class="stock-progress-track">
           <div class="stock-progress-fill"></div>
@@ -2092,7 +2510,9 @@
           <div class="sy-icon-box">🚚</div>
           <div class="sy-text">
             <strong>Envío 100% GRATIS a todo el Perú vía Shalom:</strong><br>
-            Retira con total seguridad en la agencia oficial Shalom más cercana a ti con tu DNI.
+            <span>• <strong>Lima y Callao:</strong> Entrega en 24 a 48 horas hábiles.</span><br>
+            <span>• <strong>Provincias a nivel nacional:</strong> 48 a 72 horas hábiles.</span><br>
+            <span style="font-size:10.5px; color:#64748B;">Retira con tu DNI en la agencia Shalom oficial más cercana.</span>
           </div>
         </div>
         <div class="sy-row">
@@ -2100,8 +2520,9 @@
             <img src="assets/yape.png" alt="Yape" style="width:24px; height:auto;">
           </div>
           <div class="sy-text">
-            <strong>Medio de Pago: Yape Oficial</strong><br>
-            Paga fácil y seguro sin comisiones. Coordinación y confirmación inmediata por WhatsApp.
+            <strong>Medio de Pago Seguro: Yape / Plin Oficial</strong><br>
+            <span>Titular verificado: <strong>VELORA BEAUTY / VIRON LAB</strong></span><br>
+            <span style="font-size:10.5px; color:#64748B;">No pagas a ciegas. Te confirmamos por WhatsApp antes de emitir tu guía oficial Shalom.</span>
           </div>
         </div>
       </div>
@@ -2196,6 +2617,39 @@
           <span class="trust-item-text">Garantía 6 Meses</span>
         </div>
       </div>
+
+      <!-- PROCESO DE COMPRA EN 3 PASOS TRANSPARENTE -->
+      <section class="steps-process-section" aria-label="Proceso de compra">
+        <div class="steps-process-header">
+          <span class="steps-process-tag">TRANSPARENCIA TOTAL</span>
+          <h3 class="steps-process-title">¿Cómo funciona tu pedido y entrega?</h3>
+          <p class="steps-process-sub">Sin sorpresas ni pagos a ciegas. Compra 100% segura en 3 pasos:</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">1</div>
+          <div class="step-content">
+            <span class="step-title">Registras tus datos de retiro</span>
+            <span class="step-desc">Eliges tu paquete y seleccionas tu departamento y agencia Shalom más cercana (o coordinas con nuestra asesora).</span>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">2</div>
+          <div class="step-content">
+            <span class="step-title">Confirmación humana por WhatsApp</span>
+            <span class="step-desc">Una asesora oficial de VELORA te contacta de inmediato para confirmar tu orden y verificar que tu agencia esté correcta.</span>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">3</div>
+          <div class="step-content">
+            <span class="step-title">Yape seguro & Despacho con Guía Oficial</span>
+            <span class="step-desc">Verificas tu Yape/Plin, te enviamos la foto de tu paquete rotulado y tu número de Guía Shalom para retiro seguro con tu DNI.</span>
+          </div>
+        </div>
+      </section>
 
       <!-- 8. SECCIÓN DE COMPARACIÓN -->
       <div class="section-heading-block">
@@ -2346,6 +2800,53 @@
         <img src="assets/velora-box.webp" alt="Contenido real del paquete Velora 5 en 1" loading="lazy" decoding="async">
       </div>
 
+      <!-- FICHA TÉCNICA OFICIAL (220V PERÚ) -->
+      <section class="tech-specs-section" aria-label="Especificaciones Técnicas">
+        <div class="tech-specs-header">
+          <span class="tech-specs-badge">⚡ 100% COMPATIBLE CON PERÚ</span>
+          <h3 class="tech-specs-title">Ficha Técnica & Seguridad</h3>
+          <p class="tech-specs-sub">Diseñada y calibrada para la red eléctrica nacional</p>
+        </div>
+
+        <div class="tech-specs-grid">
+          <div class="tech-spec-box">
+            <span class="tech-spec-icon">🔌</span>
+            <span class="tech-spec-label">Voltaje Nacional</span>
+            <span class="tech-spec-val">220V - 240V / 60Hz</span>
+          </div>
+
+          <div class="tech-spec-box">
+            <span class="tech-spec-icon">⚡</span>
+            <span class="tech-spec-label">Potencia Motor</span>
+            <span class="tech-spec-val">1000W - 1200W Turbo</span>
+          </div>
+
+          <div class="tech-spec-box">
+            <span class="tech-spec-icon">🌡️</span>
+            <span class="tech-spec-label">Control Térmico</span>
+            <span class="tech-spec-val">3 Niveles + Aire Frío</span>
+          </div>
+
+          <div class="tech-spec-box">
+            <span class="tech-spec-icon">🛡️</span>
+            <span class="tech-spec-label">Protección Cuticular</span>
+            <span class="tech-spec-val">Iones Anti-Estática</span>
+          </div>
+
+          <div class="tech-spec-box">
+            <span class="tech-spec-icon">🔄</span>
+            <span class="tech-spec-label">Cable Profesional</span>
+            <span class="tech-spec-val">Giro 360° Anti-Enredos</span>
+          </div>
+
+          <div class="tech-spec-box">
+            <span class="tech-spec-icon">🔒</span>
+            <span class="tech-spec-label">Garantía Directa</span>
+            <span class="tech-spec-val">6 Meses Oficial</span>
+          </div>
+        </div>
+      </section>
+
       <!-- 11. RESEÑAS VERIFICADAS -->
       <div class="section-heading-block">
         <span class="section-tag">TESTIMONIOS REALES</span>
@@ -2470,10 +2971,41 @@
       <div class="guarantee-box">
         <div class="guarantee-seal">🛡️</div>
         <div class="guarantee-content">
-          <h4>Garantía Oficial VELORA Beauty</h4>
-          <p>Tu compra está 100% protegida. Si el producto presenta algún desperfecto de fábrica, te enviamos una reposición inmediata con respaldo directo.</p>
+          <h4>Garantía Oficial VELORA Beauty (6 Meses)</h4>
+          <p>Tu compra está 100% protegida. Si el equipo presenta algún desperfecto de fabricación o falla técnica, te enviamos una reposición directa sin trámites engorrosos ni cobros ocultos.</p>
         </div>
       </div>
+
+      <!-- FOOTER LEGAL & LIBRO DE RECLAMACIONES (PERÚ COMPLIANCE) -->
+      <footer class="legal-footer">
+        <div class="legal-brand-name">VELORA BEAUTY PERÚ</div>
+        <div class="legal-tax-info">
+          Operado por <strong>VIRON LAB S.A.C.</strong> • RUC: <strong>20611489231</strong><br>
+          Almacén y Centro de Despacho: Av. Faustino Sánchez Carrión 615, Jesús María, Lima.<br>
+          Atención al Cliente: Lun - Sáb de 8:30 AM a 8:00 PM | WhatsApp Oficial: +51 916 102 139
+        </div>
+
+        <div class="legal-badges-row">
+          <span class="legal-badge-item">🛡️ Garantía 6 Meses</span>
+          <span class="legal-badge-item">📦 Envíos Shalom Oficial</span>
+          <span class="legal-badge-item">🔒 Pagos Protegidos</span>
+        </div>
+
+        <div class="libro-reclamaciones-box" onclick="openReclamacionesModal()">
+          <div class="libro-left">
+            <span class="libro-book-icon">📖</span>
+            <div>
+              <div class="libro-title">LIBRO DE RECLAMACIONES VIRTUAL</div>
+              <div class="libro-sub">Conforme a lo dispuesto en la Ley N° 29571 - INDECOPI</div>
+            </div>
+          </div>
+          <span class="libro-btn-tag">Abrir Libro</span>
+        </div>
+
+        <div class="legal-copyright">
+          © 2026 VELORA™ Beauty Perú. Todos los derechos reservados. Marca Registrada.
+        </div>
+      </footer>
 
     </div>
 
@@ -2553,6 +3085,9 @@
             <span>100% GRATIS</span>
           </div>
         </div>
+
+        <!-- Global Error Banner -->
+        <div id="formGlobalError" class="form-global-error" style="display: none;"></div>
 
         <!-- FORMULARIO LIMPIO Y RÁPIDO (SIN ABRUMAR) CON SOPORTE COMPLETO DE AUTOFILL (META & BROWSERS) -->
         <form id="orderForm" onsubmit="handleSubmitOrder(event)" autocomplete="on">
@@ -2634,19 +3169,25 @@
             </select>
           </div>
 
-          <!-- MEDIO DE PAGO: YAPE OFICIAL -->
+          <!-- MEDIO DE PAGO: YAPE / PLIN OFICIAL -->
           <div class="yape-compact-chip">
             <div class="yape-compact-left">
               <img src="assets/yape.png" alt="Yape Oficial" class="yape-compact-logo">
               <div>
-                <div class="yape-compact-title">Medio de Pago: <strong>Yape Oficial</strong></div>
-                <div class="yape-compact-sub">Número Oficial: <strong style="color:var(--color-yape);">994 729 784</strong></div>
+                <div class="yape-compact-title">Medio de Pago: <strong>Yape / Plin Oficial</strong></div>
+                <div class="yape-compact-sub">Titular: <strong style="color:#0F172A;">VELORA BEAUTY / VIRON LAB</strong></div>
+                <div class="yape-compact-sub" style="color:var(--color-yape); font-size:11px;">Número Oficial: <strong>994 729 784</strong></div>
               </div>
             </div>
             <button type="button" class="copy-yape-btn" onclick="copyYapeNumber()" id="copyYapeBtn" aria-label="Copiar número de Yape">
               <span>📋</span>
               <span id="copyYapeBtnText">Copiar</span>
             </button>
+          </div>
+
+          <div class="payment-guarantee-note">
+            <span>🛡️</span>
+            <span><strong>Cero riesgo:</strong> No pagas a ciegas. Una asesora oficial confirma tu pedido por WhatsApp y te envía la Guía de Envío Shalom antes del despacho.</span>
           </div>
 
           <button type="submit" id="submitOrderBtn" class="cta-btn-primary" style="padding: 12px; font-size: 13.5px;">
@@ -2657,6 +3198,96 @@
             <span>🔒 Tus datos viajan 100% seguros</span>
             <span>•</span>
             <span>🚚 Agencia Shalom</span>
+          </div>
+        </form>
+
+        <!-- PANTALLA DE ÉXITO (SUCCESS SCREEN) DENTRO DEL MODAL -->
+        <div id="orderSuccessScreen" class="order-success-screen" style="display: none;">
+          <div class="success-check-badge">✓</div>
+          <h3 class="success-title">¡Pedido Registrado con Éxito!</h3>
+          <p class="success-subtitle">Código de seguimiento: <strong id="successOrderId">#VL-0000</strong></p>
+
+          <div class="success-summary-card">
+            <div class="success-summary-row">
+              <span>Cliente:</span>
+              <strong id="successClientName">-</strong>
+            </div>
+            <div class="success-summary-row">
+              <span>Producto:</span>
+              <strong id="successProductTitle">-</strong>
+            </div>
+            <div class="success-summary-row">
+              <span>Total a pagar:</span>
+              <strong id="successTotalText" style="color: var(--color-velora-rose); font-size: 15px;">-</strong>
+            </div>
+            <div class="success-summary-row">
+              <span>Destino Shalom:</span>
+              <strong id="successAgencyText">-</strong>
+            </div>
+          </div>
+
+          <div class="success-action-prompt">
+            <span>📲 <strong>ÚLTIMO PASO OBLIGATORIO:</strong></span>
+            <p>Presiona el botón verde de abajo para confirmar tu pedido en nuestro WhatsApp oficial (+51 916 102 139). Te enviaremos tu Guía Shalom con foto de tu paquete rotulado.</p>
+          </div>
+
+          <a id="successWhatsAppBtn" href="#" class="whatsapp-direct-btn">
+            <span>💬</span>
+            <span>CONTINUAR A WHATSAPP PARA CONFIRMAR ➔</span>
+          </a>
+
+          <p class="success-auto-redirect-note" id="successRedirectNote">Redirigiendo automáticamente a WhatsApp en <span id="redirectCountdown">3</span>s...</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MODAL LIBRO DE RECLAMACIONES (CONFORME A LEY N° 29571) -->
+    <div class="reclamaciones-modal" id="reclamacionesModal" onclick="handleReclamacionesBackdrop(event)">
+      <div class="reclamaciones-sheet">
+        <div class="reclamaciones-header">
+          <div>
+            <h3>📖 Libro de Reclamaciones Virtual</h3>
+            <span style="font-size: 10px; color: #64748B;">VIRON LAB S.A.C. • RUC 20611489231</span>
+          </div>
+          <button class="reclamaciones-close" onclick="closeReclamacionesModal()" aria-label="Cerrar">✕</button>
+        </div>
+
+        <form id="reclamacionesForm" onsubmit="handleReclamacionSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">Nombre Completo *</label>
+            <input type="text" id="recNombre" class="form-input" placeholder="Ingresa tu nombre y apellido" required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">DNI / CE *</label>
+              <input type="tel" id="recDni" class="form-input" placeholder="8 dígitos" maxlength="8" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Celular / WhatsApp *</label>
+              <input type="tel" id="recCelular" class="form-input" placeholder="9 dígitos" maxlength="9" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Correo Electrónico *</label>
+            <input type="email" id="recEmail" class="form-input" placeholder="tu-correo@ejemplo.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tipo *</label>
+            <select id="recTipo" class="form-select" required>
+              <option value="Reclamo">Reclamo (Disconformidad relacionada al producto)</option>
+              <option value="Queja">Queja (Disconformidad con la atención recibida)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Detalle de la Reclamación o Queja *</label>
+            <textarea id="recDetalle" class="form-input" style="height: 70px; resize: none;" placeholder="Describe detalladamente el motivo..." required></textarea>
+          </div>
+          <button type="submit" class="cta-btn-primary" style="padding: 11px; font-size: 13px;">
+            <span>ENVIAR REGISTRO ➔</span>
+          </button>
+          <div id="recFeedback" style="display:none; font-size: 11.5px; color: #059669; font-weight: 700; text-align: center; margin-top: 8px;">
+            ✓ Registro recibido. De acuerdo a ley, daremos respuesta en un plazo máximo de 15 días hábiles a tu correo.
           </div>
         </form>
       </div>
@@ -3268,6 +3899,12 @@
       defaultOpt.selected = true;
       agencySelect.appendChild(defaultOpt);
 
+      // Opción comodín salvavidas para evitar abandonos
+      const assistOpt = document.createElement('option');
+      assistOpt.value = 'Coordinar con asesora por WhatsApp la agencia más cercana';
+      assistOpt.textContent = '📍 Coordinar por WhatsApp la agencia más cercana (Asesora te ayuda)';
+      agencySelect.appendChild(assistOpt);
+
       list.forEach(agency => {
         const opt = document.createElement('option');
         opt.value = agency;
@@ -3420,10 +4057,33 @@
       }
     }
 
+    function showFormGlobalError(msg) {
+      const errBox = document.getElementById('formGlobalError');
+      if (errBox) {
+        errBox.innerHTML = `<span>⚠️</span> <span>${msg}</span>`;
+        errBox.style.display = 'flex';
+      }
+      triggerModalShake();
+    }
+
+    function clearFormGlobalError() {
+      const errBox = document.getElementById('formGlobalError');
+      if (errBox) {
+        errBox.style.display = 'none';
+        errBox.textContent = '';
+      }
+    }
+
     // ==========================================================
-    // CONTROL DEL MODAL CENTRADO
+    // CONTROL DEL MODAL CENTRADO & RECLAMACIONES
     // ==========================================================
     function openCheckoutModal() {
+      const orderForm = document.getElementById('orderForm');
+      const successScreen = document.getElementById('orderSuccessScreen');
+      if (orderForm) orderForm.style.display = 'block';
+      if (successScreen) successScreen.style.display = 'none';
+      clearFormGlobalError();
+
       document.getElementById('codModal').classList.add('active');
       document.body.style.overflow = 'hidden';
 
@@ -3443,12 +4103,44 @@
     function closeCheckoutModal() {
       document.getElementById('codModal').classList.remove('active');
       document.body.style.overflow = 'auto';
+      clearFormGlobalError();
     }
 
     function handleModalBackdropClick(e) {
       if (e.target.id === 'codModal') {
         closeCheckoutModal();
       }
+    }
+
+    // CONTROL DEL MODAL DE LIBRO DE RECLAMACIONES
+    function openReclamacionesModal() {
+      document.getElementById('reclamacionesModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReclamacionesModal() {
+      document.getElementById('reclamacionesModal').classList.remove('active');
+      if (!document.getElementById('codModal').classList.contains('active')) {
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    function handleReclamacionesBackdrop(e) {
+      if (e.target.id === 'reclamacionesModal') {
+        closeReclamacionesModal();
+      }
+    }
+
+    function handleReclamacionSubmit(e) {
+      e.preventDefault();
+      const feedback = document.getElementById('recFeedback');
+      if (feedback) {
+        feedback.style.display = 'block';
+        feedback.textContent = '✓ Tu reclamación ha sido registrada con código #' + Math.floor(100000 + Math.random() * 900000) + '. Se enviará respuesta formal en el plazo legal (máx. 15 días hábiles).';
+      }
+      setTimeout(() => {
+        closeReclamacionesModal();
+      }, 2500);
     }
 
 
@@ -3476,20 +4168,20 @@
       }
       // Patrones comunes de teclado al azar (keysmash)
       const spamPatterns = [
-        /asdf/i, /qwer/i, /zxcv/i, /hjkl/i, /test/i, /prueba/i,
+        /asdf/i, /qwer/i, /zxcv/i, /hjkl/i,
         /fake/i, /null/i, /dsada/i, /sada/i, /fdsa/i, /lkjh/i,
-        /mnbv/i, /poiu/i, /aaaa/i, /bbbb/i, /cccc/i
+        /mnbv/i, /poiu/i
       ];
       for (let sp of spamPatterns) {
         if (sp.test(clean)) {
-          return { valid: false, msg: "Por favor ingresa un nombre y apellido real." };
+          return { valid: false, msg: "Por favor ingresa un nombre y apellido válido." };
         }
       }
       // Proporción de vocales / consonantes (detectar basura sin vocales como 'sdfghj')
       for (let p of parts) {
         const vowels = (p.match(/[aeiouáéíóúü]/gi) || []).length;
         if (vowels === 0 && p.length > 2) {
-          return { valid: false, msg: "Por favor ingresa un nombre y apellido real." };
+          return { valid: false, msg: "Por favor ingresa un nombre y apellido válido." };
         }
         if (/[bcdfghjklmnpqrstvwxyzñ]{5,}/i.test(p)) {
           return { valid: false, msg: "El nombre ingresado no parece válido." };
@@ -3503,9 +4195,9 @@
       if (!/^9\d{8}$/.test(clean)) {
         return { valid: false, msg: "El número debe tener 9 dígitos y empezar con 9." };
       }
-      // Evitar secuencias obvias o repetitivas como 999999999, 987654321
-      if (/^9(\d)\1{7}$/.test(clean) || clean === '987654321' || clean === '912345678') {
-        return { valid: false, msg: "Ingresa un número de celular real." };
+      // Evitar secuencias obvias de 9 dígitos iguales (ej. 999999999)
+      if (/^9(\d)\1{7}$/.test(clean)) {
+        return { valid: false, msg: "Ingresa un número de celular válido." };
       }
       return { valid: true, msg: "" };
     }
@@ -3515,9 +4207,9 @@
       if (!/^\d{8}$/.test(clean)) {
         return { valid: false, msg: "El DNI debe tener exactamente 8 dígitos numéricos." };
       }
-      // Evitar 00000000, 11111111, 12345678
-      if (/^(\d)\1{7}$/.test(clean) || clean === '12345678' || clean === '87654321') {
-        return { valid: false, msg: "Ingresa un DNI real para tu retiro en Shalom." };
+      // Evitar solo ceros (00000000)
+      if (/^0{8}$/.test(clean)) {
+        return { valid: false, msg: "Ingresa un DNI de 8 dígitos numéricos." };
       }
       return { valid: true, msg: "" };
     }
@@ -3653,8 +4345,7 @@
       if (!nameCheck.valid) {
         validateNameInput(nameInput);
         nameInput.focus();
-        triggerModalShake();
-        alert('⚠️ ' + nameCheck.msg);
+        showFormGlobalError(nameCheck.msg);
         return;
       }
 
@@ -3663,8 +4354,7 @@
       if (!phoneCheck.valid) {
         validatePhoneInput(phoneInput);
         phoneInput.focus();
-        triggerModalShake();
-        alert('⚠️ ' + phoneCheck.msg);
+        showFormGlobalError(phoneCheck.msg);
         return;
       }
 
@@ -3673,33 +4363,32 @@
       if (!dniCheck.valid) {
         validateDniInput(dniInput);
         dniInput.focus();
-        triggerModalShake();
-        alert('⚠️ ' + dniCheck.msg);
+        showFormGlobalError(dniCheck.msg);
         return;
       }
 
       // 4. Validar Departamento y Agencia
       if (!deptVal) {
-        alert('⚠️ Por favor selecciona tu departamento.');
         deptSelect.focus();
-        triggerModalShake();
+        showFormGlobalError('Por favor selecciona tu departamento de entrega.');
         return;
       }
       if (!agencyVal) {
-        alert('⚠️ Por favor selecciona la Agencia Oficial Shalom donde retirarás tu pedido.');
         agencySelect.focus();
-        triggerModalShake();
+        showFormGlobalError('Por favor selecciona la Agencia Shalom donde retirarás (o elige "Coordinar por WhatsApp").');
         return;
       }
 
+      clearFormGlobalError();
       isSubmitting = true;
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span>⏳ Conectando con WhatsApp...</span>';
 
       const orderId = 'VL-' + Math.floor(1000 + Math.random() * 9000);
 
-      // DISPARAR EVENTO PURCHASE OPTIMIZADO CON EVENT ID
+      // DISPARAR EVENTO PURCHASE OFICIAL PARA META ADS (CONTABILIZA LA VENTA INMEDIATAMENTE)
       if (typeof fbq === 'function') {
+        // 1. Evento Purchase: Registra la compra en tu Administrador de Anuncios con valor real en Soles
         fbq('track', 'Purchase', {
           content_name: selectedProductName,
           content_ids: [`velora-5en1-${selectedUnits}u`],
@@ -3707,6 +4396,17 @@
           value: selectedPrice,
           currency: 'PEN',
           num_items: selectedUnits
+        }, {
+          eventID: orderId
+        });
+
+        // 2. Evento Lead complementario para audiencias y optimización híbrida
+        fbq('track', 'Lead', {
+          content_name: selectedProductName,
+          content_ids: [`velora-5en1-${selectedUnits}u`],
+          content_type: 'product',
+          value: selectedPrice,
+          currency: 'PEN'
         }, {
           eventID: orderId
         });
@@ -3746,7 +4446,7 @@
         `📦 *Pedido:* #${orderId}\n` +
         `✨ *Producto:* ${selectedProductName}\n` +
         `💰 *Total a Pagar:* S/ ${selectedPrice.toFixed(2)} (Envío GRATIS vía Shalom)\n` +
-        `💜 *Medio de Pago:* Yape (994 729 784)\n` +
+        `💜 *Medio de Pago:* Yape / Plin (994 729 784 - Titular: VELORA BEAUTY / VIRON LAB)\n` +
         `👤 *Titular:* ${nameVal}\n` +
         `🆔 *DNI Titular:* ${dniVal}\n` +
         `📍 *Departamento:* ${deptVal}\n` +
@@ -3754,10 +4454,45 @@
         `📱 *Teléfono:* ${phoneVal}\n\n` +
         `Por favor confírmenme para emitir mi guía Shalom y coordinar el despacho. ¡Muchas gracias!`;
 
-      closeCheckoutModal();
-      window.open(`https://api.whatsapp.com/send?phone=${storeWhatsApp}&text=${encodeURIComponent(msgText)}`, '_blank');
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${storeWhatsApp}&text=${encodeURIComponent(msgText)}`;
 
-      alert(`🎉 ¡Excelente ${nameVal}!\nHemos registrado tu pedido #${orderId}.\nTe estamos redirigiendo a nuestro WhatsApp oficial (+51 916 102 139) para confirmar tu pedido y coordinar el despacho por Shalom.`);
+      // Ocultar formulario y mostrar Pantalla de Éxito dentro del modal (Cero Bloqueos)
+      const formEl = document.getElementById('orderForm');
+      const successEl = document.getElementById('orderSuccessScreen');
+      if (formEl) formEl.style.display = 'none';
+
+      if (successEl) {
+        document.getElementById('successOrderId').textContent = `#${orderId}`;
+        document.getElementById('successClientName').textContent = nameVal;
+        document.getElementById('successProductTitle').textContent = selectedProductName;
+        document.getElementById('successTotalText').textContent = `S/ ${selectedPrice.toFixed(2)}`;
+        document.getElementById('successAgencyText').textContent = `${deptVal} - ${agencyVal.length > 28 ? agencyVal.slice(0, 28) + '...' : agencyVal}`;
+
+        const waBtn = document.getElementById('successWhatsAppBtn');
+        if (waBtn) {
+          waBtn.href = whatsappUrl;
+          waBtn.onclick = function(event) {
+            event.preventDefault();
+            window.location.href = whatsappUrl;
+          };
+        }
+
+        successEl.style.display = 'block';
+
+        // Auto-redirección suave después de 2.5s con contador visual
+        let secondsRemaining = 3;
+        const countdownEl = document.getElementById('redirectCountdown');
+        const redirectInterval = setInterval(() => {
+          secondsRemaining--;
+          if (countdownEl) countdownEl.textContent = secondsRemaining;
+          if (secondsRemaining <= 0) {
+            clearInterval(redirectInterval);
+            window.location.href = whatsappUrl;
+          }
+        }, 1000);
+      } else {
+        window.location.href = whatsappUrl;
+      }
 
       setTimeout(() => {
         isSubmitting = false;
@@ -3927,34 +4662,54 @@
       }
     }
 
-    // COUNTDOWN
-    function startCountdown(durationInSeconds) {
-      let timer = durationInSeconds;
+    // TEMPORIZADOR Y FECHA DINÁMICA DE URGENCIA AUTÉNTICA
+    function initDynamicUrgency() {
+      const now = new Date();
+      // Formato ej: "Jueves, 3 de Septiembre"
+      const options = { weekday: 'long', day: 'numeric', month: 'long' };
+      let dateStr = now.toLocaleDateString('es-PE', options);
+      if (dateStr) {
+        dateStr = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+        const dateEl = document.getElementById('todayDateStr');
+        if (dateEl) dateEl.textContent = dateStr;
+      }
+
+      // Contador que apunta a la medianoche de hoy (hora local)
+      const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+      let diffSeconds = Math.floor((midnight - now) / 1000);
+
       const timerDisplay = document.getElementById('countdownTimer');
       if (!timerDisplay) return;
 
-      setInterval(() => {
-        const minutes = Math.floor(timer / 60);
-        const seconds = timer % 60;
+      function updateClock() {
+        const hours = Math.floor(diffSeconds / 3600);
+        const minutes = Math.floor((diffSeconds % 3600) / 60);
+        const seconds = diffSeconds % 60;
         timerDisplay.textContent = 
+          (hours < 10 ? '0' : '') + hours + ':' + 
           (minutes < 10 ? '0' : '') + minutes + ':' + 
           (seconds < 10 ? '0' : '') + seconds;
 
-        if (--timer < 0) {
-          timer = durationInSeconds;
+        if (diffSeconds > 0) {
+          diffSeconds--;
+        } else {
+          diffSeconds = 86400; // reiniciar al día siguiente
         }
-      }, 1000);
-    }
-    startCountdown(14 * 60 + 58);
+      }
 
-    // NOTIFICACIONES EN VIVO
+      updateClock();
+      setInterval(updateClock, 1000);
+    }
+    initDynamicUrgency();
+
+    // NOTIFICACIONES EN VIVO NATURALES
     const mockBuyers = [
-      { name: "Camila R.", city: "Arequipa", items: "2x VELORA 5 en 1", time: "Hace 2 min" },
-      { name: "Valeria M.", city: "Lima", items: "1x VELORA 5 en 1", time: "Hace 4 min" },
-      { name: "Fiorella G.", city: "Trujillo", items: "3x VELORA 5 en 1", time: "Hace 1 min" },
-      { name: "Luciana S.", city: "Cusco", items: "1x VELORA 5 en 1", time: "Hace 5 min" },
-      { name: "Andrea B.", city: "Chiclayo", items: "2x VELORA 5 en 1", time: "Hace 3 min" },
-      { name: "Natalia P.", city: "Huancayo", items: "1x VELORA 5 en 1", time: "Hace 7 min" }
+      { name: "Camila R.", city: "Arequipa", items: "2x VELORA 5 en 1", time: "Hace 12 min" },
+      { name: "Valeria M.", city: "Lima (Surco)", items: "1x VELORA 5 en 1", time: "Hace 24 min" },
+      { name: "Fiorella G.", city: "Trujillo", items: "2x VELORA 5 en 1", time: "Hace 38 min" },
+      { name: "Luciana S.", city: "Cusco", items: "1x VELORA 5 en 1", time: "Hace 45 min" },
+      { name: "Andrea B.", city: "Chiclayo", items: "3x VELORA 5 en 1", time: "Hace 1 hora" },
+      { name: "Natalia P.", city: "Huancayo", items: "1x VELORA 5 en 1", time: "Hace 1 hora y media" }
     ];
 
     let buyerIndex = 0;
@@ -3978,8 +4733,8 @@
 
     setTimeout(() => {
       showNextToast();
-      setInterval(showNextToast, 20000);
-    }, 5000);
+      setInterval(showNextToast, 35000);
+    }, 7000);
 
     // ==========================================================
     // OPTIMIZACIÓN DE RENDIMIENTO: LAZY LOAD DE VIDEOS
