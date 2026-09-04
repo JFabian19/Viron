@@ -4473,6 +4473,9 @@
           waBtn.href = whatsappUrl;
           waBtn.onclick = function(event) {
             event.preventDefault();
+            if (typeof fbq === 'function') {
+              fbq('track', 'Contact');
+            }
             window.location.href = whatsappUrl;
           };
         }
@@ -4487,10 +4490,16 @@
           if (countdownEl) countdownEl.textContent = secondsRemaining;
           if (secondsRemaining <= 0) {
             clearInterval(redirectInterval);
+            if (typeof fbq === 'function') {
+              fbq('track', 'Contact');
+            }
             window.location.href = whatsappUrl;
           }
         }, 1000);
       } else {
+        if (typeof fbq === 'function') {
+          fbq('track', 'Contact');
+        }
         window.location.href = whatsappUrl;
       }
 
