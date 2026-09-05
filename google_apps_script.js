@@ -469,14 +469,14 @@ function handleRequest(action, data, sheet) {
         var currentPaymentStatus = String(rData[12] || "Pendiente").trim();
         var currentCapiStatus = String(rData[14] || "none").trim();
 
-        // Si ya estaba pagado y CAPI ya se envió con éxito, evitar compra duplicada
-        if (currentPaymentStatus === "Pagado" && currentCapiStatus === "sent") {
+        // Si ya estaba pagado, evitar compra duplicada bajo cualquier circunstancia
+        if (currentPaymentStatus === "Pagado") {
           return respondJSON({
             status: "success",
-            message: "El pedido ya estaba pagado y el evento CAPI ya fue enviado previamente.",
+            message: "El pedido #" + orderIdToPay + " ya fue marcado como Pagado anteriormente. No se envía ninguna compra adicional.",
             id: orderIdToPay,
             payment_status: "Pagado",
-            capi_status: "sent",
+            capi_status: currentCapiStatus,
             capi_event_id: String(rData[15] || "")
           });
         }

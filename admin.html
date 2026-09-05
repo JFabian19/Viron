@@ -1942,6 +1942,11 @@
       const orders = getOrders();
       const target = orders.find(o => o.id === orderId);
       if (!target) return;
+      if (target.payment_status === 'Pagado') {
+        showToast(`ℹ️ El pedido #${orderId} ya está pagado.`);
+        closeConfirmPaymentModal();
+        return;
+      }
 
       const confirmBtn = document.getElementById('btnConfirmPayExecute');
       if (confirmBtn) {
