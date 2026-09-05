@@ -675,6 +675,100 @@
       color: #EF4444;
     }
 
+    /* ESTILOS DE PAGO Y CAPI EN TABLA */
+    .payment-cell, .capi-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      align-items: flex-start;
+    }
+    .btn-mark-paid {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #FFFFFF;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);
+    }
+    .btn-mark-paid:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
+    }
+    .badge-paid {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      background: rgba(34, 197, 94, 0.18);
+      border: 1px solid rgba(34, 197, 94, 0.45);
+      color: #4ADE80;
+      white-space: nowrap;
+    }
+    .paid-date {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+    .badge-capi-sent {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 800;
+      background: rgba(59, 130, 246, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      color: #60A5FA;
+      white-space: nowrap;
+    }
+    .badge-capi-error {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 800;
+      background: rgba(239, 68, 68, 0.18);
+      border: 1px solid rgba(239, 68, 68, 0.45);
+      color: #F87171;
+      white-space: nowrap;
+    }
+    .badge-capi-none {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 700;
+      background: rgba(148, 163, 184, 0.12);
+      color: #94A3B8;
+      white-space: nowrap;
+    }
+    .btn-retry-capi {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #FCA5A5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-retry-capi:hover {
+      background: rgba(239, 68, 68, 0.35);
+    }
+
     /* MODALES GENERALES */
     .admin-modal {
       display: none;
@@ -895,6 +989,12 @@
             <span id="sheetsStatusText">Google Sheets</span>
           </div>
 
+          <!-- Meta Pixel & CAPI Badge -->
+          <div class="sheets-badge connected" id="capiStatusBadge" onclick="openMetaCapiModal()" title="Configuración de Meta Pixel & CAPI" style="border-color: rgba(59, 130, 246, 0.4); color: #60A5FA; cursor: pointer;">
+            <span>⚡</span>
+            <span id="capiStatusText">Meta Pixel & CAPI</span>
+          </div>
+
           <button class="btn-action" onclick="syncWithGoogleSheets(true)" id="btnTopSync" title="Sincronizar pedidos con Google Sheets">
             <span id="syncIcon">🔄</span>
             <span>Sincronizar</span>
@@ -1006,12 +1106,14 @@
             <input type="text" id="searchInput" class="search-input" placeholder="🔍 Buscar por nombre, teléfono o DNI..." oninput="filterOrders()">
             
             <select id="statusFilter" class="filter-select" onchange="filterOrders()">
-              <option value="ALL">Todos los Estados</option>
-              <option value="Pendiente">⏳ Pendiente</option>
-              <option value="Confirmado">📞 Confirmado</option>
-              <option value="En Camino">🚚 En Camino</option>
-              <option value="Entregado">✅ Entregado</option>
-              <option value="Cancelado">❌ Cancelado</option>
+              <option value="ALL">Todos los Pedidos</option>
+              <option value="PAGADOS">💳 Solo Pagados (Yape/Plin)</option>
+              <option value="PENDIENTE_PAGO">⏳ Solo Pendientes de Pago</option>
+              <option value="Pendiente">⏳ Logística: Pendiente</option>
+              <option value="Confirmado">📞 Logística: Confirmado</option>
+              <option value="En Camino">🚚 Logística: En Camino</option>
+              <option value="Entregado">✅ Logística: Entregado</option>
+              <option value="Cancelado">❌ Logística: Cancelado</option>
             </select>
 
             <button class="btn-action" onclick="exportOrdersToCSV()">
@@ -1029,9 +1131,10 @@
                 <th>Cliente</th>
                 <th>Destino / Shalom</th>
                 <th>Detalle Paquete</th>
-                <th>Pago</th>
                 <th>Total</th>
-                <th>Estado</th>
+                <th title="Estado del despacho físico. Cambiar este estado NUNCA envía Purchase a Meta.">Estado Logístico ℹ️</th>
+                <th title="Marcar como pagado únicamente tras verificar el abono en Yape o Plin.">Estado Pago (Yape/Plin)</th>
+                <th title="Estado del envío del evento Purchase a Meta Conversions API">Meta CAPI</th>
                 <th>WhatsApp</th>
                 <th>Acción</th>
               </tr>
@@ -1170,6 +1273,99 @@
         <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
           <button type="button" class="btn-action" onclick="closeChangePasswordModal()">Cancelar</button>
           <button type="submit" class="btn-action btn-primary">Actualizar Clave</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 4: CONFIRMAR PAGO REAL & DISPARAR META CAPI
+       ========================================================== -->
+  <div class="admin-modal" id="confirmPaymentModal">
+    <div class="modal-box">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <span style="font-size:24px;">💳</span>
+        <h3 style="margin:0;">Marcar Pedido como Pagado (Yape/Plin)</h3>
+      </div>
+      
+      <div style="background:rgba(245, 158, 11, 0.1); border:1px solid rgba(245, 158, 11, 0.3); border-radius:8px; padding:12px; margin-bottom:14px; font-size:12.5px; color:#FCD34D;">
+        ⚠️ <strong>Atención Operativa:</strong><br>
+        Usa esta acción <strong>únicamente después de verificar el ingreso real</strong> en tu aplicación de Yape o Plin. Esta acción no realiza ningún cobro automático al cliente, sino que registra una venta ya pagada.
+      </div>
+
+      <div style="background:#0B0F19; border:1px solid var(--border-color); border-radius:8px; padding:14px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span style="color:var(--text-muted); font-size:12px;">Pedido:</span>
+          <strong id="confirmPayOrderId" style="color:var(--accent-blue);">#VL-0000</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span style="color:var(--text-muted); font-size:12px;">Cliente:</span>
+          <strong id="confirmPayClient" style="color:#FFFFFF;">-</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span style="color:var(--text-muted); font-size:12px;">Producto:</span>
+          <span id="confirmPayProduct" style="color:#4ADE80; font-weight:700;">-</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-top:1px dashed var(--border-color); padding-top:8px; margin-top:6px;">
+          <span style="color:#FFFFFF; font-weight:700;">Total Abono Verificado:</span>
+          <strong id="confirmPayAmount" style="color:#FFFFFF; font-size:16px;">S/ 0.00</strong>
+        </div>
+      </div>
+
+      <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:16px; line-height:1.4;">
+        ⚡ <strong>Integración Meta CAPI:</strong> Se enviará el evento <code>Purchase</code> desde el servidor a la API de Conversiones de Meta utilizando la atribución y cookies capturadas en la landing page (sin datos del navegador del administrador).
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button type="button" class="btn-action" onclick="closeConfirmPaymentModal()">Cancelar</button>
+        <button type="button" class="btn-action btn-primary" id="btnConfirmPayExecute" onclick="executeMarkAsPaid()" style="background:#10B981; border-color:#059669;">
+          <span>✅ Sí, confirmar pago y enviar CAPI</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 5: CONFIGURACIÓN META PIXEL & CAPI
+       ========================================================== -->
+  <div class="admin-modal" id="metaCapiConfigModal">
+    <div class="modal-box">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <span style="font-size:24px;">⚡</span>
+        <h3 style="margin:0;">Configuración Meta Pixel & CAPI</h3>
+      </div>
+
+      <div style="background:#0B0F19; border:1px solid var(--border-color); border-radius:8px; padding:12px; margin-bottom:16px; font-size:12px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span style="color:var(--text-muted);">Pixel / Dataset ID Activo:</span>
+          <code style="color:#60A5FA; font-weight:bold;" id="capiActivePixelDisplay">1635217208321987</code>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="color:var(--text-muted);">Canal de Venta (Action Source):</span>
+          <code style="color:#4ADE80; font-weight:bold;">chat (WhatsApp)</code>
+        </div>
+      </div>
+
+      <form onsubmit="handleSaveMetaCapiConfig(event)">
+        <div class="form-row">
+          <label>Código de Evento de Prueba (Test Event Code - Opcional)</label>
+          <input type="text" id="capiTestCodeInput" placeholder="Ej. TEST12345">
+          <p style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+            Obtenlo en Meta Events Manager > Tu Pixel > Pestaña "Eventos de prueba". Déjalo vacío para envíos reales de producción.
+          </p>
+        </div>
+
+        <div style="background:rgba(59, 130, 246, 0.1); border:1px solid rgba(59, 130, 246, 0.3); border-radius:8px; padding:12px; font-size:12px; color:#93C5FD; margin-bottom:16px; line-height:1.4;">
+          🔒 <strong>Token de Acceso CAPI (Seguridad Máxima):</strong><br>
+          Por directriz de seguridad, el <code>META_CAPI_ACCESS_TOKEN</code> se almacena como secreto de servidor en las <em>Propiedades del Script</em> de Google Apps Script. Nunca se expone en el código público ni en este navegador.
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <button type="button" class="btn-action" onclick="checkCapiServerStatus()">🔍 Verificar Servidor</button>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn-action" onclick="closeMetaCapiModal()">Cerrar</button>
+            <button type="submit" class="btn-action btn-primary">Guardar Config</button>
+          </div>
         </div>
       </form>
     </div>
@@ -1513,11 +1709,11 @@
     // 3. BASE DE DATOS LOCAL Y KPIs
     // ----------------------------------------------------------
     const defaultOrders = [
-      { id: 'VL-1098', date: '2026-09-02 18:45', name: 'Camila Paredes G.', phone: '916102139', city: 'Lima', address: 'Agencia Shalom: Miraflores - Av. Benavides 2150', units: 1, product: '1x VELORA 5 en 1', price: 99.90, payment: 'Yape Oficial', status: 'Pendiente' },
-      { id: 'VL-1097', date: '2026-09-02 18:10', name: 'Valeria Mendoza S.', phone: '984512345', city: 'Arequipa', address: 'Agencia Shalom: Paucarpata - Av. Jesús / Kennedy', units: 2, product: '2x VELORA 5 en 1 (Ahorro S/29.90)', price: 169.90, payment: 'Yape Oficial', status: 'Confirmado' },
-      { id: 'VL-1096', date: '2026-09-02 17:35', name: 'Fiorella Gutiérrez M.', phone: '944123789', city: 'La Libertad', address: 'Agencia Shalom: Trujillo - Av. América Sur 1240', units: 3, product: '3x VELORA 5 en 1 (Ahorro S/69.80)', price: 229.90, payment: 'Yape Oficial', status: 'Confirmado' },
-      { id: 'VL-1095', date: '2026-09-02 16:50', name: 'Luciana Ramos T.', phone: '978654123', city: 'Cusco', address: 'Agencia Shalom: Wanchaq - Av. Huayruropata 1420', units: 1, product: '1x VELORA 5 en 1', price: 99.90, payment: 'Yape Oficial', status: 'En Camino' },
-      { id: 'VL-1094', date: '2026-09-02 15:20', name: 'Andrea Barrientos L.', phone: '951234876', city: 'Lambayeque', address: 'Agencia Shalom: Chiclayo - Av. Bolognesi 650', units: 2, product: '2x VELORA 5 en 1 (Ahorro S/29.90)', price: 169.90, payment: 'Yape Oficial', status: 'Entregado' }
+      { id: 'VL-1098', date: '2026-09-02 18:45', name: 'Camila Paredes G.', phone: '916102139', city: 'Lima', address: 'Agencia Shalom: Miraflores - Av. Benavides 2150', units: 1, product: '1x VELORA 5 en 1', price: 99.90, payment: 'Yape Oficial', status: 'Pendiente', payment_status: 'Pendiente', paid_at: '', capi_status: 'none', capi_event_id: '' },
+      { id: 'VL-1097', date: '2026-09-02 18:10', name: 'Valeria Mendoza S.', phone: '984512345', city: 'Arequipa', address: 'Agencia Shalom: Paucarpata - Av. Jesús / Kennedy', units: 2, product: '2x VELORA 5 en 1 (Ahorro S/29.90)', price: 169.90, payment: 'Yape Oficial', status: 'Confirmado', payment_status: 'Pendiente', paid_at: '', capi_status: 'none', capi_event_id: '' },
+      { id: 'VL-1096', date: '2026-09-02 17:35', name: 'Fiorella Gutiérrez M.', phone: '944123789', city: 'La Libertad', address: 'Agencia Shalom: Trujillo - Av. América Sur 1240', units: 3, product: '3x VELORA 5 en 1 (Ahorro S/69.80)', price: 229.90, payment: 'Yape Oficial', status: 'Confirmado', payment_status: 'Pendiente', paid_at: '', capi_status: 'none', capi_event_id: '' },
+      { id: 'VL-1095', date: '2026-09-02 16:50', name: 'Luciana Ramos T.', phone: '978654123', city: 'Cusco', address: 'Agencia Shalom: Wanchaq - Av. Huayruropata 1420', units: 1, product: '1x VELORA 5 en 1', price: 99.90, payment: 'Yape Oficial', status: 'En Camino', payment_status: 'Pagado', paid_at: '2026-09-02 17:00', capi_status: 'sent', capi_event_id: 'purchase_VL-1095' },
+      { id: 'VL-1094', date: '2026-09-02 15:20', name: 'Andrea Barrientos L.', phone: '951234876', city: 'Lambayeque', address: 'Agencia Shalom: Chiclayo - Av. Bolognesi 650', units: 2, product: '2x VELORA 5 en 1 (Ahorro S/29.90)', price: 169.90, payment: 'Yape Oficial', status: 'Entregado', payment_status: 'Pagado', paid_at: '2026-09-02 15:30', capi_status: 'sent', capi_event_id: 'purchase_VL-1094' }
     ];
 
     function getOrders() {
@@ -1527,7 +1723,14 @@
         return defaultOrders;
       }
       try {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        return parsed.map(o => ({
+          ...o,
+          payment_status: o.payment_status || 'Pendiente',
+          paid_at: o.paid_at || '',
+          capi_status: o.capi_status || 'none',
+          capi_event_id: o.capi_event_id || ''
+        }));
       } catch (e) {
         return defaultOrders;
       }
@@ -1549,15 +1752,22 @@
       const orders = getOrders();
 
       let totalSales = 0;
+      let totalPaid = 0;
       let pendingCount = 0;
+      let paidCount = 0;
       let limaCount = 0;
       let provCount = 0;
       let validOrdersCount = 0;
 
       orders.forEach(o => {
+        const price = parseFloat(o.price || 0);
         if (o.status !== 'Cancelado') {
-          totalSales += parseFloat(o.price || 0);
+          totalSales += price;
           validOrdersCount++;
+        }
+        if (o.payment_status === 'Pagado') {
+          totalPaid += price;
+          paidCount++;
         }
         if (o.status === 'Pendiente') pendingCount++;
         if ((o.city || '').toLowerCase().includes('lima')) {
@@ -1570,13 +1780,13 @@
       const avgTicket = validOrdersCount > 0 ? (totalSales / validOrdersCount) : 0;
 
       // Actualizar DOM
-      document.getElementById('kpiSalesTotal').innerText = `S/ ${totalSales.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
+      document.getElementById('kpiSalesTotal').innerText = `S/ ${totalPaid.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
       document.getElementById('kpiOrdersCount').innerText = orders.length;
       document.getElementById('kpiPendingCount').innerText = pendingCount;
       document.getElementById('kpiPendingBadge').innerText = `${pendingCount} por despachar`;
       document.getElementById('kpiAvgTicket').innerText = `S/ ${avgTicket.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
       document.getElementById('ordersTableTotalCount').innerText = `${orders.length} pedidos`;
-      document.getElementById('kpiSalesHint').innerText = `${orders.length} pedidos registrados`;
+      document.getElementById('kpiSalesHint').innerText = `${paidCount} pagados (Solicitudes: S/ ${totalSales.toLocaleString('es-PE', { minimumFractionDigits: 2 })})`;
 
       renderTable(orders);
       renderCharts(orders);
@@ -1588,7 +1798,7 @@
       tbody.innerHTML = '';
 
       if (ordersToRender.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:30px; color:#94A3B8;">No se encontraron pedidos con ese criterio de búsqueda.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:30px; color:#94A3B8;">No se encontraron pedidos con ese criterio de búsqueda.</td></tr>`;
         return;
       }
 
@@ -1604,6 +1814,8 @@
         );
         const waLink = `https://wa.me/51${(order.phone || '').replace(/\D/g, '')}?text=${waMsg}`;
 
+        const isPaid = order.payment_status === 'Pagado';
+
         tr.innerHTML = `
           <td><span class="order-id">#${order.id}</span></td>
           <td style="font-size:11.5px; color:#94A3B8;">${order.date}</td>
@@ -1618,17 +1830,47 @@
             <div style="font-weight:700; color:#FFFFFF;">${order.city}</div>
             <div style="font-size:11px; color:#94A3B8;">${order.address}</div>
           </td>
-          <td><span style="font-weight:700; color:#4ADE80;">${order.product}</span></td>
-          <td><span style="font-size:11.5px; background:#1E293B; padding:3px 6px; border-radius:4px;">${order.payment}</span></td>
+          <td>
+            <span style="font-weight:700; color:#4ADE80;">${order.product}</span>
+            <div style="font-size:11px; color:#94A3B8;">${order.units || 1} un. • ${order.payment || 'Yape Oficial'}</div>
+          </td>
           <td style="font-weight:900; color:#FFFFFF;">S/ ${parseFloat(order.price).toFixed(2)}</td>
           <td>
-            <select class="status-badge status-${statusSlug}" onchange="changeOrderStatus('${order.id}', this.value)">
+            <select class="status-badge status-${statusSlug}" onchange="changeOrderStatus('${order.id}', this.value)" title="Estado de despacho (no afecta facturación ni emite Purchase)">
               <option value="Pendiente" ${order.status === 'Pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
               <option value="Confirmado" ${order.status === 'Confirmado' ? 'selected' : ''}>📞 Confirmado</option>
               <option value="En Camino" ${order.status === 'En Camino' ? 'selected' : ''}>🚚 En Camino</option>
               <option value="Entregado" ${order.status === 'Entregado' ? 'selected' : ''}>✅ Entregado</option>
               <option value="Cancelado" ${order.status === 'Cancelado' ? 'selected' : ''}>❌ Cancelado</option>
             </select>
+          </td>
+          <td>
+            <div class="payment-cell">
+              ${
+                isPaid
+                  ? `<span class="badge-paid">✅ Pagado</span>
+                     ${order.paid_at ? `<span class="paid-date">🕐 ${order.paid_at}</span>` : ''}`
+                  : `<button class="btn-mark-paid" onclick="openConfirmPaymentModal('${order.id}')" title="Marcar como pagado tras verificar en App Yape/Plin">
+                       <span>💳 Marcar Pagado</span>
+                     </button>`
+              }
+            </div>
+          </td>
+          <td>
+            <div class="capi-cell">
+              ${
+                order.capi_status === 'sent'
+                  ? `<span class="badge-capi-sent" title="Evento Purchase entregado a Meta CAPI (${order.capi_event_id || ('purchase_' + order.id)})">🟢 CAPI OK</span>`
+                  : order.capi_status === 'failed'
+                    ? `<div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+                         <span class="badge-capi-error" title="${order.capi_message || 'Fallo de entrega'}">🔴 Error CAPI</span>
+                         <button class="btn-retry-capi" onclick="retryCapi('${order.id}')">🔄 Reintentar</button>
+                       </div>`
+                    : order.capi_status === 'pending'
+                      ? `<span class="badge-capi-none">⏳ Enviando...</span>`
+                      : `<span class="badge-capi-none">⏳ Sin enviar</span>`
+              }
+            </div>
           </td>
           <td>
             <a href="${waLink}" target="_blank" class="wa-btn">
@@ -1644,14 +1886,14 @@
       });
     }
 
-    // CAMBIAR ESTADO
+    // CAMBIAR ESTADO LOGÍSTICO (NUNCA DISPARA PURCHASE)
     async function changeOrderStatus(orderId, newStatus) {
       const orders = getOrders();
       const target = orders.find(o => o.id === orderId);
       if (target) {
         target.status = newStatus;
         saveOrders(orders);
-        showToast(`Estado de #${orderId} cambiado a: ${newStatus}`);
+        showToast(`Estado logístico de #${orderId} cambiado a: ${newStatus}`);
 
         // Sincronizar cambio con Google Sheets en segundo plano
         const url = getSheetsUrl();
@@ -1665,6 +1907,185 @@
             });
           } catch(e) {}
         }
+      }
+    }
+
+    // ==========================================================
+    // CONTROL DE PAGO Y ENVÍO A META CAPI
+    // ==========================================================
+    let pendingPaymentOrderId = null;
+
+    function openConfirmPaymentModal(orderId) {
+      const orders = getOrders();
+      const order = orders.find(o => o.id === orderId);
+      if (!order) return;
+
+      pendingPaymentOrderId = orderId;
+      document.getElementById('confirmPayOrderId').textContent = `#${order.id}`;
+      document.getElementById('confirmPayClient').textContent = order.name;
+      document.getElementById('confirmPayProduct').textContent = `${order.product} (${order.units || 1} un.)`;
+      document.getElementById('confirmPayAmount').textContent = `S/ ${parseFloat(order.price).toFixed(2)}`;
+      
+      const modal = document.getElementById('confirmPaymentModal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeConfirmPaymentModal() {
+      const modal = document.getElementById('confirmPaymentModal');
+      if (modal) modal.classList.remove('active');
+      pendingPaymentOrderId = null;
+    }
+
+    async function executeMarkAsPaid() {
+      if (!pendingPaymentOrderId) return;
+      const orderId = pendingPaymentOrderId;
+      const orders = getOrders();
+      const target = orders.find(o => o.id === orderId);
+      if (!target) return;
+
+      const confirmBtn = document.getElementById('btnConfirmPayExecute');
+      if (confirmBtn) {
+        confirmBtn.disabled = true;
+        confirmBtn.innerHTML = '<span>⏳ Verificando y enviando a Meta CAPI...</span>';
+      }
+
+      const paidDate = new Date().toISOString().slice(0, 16).replace('T', ' ');
+      target.payment_status = 'Pagado';
+      target.paid_at = paidDate;
+      target.capi_status = 'pending';
+      target.capi_event_id = `purchase_${orderId}`;
+      saveOrders(orders);
+
+      const url = getSheetsUrl();
+      if (url && url.startsWith('http')) {
+        try {
+          const endpoint = `${url}?action=mark_paid&id=${encodeURIComponent(orderId)}`;
+          const res = await fetch(endpoint);
+          const data = await res.json();
+
+          if (data && data.status === 'success') {
+            target.capi_status = data.capi_status || 'sent';
+            target.capi_event_id = data.capi_event_id || `purchase_${orderId}`;
+            target.paid_at = data.paid_at || paidDate;
+            saveOrders(orders);
+            showToast(`✅ Pedido #${orderId} marcado como Pagado. Meta CAPI: ${data.capi_status}`);
+          } else {
+            target.capi_status = 'failed';
+            target.capi_message = data ? data.message : 'Error al comunicar con servidor';
+            saveOrders(orders);
+            showToast(`⚠️ Pago registrado, pero CAPI reportó: ${target.capi_message}`);
+          }
+        } catch (err) {
+          console.warn('Error CAPI:', err);
+          target.capi_status = 'failed';
+          target.capi_message = err.message;
+          saveOrders(orders);
+          showToast(`⚠️ Pago registrado localmente. CAPI pendiente de conexión.`);
+        }
+      } else {
+        showToast(`ℹ️ Pedido #${orderId} marcado como Pagado (Modo local sin Sheets).`);
+      }
+
+      if (confirmBtn) {
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = '<span>✅ Sí, confirmar pago y enviar CAPI</span>';
+      }
+
+      closeConfirmPaymentModal();
+    }
+
+    async function retryCapi(orderId) {
+      const orders = getOrders();
+      const target = orders.find(o => o.id === orderId);
+      if (!target) return;
+
+      showToast(`🔄 Reintentando envío a Meta CAPI para #${orderId}...`);
+      const url = getSheetsUrl();
+      if (!url || !url.startsWith('http')) {
+        return alert('Configura la URL de Google Apps Script para reintentar el envío a CAPI.');
+      }
+
+      try {
+        const endpoint = `${url}?action=retry_capi&id=${encodeURIComponent(orderId)}`;
+        const res = await fetch(endpoint);
+        const data = await res.json();
+
+        if (data && (data.status === 'success' || data.capi_status === 'sent')) {
+          target.capi_status = 'sent';
+          target.capi_event_id = data.capi_event_id || `purchase_${orderId}`;
+          saveOrders(orders);
+          showToast(`🎉 Evento CAPI entregado exitosamente para #${orderId}`);
+        } else {
+          target.capi_status = 'failed';
+          target.capi_message = data ? data.message : 'Error desconocido';
+          saveOrders(orders);
+          showToast(`❌ Error al reintentar CAPI: ${target.capi_message}`);
+        }
+      } catch (err) {
+        showToast(`❌ Error de conexión al reintentar: ${err.message}`);
+      }
+    }
+
+    // MODAL DE CONFIGURACIÓN META PIXEL & CAPI
+    function openMetaCapiModal() {
+      const modal = document.getElementById('metaCapiConfigModal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeMetaCapiModal() {
+      const modal = document.getElementById('metaCapiConfigModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    async function handleSaveMetaCapiConfig(e) {
+      e.preventDefault();
+      const testCode = document.getElementById('capiTestCodeInput').value.trim();
+      const url = getSheetsUrl();
+
+      if (url && url.startsWith('http')) {
+        showToast('⏳ Guardando configuración en Google Apps Script...');
+        try {
+          const endpoint = `${url}?action=set_config&test_event_code=${encodeURIComponent(testCode)}`;
+          const res = await fetch(endpoint);
+          const data = await res.json();
+          if (data && data.status === 'success') {
+            showToast('✅ Configuración de Meta CAPI actualizada en servidor.');
+          } else {
+            showToast('⚠️ No se pudo guardar en el servidor.');
+          }
+        } catch (err) {
+          showToast('⚠️ Error al conectar con el servidor.');
+        }
+      } else {
+        showToast('ℹ️ Configura primero la URL de Google Sheets.');
+      }
+
+      closeMetaCapiModal();
+    }
+
+    async function checkCapiServerStatus() {
+      const url = getSheetsUrl();
+      if (!url || !url.startsWith('http')) {
+        return alert('Configura primero la URL de Google Apps Script.');
+      }
+      showToast('🔍 Verificando estado en Google Apps Script...');
+      try {
+        const res = await fetch(`${url}?action=get_config_status`);
+        const data = await res.json();
+        if (data && data.status === 'success') {
+          const tokenStatus = data.has_access_token ? '✅ Configurado y activo' : '⚠️ No configurado (requiere META_CAPI_ACCESS_TOKEN)';
+          alert(
+            `📊 Estado de Meta CAPI en Servidor:\n\n` +
+            `• Pixel / Dataset ID: ${data.pixel_id}\n` +
+            `• Token de Acceso CAPI: ${tokenStatus}\n` +
+            `• Código de Prueba (Test Code): ${data.test_event_code ? data.test_event_code : '(Desactivado / Modo Producción)'}\n\n` +
+            `Para cambiar el Token de acceso, ve a Google Apps Script > Configuración del proyecto > Propiedades de la secuencia de comandos.`
+          );
+        } else {
+          alert('⚠️ El servidor respondió pero no devolvió el formato esperado. Asegúrate de haber actualizado el archivo google_apps_script.js.');
+        }
+      } catch (err) {
+        alert('❌ Error al conectar con Google Apps Script: ' + err.message);
       }
     }
 
@@ -1692,7 +2113,17 @@
           (o.city || '').toLowerCase().includes(query) ||
           o.id.toLowerCase().includes(query);
 
-        const matchesStatus = status === 'ALL' || o.status === status;
+        let matchesStatus = true;
+        if (status === 'ALL') {
+          matchesStatus = true;
+        } else if (status === 'PAGADOS') {
+          matchesStatus = (o.payment_status === 'Pagado');
+        } else if (status === 'PENDIENTE_PAGO') {
+          matchesStatus = (o.payment_status !== 'Pagado');
+        } else {
+          matchesStatus = (o.status === status);
+        }
+
         return matchesQuery && matchesStatus;
       });
 
@@ -1905,9 +2336,9 @@
       const orders = getOrders();
       if (orders.length === 0) return alert('No hay pedidos para exportar.');
 
-      let csv = 'ID Pedido,Fecha y Hora,Cliente,WhatsApp,DNI,Departamento,Agencia Shalom,Producto,Unidades,Total (S/),Método Pago,Estado\n';
+      let csv = 'ID Pedido,Fecha y Hora,Cliente,WhatsApp,DNI,Departamento,Agencia Shalom,Producto,Unidades,Total (S/),Método Pago,Estado Logístico,Estado Pago,Fecha Pago,Estado CAPI,ID Evento CAPI\n';
       orders.forEach(o => {
-        csv += `"${o.id}","${o.date}","${o.name}","${o.phone}","${o.dni || ''}","${o.city}","${o.address}","${o.product}","${o.units}","${o.price}","${o.payment || 'Yape Oficial'}","${o.status}"\n`;
+        csv += `"${o.id}","${o.date}","${o.name}","${o.phone}","${o.dni || ''}","${o.city}","${o.address}","${o.product}","${o.units}","${o.price}","${o.payment || 'Yape Oficial'}","${o.status}","${o.payment_status || 'Pendiente'}","${o.paid_at || ''}","${o.capi_status || 'none'}","${o.capi_event_id || ''}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -1958,7 +2389,11 @@
         product: productMap[units],
         price: price,
         payment: payment || 'Yape Oficial',
-        status: 'Confirmado'
+        status: 'Confirmado',
+        payment_status: 'Pendiente',
+        paid_at: '',
+        capi_status: 'none',
+        capi_event_id: ''
       };
 
       const orders = getOrders();

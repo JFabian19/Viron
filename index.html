@@ -45,14 +45,6 @@
     
     fbq('init', '1635217208321987');
     fbq('track', 'PageView');
-    fbq('track', 'ViewContent', {
-      content_name: 'Secadora 5 en 1 VELORA',
-      content_category: 'Belleza y Cuidado Personal',
-      content_ids: ['velora-secadora-5en1'],
-      content_type: 'product',
-      value: 99.90,
-      currency: 'PEN'
-    });
   </script>
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=1635217208321987&ev=PageView&noscript=1"
@@ -4377,6 +4369,90 @@
     }
 
     // ==========================================================
+    // CAPTURA DE ATRIBUCIÓN DEL CLIENTE (META CAPI & UTMs)
+    // ==========================================================
+    let cachedClientIp = null;
+    (function fetchClientIp() {
+      // Captura no bloqueante de IP del comprador para mejorar el Event Match Quality en CAPI
+      try {
+        const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        const timeoutId = controller ? setTimeout(() => controller.abort(), 2000) : null;
+        fetch('https://api.ipify.org?format=json', { signal: controller ? controller.signal : undefined })
+          .then(r => r.json())
+          .then(data => { if (data && data.ip) cachedClientIp = data.ip; })
+          .catch(() => {})
+          .finally(() => { if (timeoutId) clearTimeout(timeoutId); });
+      } catch (e) {}
+    })();
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+
+    function getAttributionData() {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // 1. UTMs persistidas en sessionStorage para mantener la atribución durante la navegación
+      const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+      const utms = {};
+      utmKeys.forEach(key => {
+        let val = urlParams.get(key);
+        if (val) {
+          sessionStorage.setItem(`velora_${key}`, val);
+        } else {
+          val = sessionStorage.getItem(`velora_${key}`);
+        }
+        if (val) utms[key] = val;
+      });
+
+      // 2. Cookie _fbp (Meta Browser ID)
+      const fbp = getCookie('_fbp');
+
+      // 3. Cookie _fbc o construcción a partir de fbclid en la URL
+      let fbc = getCookie('_fbc');
+      const fbclid = urlParams.get('fbclid');
+      if (!fbc && fbclid) {
+        // Formato estándar de Meta: fb.1.{timestamp}.{fbclid}
+        fbc = `fb.1.${Date.now()}.${fbclid}`;
+      }
+
+      return {
+        fbp: fbp || null,
+        fbc: fbc || null,
+        utm_source: utms.utm_source || null,
+        utm_medium: utms.utm_medium || null,
+        utm_campaign: utms.utm_campaign || null,
+        utm_term: utms.utm_term || null,
+        utm_content: utms.utm_content || null,
+        client_ip: cachedClientIp || null,
+        client_user_agent: navigator.userAgent || null,
+        landing_url: window.location.href.split('#')[0]
+      };
+    }
+
+    // ==========================================================
+    // DISPARO ÚNICO DE VIEWCONTENT AL VISUALIZAR EL PRODUCTO
+    // ==========================================================
+    let viewContentTriggered = false;
+    function triggerViewContentOnce() {
+      if (viewContentTriggered) return;
+      viewContentTriggered = true;
+      if (typeof fbq === 'function') {
+        fbq('track', 'ViewContent', {
+          content_name: selectedProductName || 'Secadora 5 en 1 VELORA',
+          content_category: 'Belleza y Cuidado Personal',
+          content_ids: [`velora-5en1-${selectedUnits}u`],
+          content_type: 'product',
+          value: selectedPrice || 99.90,
+          currency: 'PEN'
+        });
+      }
+    }
+
+    // ==========================================================
     // ENVÍO DE FORMULARIO CON ADVANCED MATCHING Y BLOQUEO ANTI-DUPLICADOS
     // ==========================================================
     let isSubmitting = false;
@@ -4454,32 +4530,7 @@
       submitBtn.innerHTML = '<span>⏳ Conectando con WhatsApp...</span>';
 
       const orderId = 'VL-' + Math.floor(1000 + Math.random() * 9000);
-
-      // DISPARAR EVENTO PURCHASE OFICIAL PARA META ADS (CONTABILIZA LA VENTA INMEDIATAMENTE)
-      if (typeof fbq === 'function') {
-        // 1. Evento Purchase: Registra la compra en tu Administrador de Anuncios con valor real en Soles
-        fbq('track', 'Purchase', {
-          content_name: selectedProductName,
-          content_ids: [`velora-5en1-${selectedUnits}u`],
-          content_type: 'product',
-          value: selectedPrice,
-          currency: 'PEN',
-          num_items: selectedUnits
-        }, {
-          eventID: orderId
-        });
-
-        // 2. Evento Lead complementario para audiencias y optimización híbrida
-        fbq('track', 'Lead', {
-          content_name: selectedProductName,
-          content_ids: [`velora-5en1-${selectedUnits}u`],
-          content_type: 'product',
-          value: selectedPrice,
-          currency: 'PEN'
-        }, {
-          eventID: orderId
-        });
-      }
+      const clientAttribution = getAttributionData();
 
       const newOrderRecord = {
         id: orderId,
@@ -4493,7 +4544,12 @@
         product: selectedProductName,
         price: selectedPrice,
         payment: 'Yape Oficial',
-        status: 'Pendiente'
+        status: 'Pendiente',          // Estado logístico
+        payment_status: 'Pendiente',  // Estado de pago independiente
+        paid_at: '',                  // Fecha real de pago (se registra al verificar en /admin)
+        capi_status: 'none',          // none | sent | failed
+        capi_event_id: '',            // purchase_VL-XXXX
+        attribution: clientAttribution
       };
 
       let existingOrders = [];
@@ -4506,8 +4562,24 @@
       localStorage.setItem('velora_orders', JSON.stringify(existingOrders));
       localStorage.setItem('viron_orders', JSON.stringify(existingOrders));
 
-      // Sincronizar automáticamente con Google Sheets (ID: 1lN4U1vUtAozuxe4v3sqqmCfXn7ZvbnoEBq35Tr_eqg8)
+      // Sincronizar automáticamente con Google Sheets
       sendOrderToGoogleSheet(newOrderRecord);
+
+      // DISPARAR EVENTO LEAD (SOLO UNA VEZ TRAS GUARDAR CORRECTAMENTE, NUNCA PURCHASE)
+      const leadEventId = `lead_${orderId}`;
+      const sessionLeadKey = `velora_lead_sent_${orderId}`;
+      if (typeof fbq === 'function' && !sessionStorage.getItem(sessionLeadKey)) {
+        sessionStorage.setItem(sessionLeadKey, 'true');
+        fbq('track', 'Lead', {
+          content_name: selectedProductName,
+          content_ids: [`velora-5en1-${selectedUnits}u`],
+          content_type: 'product',
+          value: selectedPrice,
+          currency: 'PEN'
+        }, {
+          eventID: leadEventId
+        });
+      }
 
       const storeWhatsApp = "51916102139";
       const msgText = 
@@ -4866,6 +4938,22 @@
       }
       if (phoneInputEl) {
         ['change', 'blur'].forEach(ev => phoneInputEl.addEventListener(ev, () => validatePhoneInput(phoneInputEl)));
+      }
+
+      // Disparar ViewContent cuando el usuario visualice la ficha/galería del producto
+      const productSection = document.querySelector('.hero-gallery-section') || document.querySelector('.product-title') || document.querySelector('.bundle-section');
+      if (productSection && 'IntersectionObserver' in window) {
+        const productObserver = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              triggerViewContentOnce();
+              obs.disconnect();
+            }
+          });
+        }, { threshold: 0.2 });
+        productObserver.observe(productSection);
+      } else {
+        triggerViewContentOnce();
       }
     });
 

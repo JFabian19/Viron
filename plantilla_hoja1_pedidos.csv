@@ -1,1 +1,1 @@
-ID Pedido,Fecha y Hora,Cliente,WhatsApp,DNI,Departamento,Agencia Shalom,Producto,Unidades,Total (S/),Método Pago,Estado
+ID Pedido,Fecha y Hora,Cliente,WhatsApp,DNI,Departamento,Agencia Shalom,Producto,Unidades,Total (S/),Método Pago,Estado Logístico,Estado Pago,Fecha Pago,Estado CAPI,ID Evento CAPI,Atribución (JSON)
