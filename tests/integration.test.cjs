@@ -9,7 +9,7 @@ const source = fs.readFileSync(path.join(root, 'google_apps_script.js'), 'utf8')
 const secret = 'only-a-unit-test-password';
 function harness() {
   const rows = [], notes = [], requests = [];
-  const props = { ADMIN_SECRET: secret, META_CAPI_ACCESS_TOKEN: 'unit-test-token' };
+  const props = { ADMIN_SECRET: secret, tokem: 'unit-test-token' };
   let locked = false, busy = false, response = { code: 200, body: { events_received: 1 } };
   const sheet = {
     getLastRow: () => rows.length + 1,
@@ -148,9 +148,9 @@ test('modo de prueba no marca sent y se puede enviar luego a producción', () =>
   assert.equal(h.post('retry_capi',{id:h.order.id}).capi_status,'sent');
 });
 test('falta de token, Pixel distinto, fecha inválida y fecha antigua', () => {
-  const h=harness();h.create();delete h.props.META_CAPI_ACCESS_TOKEN;
+  const h=harness();h.create();delete h.props.tokem;
   assert.equal(h.post('mark_paid',{id:h.order.id}).capi_status,'failed');
-  h.props.META_CAPI_ACCESS_TOKEN='unit-test-token';
+  h.props.tokem='unit-test-token';
   h.rows[0][13]='invalid';
   assert.equal(h.post('retry_capi',{id:h.order.id}).capi_status,'failed');
   h.rows[0][13]='2020-01-01T00:00:00Z';

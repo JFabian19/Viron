@@ -12,7 +12,8 @@
  * 4. Configura tus credenciales seguras (Propiedades del script):
  *    - En el menú izquierdo de Apps Script, haz clic en el engranaje ⚙️ (Configuración del proyecto).
  *    - Baja hasta "Propiedades de la secuencia de comandos" y añade:
- *        * META_CAPI_ACCESS_TOKEN : Tu token permanente de Administrador de Eventos de Meta.
+ *        * tokem                  : Tu token permanente de Meta CAPI (nombre actual compatible).
+ *          También se acepta META_CAPI_ACCESS_TOKEN como nombre alternativo.
  *        * META_PIXEL_ID          : 1635217208321987 (o tu nuevo ID de Pixel/Conjunto de datos).
  *        * META_TEST_EVENT_CODE   : (Opcional) Código de prueba para depurar en Eventos de prueba (ej. TEST12345).
  *        * ADMIN_SECRET           : (Obligatorio) Contraseña privada de al menos 16 caracteres para autorizar cambios sensibles desde /admin.
@@ -193,7 +194,7 @@ function hashExactSHA256(text) {
  */
 function sendCapiPurchase(order, paidTimestamp) {
   var props = PropertiesService.getScriptProperties();
-  var accessToken = props.getProperty("META_CAPI_ACCESS_TOKEN");
+  var accessToken = props.getProperty("tokem") || props.getProperty("META_CAPI_ACCESS_TOKEN");
   var pixelId = props.getProperty("META_PIXEL_ID") || DEFAULT_PIXEL_ID;
   var testEventCode = props.getProperty("META_TEST_EVENT_CODE");
 
@@ -201,7 +202,7 @@ function sendCapiPurchase(order, paidTimestamp) {
     return {
       status: "failed",
       event_id: "purchase_" + String(order.id).trim(),
-      message: "META_CAPI_ACCESS_TOKEN no configurada en Propiedades del Script de Google Apps Script."
+      message: "Falta configurar tokem (o META_CAPI_ACCESS_TOKEN) en Propiedades del Script."
     };
   }
 
@@ -397,7 +398,7 @@ function handleRequest(action, data, sheet) {
     return {status: "success"};
   }
   if (action === "get_config_status") {
-    return {status: "success", has_access_token: !!props.getProperty("META_CAPI_ACCESS_TOKEN"),
+    return {status: "success", has_access_token: !!(props.getProperty("tokem") || props.getProperty("META_CAPI_ACCESS_TOKEN")),
       pixel_id: props.getProperty("META_PIXEL_ID") || DEFAULT_PIXEL_ID,
       test_event_code: props.getProperty("META_TEST_EVENT_CODE") || "",
       message: "Token configurado no implica aceptación de eventos por Meta."};

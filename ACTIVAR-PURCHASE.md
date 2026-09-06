@@ -8,14 +8,13 @@ En el proyecto vinculado a la hoja de pedidos:
 
 1. Reemplazar el código por google_apps_script.js.
 2. En Configuración > Propiedades del Script, configurar:
-   - META_CAPI_ACCESS_TOKEN: un token nuevo autorizado para el dataset. Revocar el token antiguo incluido anteriormente en el código y su historial Git.
+   - tokem: token autorizado para Meta CAPI. El backend también acepta META_CAPI_ACCESS_TOKEN como alias.
    - META_PIXEL_ID: 1635217208321987.
    - ADMIN_SECRET: contraseña privada de al menos 16 caracteres; será la contraseña de acceso a admin.html. No incluirla en archivos públicos.
    - META_TEST_EVENT_CODE: vacío para producción.
-3. Eliminar la propiedad antigua tokem si existe. Ya no se utiliza.
-4. Ejecutar setupSheet en el editor y conceder los permisos de Sheets y peticiones externas que solicite Google.
-5. Implementar > Administrar implementaciones > editar la implementación actual > Nueva versión > Implementar. Mantener la URL /exec actual. Ejecutar como propietario; acceso público al endpoint, con las acciones administrativas protegidas por contraseña validada en servidor.
-6. Abrir /exec. Debe devolver api_version: "2026-09-05.2" y datos del servicio, sin listar clientes.
+3. Ejecutar setupSheet en el editor y conceder los permisos de Sheets y peticiones externas que solicite Google.
+4. Implementar > Administrar implementaciones > editar la implementación actual > Nueva versión > Implementar. Mantener la URL /exec actual. Ejecutar como propietario; acceso público al endpoint, con las acciones administrativas protegidas por contraseña validada en servidor.
+5. Abrir /exec. Debe devolver api_version: "2026-09-05.2" y datos del servicio, sin listar clientes.
 
 Guardar el archivo sin actualizar la implementación no actualiza /exec. Apps Script no carga los archivos .env de este repositorio.
 
