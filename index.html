@@ -1888,43 +1888,6 @@
       animation: shakeForm 0.35s ease-in-out;
     }
 
-    /* BOTON FLOTANTE DE WHATSAPP PARA CONSULTAS RAPIDAS */
-    .floating-wa-btn {
-      position: fixed;
-      bottom: 96px;
-      right: max(14px, calc(50% - 220px + 14px));
-      z-index: 45;
-      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 12px 7px 9px;
-      border-radius: var(--radius-pill);
-      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.45);
-      text-decoration: none;
-      font-size: 11.5px;
-      font-weight: 800;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .floating-wa-btn:active {
-      transform: scale(0.95);
-    }
-    .floating-wa-pulse {
-      position: absolute;
-      inset: -3px;
-      border-radius: var(--radius-pill);
-      background: rgba(37, 211, 102, 0.4);
-      animation: waPulse 2s infinite;
-      pointer-events: none;
-      z-index: -1;
-    }
-    @keyframes waPulse {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.08); opacity: 0; }
-      100% { transform: scale(0.95); opacity: 0; }
-    }
-
     /* GLOBAL ERROR DENTRO DEL MODAL */
     .form-global-error {
       background: #FEF2F2;
@@ -2573,8 +2536,8 @@
           </div>
           <div class="sy-text">
             <strong>Medio de Pago Seguro: Yape / Plin Oficial</strong><br>
-            <span>Titular verificado: <strong>VELORA BEAUTY / VIRON LAB</strong></span><br>
-            <span style="font-size:10.5px; color:#64748B;">No pagas a ciegas. Te confirmamos por WhatsApp antes de emitir tu guía oficial Shalom.</span>
+            <span>Titular verificado: <strong>Jarry Tafur</strong></span><br>
+            <span style="font-size:10.5px; color:#64748B;">Para registrar el envío, se solicita un adelanto mínimo de S/ 20 al Yape 994 729 784, a nombre de Jarry Tafur.</span>
           </div>
         </div>
       </div>
@@ -3061,16 +3024,6 @@
 
     </div>
 
-    <!-- BOTÓN FLOTANTE RÁPIDO DE CONSULTAS WHATSAPP -->
-    <a href="https://api.whatsapp.com/send?phone=51916102139&text=Hola%20VELORA%20Beauty!%20%F0%9F%91%8B%20Tengo%20una%20consulta%20sobre%20la%20Secadora%205%20en%201" target="_blank" rel="noopener" class="floating-wa-btn" id="floatingWaBtn" aria-label="Consultar por WhatsApp" onclick="if(typeof fbq==='function') fbq('track', 'Contact');">
-      <span class="floating-wa-pulse"></span>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2C6.48 2 2 6.48 2 12c0 1.82.49 3.53 1.35 5L2 22l5.18-1.33A9.955 9.955 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="#25D366"/>
-        <path d="M17.47 14.38c-.28-.14-1.66-.82-1.92-.91-.26-.1-.45-.14-.64.14-.19.28-.73.91-.9 1.1-.16.19-.33.21-.61.07-.28-.14-1.18-.43-2.25-1.38-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.5.14-.16.19-.28.28-.47.1-.19.05-.35-.02-.5-.07-.14-.64-1.54-.87-2.11-.23-.55-.46-.48-.64-.49h-.55c-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34 0 1.38 1.01 2.71 1.15 2.9.14.19 1.98 3.03 4.8 4.25.67.29 1.2.46 1.61.59.68.22 1.3.19 1.78.11.54-.08 1.66-.68 1.89-1.33.24-.65.24-1.21.17-1.33-.07-.12-.26-.19-.54-.33z" fill="#FFFFFF"/>
-      </svg>
-      <span>¿Dudas? Chat</span>
-    </a>
-
     <!-- STICKY BOTTOM CTA -->
     <footer class="sticky-bottom-container">
       <div class="sticky-sub-info">
@@ -3237,8 +3190,9 @@
               <img src="assets/yape.png" alt="Yape Oficial" class="yape-compact-logo">
               <div>
                 <div class="yape-compact-title">Medio de Pago: <strong>Yape / Plin Oficial</strong></div>
-                <div class="yape-compact-sub">Titular: <strong style="color:#0F172A;">VELORA BEAUTY / VIRON LAB</strong></div>
+                <div class="yape-compact-sub">Titular: <strong style="color:#0F172A;">Jarry Tafur</strong></div>
                 <div class="yape-compact-sub" style="color:var(--color-yape); font-size:11px;">Número Oficial: <strong>994 729 784</strong></div>
+                <div class="yape-compact-sub" style="font-size:10px; line-height:1.25; margin-top:2px;">Para registrar el envío, se solicita un adelanto mínimo de <strong>S/ 20</strong>.</div>
               </div>
             </div>
             <button type="button" class="copy-yape-btn" onclick="copyYapeNumber()" id="copyYapeBtn" aria-label="Copiar número de Yape">
@@ -4608,7 +4562,8 @@
         `📦 *Pedido:* #${orderId}\n` +
         `✨ *Producto:* ${selectedProductName}\n` +
         `💰 *Total a Pagar:* S/ ${selectedPrice.toFixed(2)} (Envío GRATIS vía Shalom)\n` +
-        `💜 *Medio de Pago:* Yape / Plin (994 729 784 - Titular: VELORA BEAUTY / VIRON LAB)\n` +
+        `💜 *Medio de Pago:* Yape / Plin (994 729 784 - Titular: Jarry Tafur)\n` +
+        `ℹ️ *Adelanto mínimo para registrar el envío:* S/ 20\n` +
         `👤 *Titular:* ${nameVal}\n` +
         `🆔 *DNI Titular:* ${dniVal}\n` +
         `📍 *Departamento:* ${deptVal}\n` +
