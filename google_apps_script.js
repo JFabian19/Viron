@@ -252,6 +252,10 @@ function sendCapiPurchase(order, paidTimestamp) {
   // NOTA CRÍTICA DE SEGURIDAD: NUNCA se envía DNI a Meta ni se usan datos del administrador
 
   var eventId = "purchase_" + String(order.id).trim();
+  // Los pedidos originados en la landing deben clasificarse como conversiones
+  // de sitio web para que Meta pueda usarlos en campañas Website/Purchase.
+  // Conservamos "chat" solo para pedidos antiguos o manuales sin contexto web.
+  var isWebsitePurchase = Boolean(attr.landing_url && attr.client_user_agent);
   var eventEpochSeconds = Math.floor(new Date(paidTimestamp).getTime() / 1000);
   if (!isFinite(eventEpochSeconds) || eventEpochSeconds > Math.floor(Date.now() / 1000) ||
       eventEpochSeconds < Math.floor(Date.now() / 1000) - 7 * 86400) {
@@ -263,7 +267,7 @@ function sendCapiPurchase(order, paidTimestamp) {
     event_time: eventEpochSeconds,
     event_id: eventId,
     event_source_url: attr.landing_url || "https://velorabeautype.store/",
-    action_source: "chat", // Venta concretada y verificada mediante WhatsApp Chat
+    action_source: isWebsitePurchase ? "website" : "chat",
     user_data: userData,
     custom_data: {
       currency: "PEN",

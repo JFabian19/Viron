@@ -109,13 +109,21 @@ test('pago dispara Purchase con PEN, valor exacto, teléfono hash y sin DNI', ()
   assert.equal(event.event_id,'purchase_'+h.order.id);
   assert.equal(event.custom_data.value,169.90);
   assert.equal(event.custom_data.currency,'PEN');
-  assert.equal(event.action_source,'chat');
+  assert.equal(event.action_source,'website');
   assert.match(event.user_data.ph[0],/^[a-f0-9]{64}$/);
   assert.equal(event.user_data.client_user_agent,'Buyer test agent');
   assert.equal(event.user_data.dni,undefined);
   assert.equal(event.event_time,Math.floor(new Date(r.paid_at).getTime()/1000));
   assert.ok(!request.url.includes('unit-test-token'));
   assert.equal(h.locked(),false);
+});
+test('pedido manual sin contexto web conserva action_source chat', () => {
+  const h=harness();
+  h.create();
+  h.rows[0][16] = '{}';
+  const r=h.post('mark_paid',{id:h.order.id});
+  assert.equal(r.capi_status,'sent');
+  assert.equal(h.requests[0].payload.data[0].action_source,'chat');
 });
 test('pago repetido y retry de evento aceptado no vuelven a enviar', () => {
   const h=harness();h.create();h.post('mark_paid',{id:h.order.id});
