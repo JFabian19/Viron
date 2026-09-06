@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const API_VERSION = '2026-09-05.2';
-  const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbwBH9T5JLwzIEz9ugyO8xLJQSx8xnQZJHghFmBbv0HZftR7mwxYDghCsxDFBl0ujngBCw/exec';
+  const DEFAULT_URL = 'https://script.google.com/macros/s/AKfycbxwsWsvtHKWj_lrkmqXZLMVBNuXKGcZEb2yW5dPY1jzeK8ZNEqNn0XjDRc_WZNycnSeqA/exec';
   window.VeloraAPI = {
     url() { return localStorage.getItem('velora_sheets_url') || DEFAULT_URL; },
     newId() {
