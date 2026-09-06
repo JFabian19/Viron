@@ -1582,8 +1582,9 @@
     }
     .yape-compact-left {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 8px;
+      min-width: 0;
     }
     .yape-compact-logo {
       width: 26px;
@@ -1598,6 +1599,12 @@
     .yape-compact-sub {
       font-size: 9.5px;
       color: #64748B;
+    }
+    .yape-compact-detail {
+      font-size: 10px;
+      line-height: 1.3;
+      color: #475569;
+      margin-top: 2px;
     }
     .yape-compact-badge {
       background: var(--color-yape);
@@ -2536,7 +2543,7 @@
           </div>
           <div class="sy-text">
             <strong>Medio de Pago Seguro: Yape / Plin Oficial</strong><br>
-            <span>Titular verificado: <strong>Jarry Tafur</strong></span><br>
+            <span>Titular autorizado de cobros VELORA: <strong>Jarry Tafur</strong></span><br>
             <span style="font-size:10.5px; color:#64748B;">Para registrar el envío, se solicita un adelanto mínimo de S/ 20 al Yape 994 729 784, a nombre de Jarry Tafur.</span>
           </div>
         </div>
@@ -3189,10 +3196,12 @@
             <div class="yape-compact-left">
               <img src="assets/yape.png" alt="Yape Oficial" class="yape-compact-logo">
               <div>
-                <div class="yape-compact-title">Medio de Pago: <strong>Yape / Plin Oficial</strong></div>
-                <div class="yape-compact-sub">Titular: <strong style="color:#0F172A;">Jarry Tafur</strong></div>
-                <div class="yape-compact-sub" style="color:var(--color-yape); font-size:11px;">Número Oficial: <strong>994 729 784</strong></div>
-                <div class="yape-compact-sub" style="font-size:10px; line-height:1.25; margin-top:2px;">Para registrar el envío, se solicita un adelanto mínimo de <strong>S/ 20</strong>.</div>
+                <div class="yape-compact-title">🔒 Adelanto seguro de <strong>S/ 20</strong></div>
+                <div class="yape-compact-detail">El adelanto se descuenta del total de tu compra.</div>
+                <div class="yape-compact-detail">Saldo restante: <strong id="remainingBalanceText" style="color:#0F172A;">S/ 79.90</strong></div>
+                <div class="yape-compact-detail">Titular autorizado de cobros VELORA: <strong style="color:#0F172A;">Jarry Tafur</strong></div>
+                <div class="yape-compact-detail" style="color:var(--color-yape);">Yape / Plin: <strong>994 729 784</strong></div>
+                <div class="yape-compact-detail">Una vez confirmado, recibes tu constancia de pedido y despacho por Shalom.</div>
               </div>
             </div>
             <button type="button" class="copy-yape-btn" onclick="copyYapeNumber()" id="copyYapeBtn" aria-label="Copiar número de Yape">
@@ -4026,6 +4035,8 @@
       document.getElementById('headerCartCount').innerText = units;
 
       document.getElementById('modalTotalOrderText').innerText = `S/ ${price.toFixed(2)}`;
+      const remainingBalanceText = document.getElementById('remainingBalanceText');
+      if (remainingBalanceText) remainingBalanceText.innerText = `S/ ${Math.max(0, price - 20).toFixed(2)}`;
       const titleElem = document.getElementById('modalSummaryTitle');
       if (titleElem) titleElem.innerText = data.name;
       document.getElementById('submitBtnText').innerText = data.submitText;
