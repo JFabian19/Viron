@@ -910,7 +910,7 @@
       </form>
 
       <div class="login-footer-hint">
-        <span>Google Sheets Conectado: 1lN4U1vUtA...</span>
+        <span>Hoja de pedidos: 1lN4U1vUtA...</span>
       </div>
     </div>
   </div>
@@ -990,9 +990,9 @@
           </div>
 
           <!-- Meta Pixel & CAPI Badge -->
-          <div class="sheets-badge connected" id="capiStatusBadge" onclick="openMetaCapiModal()" title="Configuración de Meta Pixel & CAPI" style="border-color: rgba(59, 130, 246, 0.4); color: #60A5FA; cursor: pointer;">
+          <div class="sheets-badge disconnected" id="capiStatusBadge" onclick="openMetaCapiModal()" title="Configuración de Meta Pixel & CAPI" style="border-color: rgba(59, 130, 246, 0.4); color: #60A5FA; cursor: pointer;">
             <span>⚡</span>
-            <span id="capiStatusText">Meta Pixel & CAPI</span>
+            <span id="capiStatusText">Verificar Meta CAPI</span>
           </div>
 
           <button class="btn-action" onclick="syncWithGoogleSheets(true)" id="btnTopSync" title="Sincronizar pedidos con Google Sheets">
@@ -1380,12 +1380,18 @@
   <!-- ==========================================================
        JAVASCRIPT: SEGURIDAD, GOOGLE SHEETS & DASHBOARD
        ========================================================== -->
+  <script src="api-client.js"></script>
   <script>
     // ----------------------------------------------------------
     // CONFIGURACIÓN GLOBAL
     // ----------------------------------------------------------
     const SPREADSHEET_ID = '1lN4U1vUtAozuxe4v3sqqmCfXn7ZvbnoEBq35Tr_eqg8';
-    const DEFAULT_MASTER_PASSWORD = 'velora2026';
+    let adminSecret = '';
+    let serverOrders = [];
+    let hasSynced = false;
+    async function adminRequest(action, data = {}, url = getSheetsUrl()) {
+      return VeloraAPI.request(action, { ...data, admin_secret: adminSecret }, url);
+    }
     let failedAttempts = 0;
     let lockoutTimer = null;
 
@@ -1402,58 +1408,18 @@
     // ----------------------------------------------------------
     async function handleAdminLogin(e) {
       e.preventDefault();
-      if (failedAttempts >= 5) {
-        showLoginError('Demasiados intentos fallidos. Por favor espera 60 segundos.');
-        return;
-      }
-
       const input = document.getElementById('adminPasswordInput');
-      const enteredPassword = input.value.trim();
-      const remember = document.getElementById('rememberSessionCheck').checked;
-
-      // Obtener hash almacenado o comparar con la contraseña por defecto
-      const storedHash = localStorage.getItem('velora_admin_hash');
-      let isValid = false;
-
-      if (storedHash) {
-        const enteredHash = await sha256(enteredPassword);
-        isValid = (enteredHash === storedHash);
-      } else {
-        isValid = (enteredPassword === DEFAULT_MASTER_PASSWORD);
-        if (isValid) {
-          // Guardar hash automáticamente
-          const initialHash = await sha256(DEFAULT_MASTER_PASSWORD);
-          localStorage.setItem('velora_admin_hash', initialHash);
-        }
-      }
-
-      if (isValid) {
-        // Acceso exitoso
-        failedAttempts = 0;
-        document.getElementById('loginErrorMsg').style.display = 'none';
-
-        if (remember) {
-          localStorage.setItem('velora_admin_auth', 'authenticated');
-        } else {
-          sessionStorage.setItem('velora_admin_auth', 'authenticated');
-        }
-
+      const button = document.getElementById('loginSubmitBtn');
+      button.disabled = true;
+      adminSecret = input.value;
+      try {
+        await adminRequest('login');
+        input.value = '';
         unlockDashboard();
-      } else {
-        failedAttempts++;
-        const remaining = 5 - failedAttempts;
-        const box = document.getElementById('loginCardBox');
-        box.classList.remove('shake-error');
-        void box.offsetWidth;
-        box.classList.add('shake-error');
-
-        if (remaining > 0) {
-          showLoginError(`❌ Contraseña incorrecta. Intentos restantes: ${remaining}`);
-        } else {
-          showLoginError('⛔ Acceso bloqueado por 60 segundos debido a múltiples intentos fallidos.');
-          triggerLockout();
-        }
-      }
+      } catch (error) {
+        adminSecret = '';
+        showLoginError(error.message);
+      } finally { button.disabled = false; }
     }
 
     function showLoginError(msg) {
@@ -1489,11 +1455,10 @@
     }
 
     function checkExistingAuth() {
-      const isAuth = (localStorage.getItem('velora_admin_auth') === 'authenticated') ||
-                     (sessionStorage.getItem('velora_admin_auth') === 'authenticated');
-      if (isAuth) {
-        unlockDashboard();
-      }
+      ['velora_admin_auth','velora_admin_hash','velora_orders','viron_orders'].forEach(key => {
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+      });
     }
 
     function unlockDashboard() {
@@ -1507,16 +1472,11 @@
     }
 
     function logoutAdmin() {
-      if (confirm('¿Deseas cerrar la sesión del panel administrativo?')) {
-        localStorage.removeItem('velora_admin_auth');
-        sessionStorage.removeItem('velora_admin_auth');
-        
-        // Bloquear vista
-        document.getElementById('adminApp').style.display = 'none';
-        document.getElementById('adminLoginGate').style.display = 'flex';
-        document.getElementById('adminPasswordInput').value = '';
-        document.getElementById('adminPasswordInput').focus();
-      }
+      adminSecret = '';
+      serverOrders = [];
+      hasSynced = false;
+      document.getElementById('adminLoginGate').style.display = 'flex';
+      document.getElementById('adminApp').style.display = 'none';
     }
 
     // Modal Cambiar Contraseña
@@ -1530,41 +1490,19 @@
 
     async function handleChangePassword(e) {
       e.preventDefault();
-      const current = document.getElementById('currentPwdInput').value.trim();
-      const newPwd = document.getElementById('newPwdInput').value.trim();
-      const confirmPwd = document.getElementById('confirmPwdInput').value.trim();
-      const errBox = document.getElementById('changePwdError');
-
-      const storedHash = localStorage.getItem('velora_admin_hash');
-      const currentHash = await sha256(current);
-
-      if (storedHash && currentHash !== storedHash) {
-        errBox.textContent = '❌ La contraseña actual no coincide.';
-        errBox.style.display = 'block';
-        return;
-      } else if (!storedHash && current !== DEFAULT_MASTER_PASSWORD) {
-        errBox.textContent = '❌ La contraseña actual no coincide.';
-        errBox.style.display = 'block';
-        return;
-      }
-
-      if (newPwd.length < 6) {
-        errBox.textContent = '❌ La nueva contraseña debe tener al menos 6 caracteres.';
-        errBox.style.display = 'block';
-        return;
-      }
-
-      if (newPwd !== confirmPwd) {
-        errBox.textContent = '❌ Las nuevas contraseñas no coinciden entre sí.';
-        errBox.style.display = 'block';
-        return;
-      }
-
-      const newHash = await sha256(newPwd);
-      localStorage.setItem('velora_admin_hash', newHash);
-      closeChangePasswordModal();
-      e.target.reset();
-      showToast('🔑 Contraseña actualizada exitosamente');
+      const current = document.getElementById('currentPwdInput').value;
+      const password = document.getElementById('newPwdInput').value;
+      const confirm = document.getElementById('confirmPwdInput').value;
+      try {
+        if (current !== adminSecret || password !== confirm || password.length < 16) {
+          throw new Error('Verifica la contraseña actual y usa al menos 16 caracteres en la nueva.');
+        }
+        await adminRequest('change_password', { new_password: password });
+        adminSecret = password;
+        e.target.reset();
+        closeChangePasswordModal();
+        showToast('Contraseña actualizada en el servidor.');
+      } catch(error) { alert(error.message); }
     }
 
     // ----------------------------------------------------------
@@ -1577,26 +1515,17 @@
     }
 
     function setSheetsUrl(url) {
+      hasSynced = false;
       localStorage.setItem('velora_sheets_url', url.trim());
       updateSheetsStatusUI();
     }
 
     function updateSheetsStatusUI() {
-      const url = getSheetsUrl();
       const badge = document.getElementById('sheetsStatusBadge');
-      const dot = document.getElementById('sheetsStatusDot');
-      const text = document.getElementById('sheetsStatusText');
       if (!badge) return;
-
-      if (url && url.startsWith('http')) {
-        badge.className = 'sheets-badge connected';
-        dot.textContent = '🟢';
-        text.textContent = 'Sheets Conectado';
-      } else {
-        badge.className = 'sheets-badge disconnected';
-        dot.textContent = '⚪';
-        text.textContent = 'Configurar Sheets';
-      }
+      badge.className = 'sheets-badge ' + (hasSynced ? 'connected' : 'disconnected');
+      document.getElementById('sheetsStatusDot').textContent = hasSynced ? '🟢' : '⚪';
+      document.getElementById('sheetsStatusText').textContent = hasSynced ? 'Sheets verificado' : 'Sheets sin verificar';
     }
 
     function openSheetsConfigModal() {
@@ -1619,128 +1548,41 @@
     }
 
     async function testSheetsConnection() {
-      const url = document.getElementById('sheetsWebappUrl').value.trim();
-      if (!url) return alert('Por favor ingresa una URL de Google Apps Script.');
-      
-      showToast('🧪 Probando conexión con Google Sheets...');
       try {
-        const res = await fetch(url);
-        const text = await res.text();
-        let data;
-        try {
-          data = JSON.parse(text);
-        } catch(errJson) {
-          if (text.includes('accounts.google.com') || text.includes('signin') || text.includes('ServiceLogin')) {
-            alert('⚠️ ATENCIÓN - Error de Permisos en Google Apps Script:\n\nGoogle devolvió la pantalla de inicio de sesión de Google.\n\nEsto sucede porque en la configuración de la implementación pusiste "Quién tiene acceso: Solo yo".\n\nCÓMO RESOLVERLO:\n1. Abre Apps Script.\n2. Ve a: Implementar > Nueva implementación.\n3. En "Quién tiene acceso", selecciona obligatoriamente: "Cualquier persona" (Anyone).\n4. Haz clic en Implementar y copia la nueva URL.');
-            return;
-          }
-          throw new Error('La URL no devolvió JSON válido.');
-        }
-
-        if (data && (data.status === 'success' || Array.isArray(data.orders))) {
-          alert('🎉 ¡Conexión Exitosa con Google Sheets!\nLa hoja respondió correctamente y está 100% sincronizada.');
-        } else {
-          alert('⚠️ Se conectó a la URL, pero la respuesta no fue la esperada. Revisa el código del script.');
-        }
-      } catch (err) {
-        alert('❌ Error al conectar: ' + err.message);
-      }
+        await adminRequest('get_config_status', {}, document.getElementById('sheetsWebappUrl').value.trim());
+        alert('Backend actualizado y autenticación verificada. Purchase se confirma por separado con la respuesta de Meta.');
+      } catch (error) { alert(error.message); }
     }
 
     // Sincronizar pedidos con Google Sheets
     let isSyncing = false;
     async function syncWithGoogleSheets(showNotification = true) {
-      const url = getSheetsUrl();
-      if (!url) {
-        if (showNotification) {
-          openSheetsConfigModal();
-        }
-        return;
-      }
-
       if (isSyncing) return;
       isSyncing = true;
-      const syncIcon = document.getElementById('syncIcon');
-      if (syncIcon) syncIcon.style.animation = 'spinSync 1s linear infinite';
-
       try {
-        const response = await fetch(url);
-        const text = await response.text();
-        let result;
-
-        try {
-          result = JSON.parse(text);
-        } catch (jsonErr) {
-          if (text.includes('accounts.google.com') || text.includes('signin')) {
-            console.warn('Google Apps Script requiere permiso público (Cualquier persona).');
-            if (showNotification) {
-              showToast('⚠️ Google Apps Script pide login. Cambia acceso a "Cualquier persona".');
-            }
-            return;
-          }
-          throw jsonErr;
-        }
-
-        if (result && result.orders && Array.isArray(result.orders)) {
-          if (result.orders.length > 0) {
-            // Guardar pedidos traídos de Google Sheets
-            localStorage.setItem('velora_orders', JSON.stringify(result.orders));
-            localStorage.setItem('viron_orders', JSON.stringify(result.orders));
-            renderDashboard();
-            if (showNotification) {
-              showToast(`✅ ${result.orders.length} pedidos sincronizados desde Google Sheets`);
-            }
-          } else {
-            if (showNotification) showToast('ℹ️ Google Sheets conectado (sin pedidos aún).');
-          }
-        }
-      } catch (err) {
-        console.warn('Sync error:', err);
-        if (showNotification) {
-          showToast('⚠️ No se pudo sincronizar con Sheets. Usando datos locales.');
-        }
+        const result = await adminRequest('get_orders');
+        if (!Array.isArray(result.orders)) throw new Error('Respuesta de pedidos inválida.');
+        serverOrders = result.orders;
+        hasSynced = true;
+        renderDashboard();
+        if (showNotification) showToast(result.orders.length + ' pedidos sincronizados.');
+      } catch (error) {
+        hasSynced = false;
+        showToast(error.message);
       } finally {
         isSyncing = false;
-        if (syncIcon) syncIcon.style.animation = '';
+        updateSheetsStatusUI();
       }
     }
 
     // ----------------------------------------------------------
     // 3. BASE DE DATOS LOCAL Y KPIs
     // ----------------------------------------------------------
-    const defaultOrders = [
-      { id: 'VL-1098', date: '2026-09-02 18:45', name: 'Camila Paredes G.', phone: '916102139', city: 'Lima', address: 'Agencia Shalom: Miraflores - Av. Benavides 2150', units: 1, product: '1x VELORA 5 en 1', price: 99.90, payment: 'Yape Oficial', status: 'Pendiente', payment_status: 'Pendiente', paid_at: '', capi_status: 'none', capi_event_id: '' },
-      { id: 'VL-1097', date: '2026-09-02 18:10', name: 'Valeria Mendoza S.', phone: '984512345', city: 'Arequipa', address: 'Agencia Shalom: Paucarpata - Av. Jesús / Kennedy', units: 2, product: '2x VELORA 5 en 1 (Ahorro S/29.90)', price: 169.90, payment: 'Yape Oficial', status: 'Confirmado', payment_status: 'Pendiente', paid_at: '', capi_status: 'none', capi_event_id: '' },
-      { id: 'VL-1096', date: '2026-09-02 17:35', name: 'Fiorella Gutiérrez M.', phone: '944123789', city: 'La Libertad', address: 'Agencia Shalom: Trujillo - Av. América Sur 1240', units: 3, product: '3x VELORA 5 en 1 (Ahorro S/69.80)', price: 229.90, payment: 'Yape Oficial', status: 'Confirmado', payment_status: 'Pendiente', paid_at: '', capi_status: 'none', capi_event_id: '' },
-      { id: 'VL-1095', date: '2026-09-02 16:50', name: 'Luciana Ramos T.', phone: '978654123', city: 'Cusco', address: 'Agencia Shalom: Wanchaq - Av. Huayruropata 1420', units: 1, product: '1x VELORA 5 en 1', price: 99.90, payment: 'Yape Oficial', status: 'En Camino', payment_status: 'Pagado', paid_at: '2026-09-02 17:00', capi_status: 'sent', capi_event_id: 'purchase_VL-1095' },
-      { id: 'VL-1094', date: '2026-09-02 15:20', name: 'Andrea Barrientos L.', phone: '951234876', city: 'Lambayeque', address: 'Agencia Shalom: Chiclayo - Av. Bolognesi 650', units: 2, product: '2x VELORA 5 en 1 (Ahorro S/29.90)', price: 169.90, payment: 'Yape Oficial', status: 'Entregado', payment_status: 'Pagado', paid_at: '2026-09-02 15:30', capi_status: 'sent', capi_event_id: 'purchase_VL-1094' }
-    ];
+    // Los pedidos se obtienen exclusivamente del servidor autenticado.
 
-    function getOrders() {
-      const stored = localStorage.getItem('velora_orders') || localStorage.getItem('viron_orders');
-      if (!stored) {
-        localStorage.setItem('velora_orders', JSON.stringify(defaultOrders));
-        return defaultOrders;
-      }
-      try {
-        const parsed = JSON.parse(stored);
-        return parsed.map(o => ({
-          ...o,
-          payment_status: o.payment_status || 'Pendiente',
-          paid_at: o.paid_at || '',
-          capi_status: o.capi_status || 'none',
-          capi_event_id: o.capi_event_id || ''
-        }));
-      } catch (e) {
-        return defaultOrders;
-      }
-    }
+    function getOrders() { return serverOrders; }
 
-    function saveOrders(orders) {
-      localStorage.setItem('velora_orders', JSON.stringify(orders));
-      localStorage.setItem('viron_orders', JSON.stringify(orders));
-      renderDashboard();
-    }
+    function saveOrders(orders) { serverOrders = orders; renderDashboard(); }
 
     // ----------------------------------------------------------
     // 4. RENDER DEL DASHBOARD & GRÁFICOS
@@ -1792,6 +1634,9 @@
       renderCharts(orders);
     }
 
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
     // RENDER TABLA
     function renderTable(ordersToRender) {
       const tbody = document.getElementById('ordersTableBody');
@@ -1802,9 +1647,12 @@
         return;
       }
 
-      ordersToRender.forEach(order => {
+      ordersToRender.forEach(rawOrder => {
+        const order = { ...rawOrder };
+        ['name','date','phone','dni','city','address','product','payment','paid_at','capi_message','capi_event_id'].forEach(key => order[key] = escapeHtml(order[key]));
+        if (!/^VL-[a-zA-Z0-9-]{4,80}$/.test(order.id)) return;
         const tr = document.createElement('tr');
-        const statusSlug = (order.status || 'Pendiente').toLowerCase().replace(/\s+/g, '-');
+        const statusSlug = ['Pendiente','Confirmado','En Camino','Entregado','Cancelado'].includes(order.status) ? order.status.toLowerCase().replace(/\s+/g, '-') : 'pendiente';
 
         const waMsg = encodeURIComponent(
           `Hola ${order.name}! 👋 Te saludamos de VELORA Beauty.\n` +
@@ -1832,7 +1680,7 @@
           </td>
           <td>
             <span style="font-weight:700; color:#4ADE80;">${order.product}</span>
-            <div style="font-size:11px; color:#94A3B8;">${order.units || 1} un. • ${order.payment || 'Yape Oficial'}</div>
+            <div style="font-size:11px; color:#94A3B8;">${Number(order.units) || 1} un. • ${order.payment || 'Yape Oficial'}</div>
           </td>
           <td style="font-weight:900; color:#FFFFFF;">S/ ${parseFloat(order.price).toFixed(2)}</td>
           <td>
@@ -1861,9 +1709,9 @@
               ${
                 order.capi_status === 'sent'
                   ? `<span class="badge-capi-sent" title="Evento Purchase entregado a Meta CAPI (${order.capi_event_id || ('purchase_' + order.id)})">🟢 CAPI OK</span>`
-                  : order.capi_status === 'failed'
+                  : (order.capi_status === 'failed' || order.capi_status === 'test_sent' || (order.payment_status === 'Pagado' && order.capi_status !== 'sent'))
                     ? `<div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
-                         <span class="badge-capi-error" title="${order.capi_message || 'Fallo de entrega'}">🔴 Error CAPI</span>
+                         <span class="badge-capi-error" title="${order.capi_message || 'Fallo de entrega'}">${order.capi_status === 'test_sent' ? '🧪 Solo prueba' : '⚠️ Purchase pendiente'}</span>
                          <button class="btn-retry-capi" onclick="retryCapi('${order.id}')">🔄 Reintentar</button>
                        </div>`
                     : order.capi_status === 'pending'
@@ -1888,26 +1736,10 @@
 
     // CAMBIAR ESTADO LOGÍSTICO (NUNCA DISPARA PURCHASE)
     async function changeOrderStatus(orderId, newStatus) {
-      const orders = getOrders();
-      const target = orders.find(o => o.id === orderId);
-      if (target) {
-        target.status = newStatus;
-        saveOrders(orders);
-        showToast(`Estado logístico de #${orderId} cambiado a: ${newStatus}`);
-
-        // Sincronizar cambio con Google Sheets en segundo plano
-        const url = getSheetsUrl();
-        if (url) {
-          try {
-            fetch(url, {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-              body: JSON.stringify({ action: 'update_status', id: orderId, status: newStatus })
-            });
-          } catch(e) {}
-        }
-      }
+      try {
+        await adminRequest('update_status', { id: orderId, status: newStatus });
+        await syncWithGoogleSheets(false);
+      } catch(error) { showToast(error.message); renderDashboard(); }
     }
 
     // ==========================================================
@@ -1938,97 +1770,36 @@
 
     async function executeMarkAsPaid() {
       if (!pendingPaymentOrderId) return;
-      const orderId = pendingPaymentOrderId;
-      const orders = getOrders();
-      const target = orders.find(o => o.id === orderId);
-      if (!target) return;
-      if (target.payment_status === 'Pagado') {
-        showToast(`ℹ️ El pedido #${orderId} ya está pagado.`);
+      const id = pendingPaymentOrderId;
+      const button = document.getElementById('btnConfirmPayExecute');
+      if (button.disabled) return;
+      button.disabled = true;
+      button.textContent = 'Confirmando pago…';
+      try {
+        const data = await adminRequest('mark_paid', { id });
+        if (data.id !== id || data.payment_status !== 'Pagado' || !data.capi_status) throw new Error('Confirmación de pago incompleta.');
+        showToast(data.capi_status === 'sent' ? 'Pago confirmado. Meta aceptó Purchase.' :
+          data.capi_status === 'test_sent' ? 'Pago confirmado. Purchase enviado en modo de prueba.' :
+          'Pago confirmado. Purchase pendiente: ' + (data.capi_message || 'Reintenta el envío.'));
+        await syncWithGoogleSheets(false);
         closeConfirmPaymentModal();
-        return;
+      } catch (error) {
+        showToast('No se pudo confirmar la operación: ' + error.message);
+        await syncWithGoogleSheets(false);
+      } finally {
+        button.disabled = false;
+        button.textContent = '✅ Confirmar pago y enviar Purchase';
       }
-
-      const confirmBtn = document.getElementById('btnConfirmPayExecute');
-      if (confirmBtn) {
-        confirmBtn.disabled = true;
-        confirmBtn.innerHTML = '<span>⏳ Verificando y enviando a Meta CAPI...</span>';
-      }
-
-      const paidDate = new Date().toISOString().slice(0, 16).replace('T', ' ');
-      target.payment_status = 'Pagado';
-      target.paid_at = paidDate;
-      target.capi_status = 'pending';
-      target.capi_event_id = `purchase_${orderId}`;
-      saveOrders(orders);
-
-      const url = getSheetsUrl();
-      if (url && url.startsWith('http')) {
-        try {
-          const endpoint = `${url}?action=mark_paid&id=${encodeURIComponent(orderId)}`;
-          const res = await fetch(endpoint);
-          const data = await res.json();
-
-          if (data && data.status === 'success') {
-            target.capi_status = data.capi_status || 'sent';
-            target.capi_event_id = data.capi_event_id || `purchase_${orderId}`;
-            target.paid_at = data.paid_at || paidDate;
-            saveOrders(orders);
-            showToast(`✅ Pedido #${orderId} marcado como Pagado. Meta CAPI: ${data.capi_status}`);
-          } else {
-            target.capi_status = 'failed';
-            target.capi_message = data ? data.message : 'Error al comunicar con servidor';
-            saveOrders(orders);
-            showToast(`⚠️ Pago registrado, pero CAPI reportó: ${target.capi_message}`);
-          }
-        } catch (err) {
-          console.warn('Error CAPI:', err);
-          target.capi_status = 'failed';
-          target.capi_message = err.message;
-          saveOrders(orders);
-          showToast(`⚠️ Pago registrado localmente. CAPI pendiente de conexión.`);
-        }
-      } else {
-        showToast(`ℹ️ Pedido #${orderId} marcado como Pagado (Modo local sin Sheets).`);
-      }
-
-      if (confirmBtn) {
-        confirmBtn.disabled = false;
-        confirmBtn.innerHTML = '<span>✅ Sí, confirmar pago y enviar CAPI</span>';
-      }
-
-      closeConfirmPaymentModal();
     }
 
     async function retryCapi(orderId) {
-      const orders = getOrders();
-      const target = orders.find(o => o.id === orderId);
-      if (!target) return;
-
-      showToast(`🔄 Reintentando envío a Meta CAPI para #${orderId}...`);
-      const url = getSheetsUrl();
-      if (!url || !url.startsWith('http')) {
-        return alert('Configura la URL de Google Apps Script para reintentar el envío a CAPI.');
-      }
-
       try {
-        const endpoint = `${url}?action=retry_capi&id=${encodeURIComponent(orderId)}`;
-        const res = await fetch(endpoint);
-        const data = await res.json();
-
-        if (data && (data.status === 'success' || data.capi_status === 'sent')) {
-          target.capi_status = 'sent';
-          target.capi_event_id = data.capi_event_id || `purchase_${orderId}`;
-          saveOrders(orders);
-          showToast(`🎉 Evento CAPI entregado exitosamente para #${orderId}`);
-        } else {
-          target.capi_status = 'failed';
-          target.capi_message = data ? data.message : 'Error desconocido';
-          saveOrders(orders);
-          showToast(`❌ Error al reintentar CAPI: ${target.capi_message}`);
-        }
-      } catch (err) {
-        showToast(`❌ Error de conexión al reintentar: ${err.message}`);
-      }
+        const result = await adminRequest('retry_capi', { id: orderId });
+        if (result.capi_status === 'sent') showToast('Meta aceptó Purchase.');
+        else if (result.capi_status === 'test_sent') showToast('Meta aceptó el evento de prueba. No cuenta como compra real.');
+        else showToast(result.capi_message || 'Meta todavía no aceptó Purchase.');
+        await syncWithGoogleSheets(false);
+      } catch (error) { showToast(error.message); }
     }
 
     // MODAL DE CONFIGURACIÓN META PIXEL & CAPI
@@ -2044,64 +1815,26 @@
 
     async function handleSaveMetaCapiConfig(e) {
       e.preventDefault();
-      const testCode = document.getElementById('capiTestCodeInput').value.trim();
-      const url = getSheetsUrl();
-
-      if (url && url.startsWith('http')) {
-        showToast('⏳ Guardando configuración en Google Apps Script...');
-        try {
-          const endpoint = `${url}?action=set_config&test_event_code=${encodeURIComponent(testCode)}`;
-          const res = await fetch(endpoint);
-          const data = await res.json();
-          if (data && data.status === 'success') {
-            showToast('✅ Configuración de Meta CAPI actualizada en servidor.');
-          } else {
-            showToast('⚠️ No se pudo guardar en el servidor.');
-          }
-        } catch (err) {
-          showToast('⚠️ Error al conectar con el servidor.');
-        }
-      } else {
-        showToast('ℹ️ Configura primero la URL de Google Sheets.');
-      }
-
-      closeMetaCapiModal();
+      try {
+        await adminRequest('set_config', { test_event_code: document.getElementById('capiTestCodeInput').value.trim() });
+        showToast('Configuración guardada en el servidor.');
+        closeMetaCapiModal();
+      } catch (error) { showToast(error.message); }
     }
 
     async function checkCapiServerStatus() {
-      const url = getSheetsUrl();
-      if (!url || !url.startsWith('http')) {
-        return alert('Configura primero la URL de Google Apps Script.');
-      }
-      showToast('🔍 Verificando estado en Google Apps Script...');
       try {
-        const res = await fetch(`${url}?action=get_config_status`);
-        const data = await res.json();
-        if (data && data.status === 'success') {
-          const tokenStatus = data.has_access_token ? '✅ Configurado y activo' : '⚠️ No configurado (requiere META_CAPI_ACCESS_TOKEN)';
-          alert(
-            `📊 Estado de Meta CAPI en Servidor:\n\n` +
-            `• Pixel / Dataset ID: ${data.pixel_id}\n` +
-            `• Token de Acceso CAPI: ${tokenStatus}\n` +
-            `• Código de Prueba (Test Code): ${data.test_event_code ? data.test_event_code : '(Desactivado / Modo Producción)'}\n\n` +
-            `Para cambiar el Token de acceso, ve a Google Apps Script > Configuración del proyecto > Propiedades de la secuencia de comandos.`
-          );
-        } else {
-          alert('⚠️ El servidor respondió pero no devolvió el formato esperado. Asegúrate de haber actualizado el archivo google_apps_script.js.');
-        }
-      } catch (err) {
-        alert('❌ Error al conectar con Google Apps Script: ' + err.message);
-      }
+        const data = await adminRequest('get_config_status');
+        document.getElementById('capiActivePixelDisplay').textContent = data.pixel_id;
+        document.getElementById('capiTestCodeInput').value = data.test_event_code;
+        alert('Pixel: ' + data.pixel_id + '\nToken: ' + (data.has_access_token ? 'Configurado (validez pendiente de un envío)' : 'Falta configurar') +
+          '\nModo: ' + (data.test_event_code ? 'PRUEBA: ' + data.test_event_code : 'Producción'));
+      } catch (error) { alert(error.message); }
     }
 
     // ELIMINAR PEDIDO
-    function deleteOrder(orderId) {
-      if (confirm(`¿Estás seguro de eliminar el pedido #${orderId}?`)) {
-        let orders = getOrders();
-        orders = orders.filter(o => o.id !== orderId);
-        saveOrders(orders);
-        showToast(`🗑️ Pedido #${orderId} eliminado.`);
-      }
+    function deleteOrder() {
+      showToast('Para conservar la trazabilidad del pago, utiliza el estado Cancelado.');
     }
 
     // FILTROS
@@ -2364,7 +2097,7 @@
       document.getElementById('manualOrderModal').classList.remove('active');
     }
 
-    function handleCreateManualOrder(e) {
+    async function handleCreateManualOrder(e) {
       e.preventDefault();
       const name = document.getElementById('manualName').value.trim();
       const phone = document.getElementById('manualPhone').value.trim();
@@ -2383,7 +2116,7 @@
       };
 
       const newOrder = {
-        id: 'VL-' + Math.floor(1000 + Math.random() * 9000),
+        id: e.target.dataset.pendingOrderId || (e.target.dataset.pendingOrderId = VeloraAPI.newId()),
         date: new Date().toISOString().slice(0, 16).replace('T', ' '),
         name: name,
         phone: phone,
@@ -2401,26 +2134,19 @@
         capi_event_id: ''
       };
 
-      const orders = getOrders();
-      orders.unshift(newOrder);
-      saveOrders(orders);
-
-      // Enviar a Google Sheets
-      const url = getSheetsUrl();
-      if (url) {
-        try {
-          fetch(url, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(newOrder)
-          });
-        } catch(err) {}
-      }
-
-      closeManualOrderModal();
-      e.target.reset();
-      showToast(`🎉 Pedido #${newOrder.id} creado.`);
+      const button = e.target.querySelector('[type="submit"]');
+      if (button.disabled) return;
+      button.disabled = true;
+      try {
+        const result = await VeloraAPI.request('create_order', newOrder);
+        if (!result.saved || result.id !== newOrder.id) throw new Error('No se confirmó el guardado.');
+        delete e.target.dataset.pendingOrderId;
+        await syncWithGoogleSheets(false);
+        closeManualOrderModal();
+        e.target.reset();
+        showToast('Pedido guardado.');
+      } catch(error) { showToast(error.message); }
+      finally { button.disabled = false; }
     }
 
     function scrollToOrders() {
@@ -2439,6 +2165,7 @@
     // INICIALIZACIÓN
     document.addEventListener('DOMContentLoaded', () => {
       checkExistingAuth();
+      document.getElementById('rememberSessionCheck').closest('label')?.remove();
     });
   </script>
 </body>

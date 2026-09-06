@@ -31,7 +31,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- ==========================================================
-       META PIXEL CODE OFICIAL (OPTIMIZADO CON COINCIDENCIAS AVANZADAS)
+       META PIXEL CODE OFICIAL
        ========================================================== -->
   <script>
     !function(f,b,e,v,n,t,s)
@@ -50,6 +50,7 @@
   src="https://www.facebook.com/tr?id=1635217208321987&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
+  <script src="api-client.js"></script>
 
   <style>
     /* ==========================================================
@@ -4034,11 +4035,12 @@
     };
 
     function selectBundle(units, price, oldPrice) {
+      const bundleChanged = selectedUnits !== units;
       selectedUnits = units;
       selectedPrice = price;
 
       // DISPARAR EVENTO ADDTOCART EN EL PIXEL (OPTIMIZACIÓN METADATA)
-      if (typeof fbq === 'function') {
+      if (typeof fbq === 'function' && bundleChanged) {
         fbq('track', 'AddToCart', {
           content_name: bundlesData[units].name,
           content_ids: [`velora-5en1-${units}u`],
@@ -4148,8 +4150,9 @@
       document.getElementById('codModal').classList.add('active');
       document.body.style.overflow = 'hidden';
 
-      // EVENTO INITIATECHECKOUT CON EVENTID DINÁMICO
-      if (typeof fbq === 'function') {
+      // INITIATECHECKOUT UNA VEZ POR SESIÓN DE CHECKOUT
+      if (typeof fbq === 'function' && !checkoutTracked) {
+        checkoutTracked = true;
         fbq('track', 'InitiateCheckout', {
           content_name: selectedProductName,
           content_ids: [`velora-5en1-${selectedUnits}u`],
@@ -4372,6 +4375,12 @@
     // CAPTURA DE ATRIBUCIÓN DEL CLIENTE (META CAPI & UTMs)
     // ==========================================================
     let cachedClientIp = null;
+    let contactTrackedForOrder = null;
+    function trackOrderContact(id) {
+      if (contactTrackedForOrder === id) return;
+      contactTrackedForOrder = id;
+      if (typeof fbq === 'function') fbq('track', 'Contact', {}, { eventID: 'contact_' + id });
+    }
     (function fetchClientIp() {
       // Captura no bloqueante de IP del comprador para mejorar el Event Match Quality en CAPI
       try {
@@ -4416,12 +4425,20 @@
       const fbclid = urlParams.get('fbclid');
       if (!fbc && fbclid) {
         // Formato estándar de Meta: fb.1.{timestamp}.{fbclid}
-        fbc = `fb.1.${Date.now()}.${fbclid}`;
+        const storedClick = sessionStorage.getItem('velora_click_id');
+        let clickTime = sessionStorage.getItem('velora_click_time');
+        if (storedClick !== fbclid || !clickTime) {
+          clickTime = String(Date.now());
+          sessionStorage.setItem('velora_click_id', fbclid);
+          sessionStorage.setItem('velora_click_time', clickTime);
+        }
+        fbc = `fb.1.${clickTime}.${fbclid}`;
+        sessionStorage.setItem('velora_fbc', fbc);
       }
 
       return {
         fbp: fbp || null,
-        fbc: fbc || null,
+        fbc: fbc || sessionStorage.getItem('velora_fbc') || null,
         utm_source: utms.utm_source || null,
         utm_medium: utms.utm_medium || null,
         utm_campaign: utms.utm_campaign || null,
@@ -4436,6 +4453,7 @@
     // ==========================================================
     // DISPARO ÚNICO DE VIEWCONTENT AL VISUALIZAR EL PRODUCTO
     // ==========================================================
+    getAttributionData();
     let viewContentTriggered = false;
     function triggerViewContentOnce() {
       if (viewContentTriggered) return;
@@ -4453,11 +4471,13 @@
     }
 
     // ==========================================================
-    // ENVÍO DE FORMULARIO CON ADVANCED MATCHING Y BLOQUEO ANTI-DUPLICADOS
+    // ENVÍO CONFIRMADO DEL PEDIDO Y BLOQUEO ANTI-DUPLICADOS
     // ==========================================================
     let isSubmitting = false;
+    let pendingOrderId = sessionStorage.getItem('velora_pending_order_id');
+    let checkoutTracked = false;
 
-    function handleSubmitOrder(e) {
+    async function handleSubmitOrder(e) {
       e.preventDefault();
 
       if (isSubmitting) return;
@@ -4529,7 +4549,8 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span>⏳ Conectando con WhatsApp...</span>';
 
-      const orderId = 'VL-' + Math.floor(1000 + Math.random() * 9000);
+      const orderId = pendingOrderId || (pendingOrderId = VeloraAPI.newId());
+      sessionStorage.setItem('velora_pending_order_id', orderId);
       const clientAttribution = getAttributionData();
 
       const newOrderRecord = {
@@ -4552,18 +4573,18 @@
         attribution: clientAttribution
       };
 
-      let existingOrders = [];
       try {
-        existingOrders = JSON.parse(localStorage.getItem('velora_orders') || localStorage.getItem('viron_orders') || '[]');
-      } catch(err) {
-        existingOrders = [];
+        const saved = await sendOrderToGoogleSheet(newOrderRecord);
+        if (!saved.saved || saved.id !== orderId) throw new Error('No se confirmó el pedido.');
+      } catch (error) {
+        isSubmitting = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = bundlesData[selectedUnits].submitText;
+        showFormGlobalError('No pudimos confirmar tu pedido. Vuelve a intentarlo. ' + error.message);
+        return;
       }
-      existingOrders.unshift(newOrderRecord);
-      localStorage.setItem('velora_orders', JSON.stringify(existingOrders));
-      localStorage.setItem('viron_orders', JSON.stringify(existingOrders));
-
-      // Sincronizar automáticamente con Google Sheets
-      sendOrderToGoogleSheet(newOrderRecord);
+      pendingOrderId = null;
+      sessionStorage.removeItem('velora_pending_order_id');
 
       // DISPARAR EVENTO LEAD (SOLO UNA VEZ TRAS GUARDAR CORRECTAMENTE, NUNCA PURCHASE)
       const leadEventId = `lead_${orderId}`;
@@ -4614,9 +4635,7 @@
           waBtn.href = whatsappUrl;
           waBtn.onclick = function(event) {
             event.preventDefault();
-            if (typeof fbq === 'function') {
-              fbq('track', 'Contact');
-            }
+            trackOrderContact(orderId);
             window.location.href = whatsappUrl;
           };
         }
@@ -4631,16 +4650,12 @@
           if (countdownEl) countdownEl.textContent = secondsRemaining;
           if (secondsRemaining <= 0) {
             clearInterval(redirectInterval);
-            if (typeof fbq === 'function') {
-              fbq('track', 'Contact');
-            }
+            trackOrderContact(orderId);
             window.location.href = whatsappUrl;
           }
         }, 1000);
       } else {
-        if (typeof fbq === 'function') {
-          fbq('track', 'Contact');
-        }
+        trackOrderContact(orderId);
         window.location.href = whatsappUrl;
       }
 
@@ -4657,25 +4672,7 @@
     const DEFAULT_GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwBH9T5JLwzIEz9ugyO8xLJQSx8xnQZJHghFmBbv0HZftR7mwxYDghCsxDFBl0ujngBCw/exec';
 
     function sendOrderToGoogleSheet(orderData) {
-      const endpoint = localStorage.getItem('velora_sheets_url') || DEFAULT_GOOGLE_SHEETS_URL;
-      if (!endpoint || !endpoint.startsWith('http')) {
-        console.info('Google Sheets URL no configurada.');
-        return;
-      }
-      try {
-        fetch(endpoint, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(orderData)
-        }).then(() => {
-          console.log('✅ Pedido sincronizado con Google Sheets:', orderData.id);
-        }).catch(err => {
-          console.warn('⚠️ No se pudo conectar con Google Sheets:', err);
-        });
-      } catch (err) {
-        console.warn('⚠️ Error al invocar fetch a Google Sheets:', err);
-      }
+      return VeloraAPI.request('create_order', orderData);
     }
 
     // ==========================================================

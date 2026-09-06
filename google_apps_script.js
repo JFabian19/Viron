@@ -15,7 +15,7 @@
  *        * META_CAPI_ACCESS_TOKEN : Tu token permanente de Administrador de Eventos de Meta.
  *        * META_PIXEL_ID          : 1635217208321987 (o tu nuevo ID de Pixel/Conjunto de datos).
  *        * META_TEST_EVENT_CODE   : (Opcional) Código de prueba para depurar en Eventos de prueba (ej. TEST12345).
- *        * ADMIN_SECRET           : (Opcional) Clave maestra para autorizar cambios sensibles desde /admin.
+ *        * ADMIN_SECRET           : (Obligatorio) Contraseña privada de al menos 16 caracteres para autorizar cambios sensibles desde /admin.
  * 5. Haz clic en: Implementar > Nueva implementación.
  *    - Tipo: "Aplicación web".
  *    - Ejecutar como: "Yo" (tu cuenta de Google).
@@ -25,23 +25,11 @@
 
 var SPREADSHEET_ID = "1lN4U1vUtAozuxe4v3sqqmCfXn7ZvbnoEBq35Tr_eqg8";
 var DEFAULT_PIXEL_ID = "1635217208321987";
+var GRAPH_API_VERSION = "v26.0";
 var SHEET_ORDERS = "Pedidos";
 var SHEET_METRICS = "Métricas";
 
-/**
- * FUNCIÓN DE CONFIGURACIÓN DIRECTA EN APPS SCRIPT:
- * Ejecuta esta función desde el editor de Google Apps Script para guardar tu token:
- * 1. Selecciona 'configurarVariableTokem' en el menú de funciones arriba.
- * 2. Haz clic en 'Ejecutar'.
- */
-function configurarVariableTokem() {
-  PropertiesService.getScriptProperties().setProperty(
-    "tokem",
-    "EAAdSX7uwHFUBSRusZCXXUxYqHxVebWuaZCsmPZCQUajy9sVEzTDcbLwo2vMKRZCKVobY9ujZAAZByaNyb9mCHZCV0mxgfaHySyvSHyZCLwOw2uaYpvizsI4WwaxbNjfbtiaqbtqNykHNbHK9sALUsTW5yQiu31dqFdS7LGeLfzZBJtvI2ulBZAg4OcbwPZA24Dr4Sqy5gZDZD"
-  );
-  PropertiesService.getScriptProperties().setProperty("META_PIXEL_ID", "1635217208321987");
-  Logger.log("✅ Variable 'tokem' y 'META_PIXEL_ID' configuradas exitosamente en el servidor de Google Apps Script.");
-}
+// Las credenciales se configuran exclusivamente en Propiedades del Script.
 
 // Catálogo oficial de precios para validación estricta en servidor
 var PRICE_CATALOG = {
@@ -140,7 +128,7 @@ function setupSheet() {
       ["Métrica", "Fórmula Automática"],
       ["Ventas Registradas (S/)", '=IFERROR(SUM(Pedidos!J2:J), 0)'],
       ["Total Cobrado / Pagado (S/)", '=IFERROR(SUMIFS(Pedidos!J2:J, Pedidos!M2:M, "Pagado"), 0)'],
-      ["Total de Pedidos Registrados", '=MAX(0, COUNTA(Pedidos!A2:A)-1)'],
+      ["Total de Pedidos Registrados", '=COUNTA(Pedidos!A2:A)'],
       ["Pedidos con Pago Pendiente", '=COUNTIF(Pedidos!M2:M, "Pendiente")'],
       ["Pedidos Pagados Confirmados", '=COUNTIF(Pedidos!M2:M, "Pagado")'],
       ["Eventos CAPI Enviados", '=COUNTIF(Pedidos!O2:O, "sent")'],
@@ -192,12 +180,20 @@ function hashSHA256(text) {
   return hex;
 }
 
+function hashExactSHA256(text) {
+  var raw = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, String(text || ""), Utilities.Charset.UTF_8);
+  return raw.map(function(byte) {
+    var value = byte < 0 ? byte + 256 : byte;
+    return value.toString(16).padStart(2, "0");
+  }).join("");
+}
+
 /**
- * Enviar evento Purchase a Meta Conversions API (Graph API v21.0)
+ * Enviar evento Purchase a Meta Conversions API
  */
 function sendCapiPurchase(order, paidTimestamp) {
   var props = PropertiesService.getScriptProperties();
-  var accessToken = props.getProperty("tokem") || props.getProperty("META_CAPI_ACCESS_TOKEN");
+  var accessToken = props.getProperty("META_CAPI_ACCESS_TOKEN");
   var pixelId = props.getProperty("META_PIXEL_ID") || DEFAULT_PIXEL_ID;
   var testEventCode = props.getProperty("META_TEST_EVENT_CODE");
 
@@ -205,7 +201,7 @@ function sendCapiPurchase(order, paidTimestamp) {
     return {
       status: "failed",
       event_id: "purchase_" + String(order.id).trim(),
-      message: "Variable 'tokem' (Access Token de Meta CAPI) no configurada en Propiedades del Script de Google Apps Script."
+      message: "META_CAPI_ACCESS_TOKEN no configurada en Propiedades del Script de Google Apps Script."
     };
   }
 
@@ -227,7 +223,7 @@ function sendCapiPurchase(order, paidTimestamp) {
   if (nameParts.length > 0) {
     userData.fn = [hashSHA256(nameParts[0])];
     if (nameParts.length > 1) {
-      var lastName = nameParts.slice(1).join("");
+      var lastName = nameParts.slice(Math.max(1, nameParts.length - 2)).join("");
       userData.ln = [hashSHA256(lastName)];
     }
   }
@@ -235,7 +231,7 @@ function sendCapiPurchase(order, paidTimestamp) {
   // Ciudad/Departamento (sin tildes, minúsculas)
   var cleanCity = stripAccents(order.city || "").replace(/[^a-z0-9]/g, "");
   if (cleanCity) {
-    userData.ct = [hashSHA256(cleanCity)];
+    userData.st = [hashSHA256(cleanCity)];
   }
 
   // País: Perú ('pe')
@@ -255,9 +251,11 @@ function sendCapiPurchase(order, paidTimestamp) {
   // NOTA CRÍTICA DE SEGURIDAD: NUNCA se envía DNI a Meta ni se usan datos del administrador
 
   var eventId = "purchase_" + String(order.id).trim();
-  var eventEpochSeconds = paidTimestamp 
-    ? Math.floor(new Date(paidTimestamp).getTime() / 1000) 
-    : Math.floor(Date.now() / 1000);
+  var eventEpochSeconds = Math.floor(new Date(paidTimestamp).getTime() / 1000);
+  if (!isFinite(eventEpochSeconds) || eventEpochSeconds > Math.floor(Date.now() / 1000) ||
+      eventEpochSeconds < Math.floor(Date.now() / 1000) - 7 * 86400) {
+    return { status: "failed", event_id: eventId, message: "Fecha de pago inválida o fuera del plazo de 7 días de Meta." };
+  }
 
   var eventPayload = {
     event_name: "Purchase",
@@ -284,12 +282,13 @@ function sendCapiPurchase(order, paidTimestamp) {
     postData.test_event_code = testEventCode.trim();
   }
 
-  var url = "https://graph.facebook.com/v21.0/" + pixelId + "/events?access_token=" + encodeURIComponent(accessToken.trim());
+  var url = "https://graph.facebook.com/" + GRAPH_API_VERSION + "/" + pixelId + "/events";
 
   try {
     var response = UrlFetchApp.fetch(url, {
       method: "post",
       contentType: "application/json",
+      headers: { Authorization: "Bearer " + accessToken.trim() },
       payload: JSON.stringify(postData),
       muteHttpExceptions: true
     });
@@ -299,7 +298,7 @@ function sendCapiPurchase(order, paidTimestamp) {
     var resJson = {};
     try { resJson = JSON.parse(resText); } catch(errParse) {}
 
-    if (resCode >= 200 && resCode < 300 && resJson.events_received > 0) {
+    if (resCode >= 200 && resCode < 300 && Number(resJson.events_received) === 1) {
       return {
         status: "sent",
         event_id: eventId,
@@ -323,334 +322,155 @@ function sendCapiPurchase(order, paidTimestamp) {
   }
 }
 
-/**
- * Endpoint principal POST
- */
-function doPost(e) {
-  try {
-    setupSheet();
-    var ss = getTargetSpreadsheet();
-    var sheet = ss.getSheetByName(SHEET_ORDERS);
-    
-    var data = {};
-    if (e && e.postData && e.postData.contents) {
-      try {
-        data = JSON.parse(e.postData.contents);
-      } catch (err) {
-        data = e.parameter || {};
-      }
-    } else if (e && e.parameter) {
-      data = e.parameter;
-    }
-    
-    var action = data.action || "create_order";
 
-    return handleRequest(action, data, sheet);
-
-  } catch (error) {
-    return respondJSON({
-      status: "error",
-      message: error.toString()
-    });
-  }
-}
-
-/**
- * Endpoint principal GET
- */
-function doGet(e) {
-  try {
-    setupSheet();
-    var ss = getTargetSpreadsheet();
-    var sheet = ss.getSheetByName(SHEET_ORDERS);
-    
-    var params = (e && e.parameter) ? e.parameter : {};
-    var action = params.action || "get_orders";
-
-    return handleRequest(action, params, sheet);
-
-  } catch (error) {
-    return respondJSON({
-      status: "error",
-      message: error.toString(),
-      orders: []
-    });
-  }
-}
-
-/**
- * Enrutador de acciones
- */
-function handleRequest(action, data, sheet) {
-
-  // 1. LEER PEDIDOS
-  if (action === "get_orders") {
-    var lastRow = sheet.getLastRow();
-    if (lastRow <= 1) {
-      return respondJSON({ status: "success", count: 0, orders: [] });
-    }
-    
-    var dataRange = sheet.getRange(2, 1, lastRow - 1, HEADERS.length);
-    var rawValues = dataRange.getValues();
-    
-    var orders = [];
-    for (var i = rawValues.length - 1; i >= 0; i--) {
-      var row = rawValues[i];
-      if (!row[0]) continue;
-      
-      var attrObj = {};
-      try {
-        if (row[16]) attrObj = JSON.parse(row[16]);
-      } catch(e) {}
-
-      orders.push({
-        id: String(row[0]),
-        date: String(row[1]),
-        name: String(row[2]),
-        phone: String(row[3]).replace(/^'/, ''),
-        dni: String(row[4]).replace(/^'/, ''),
-        city: String(row[5]),
-        address: String(row[6]),
-        product: String(row[7]),
-        units: Number(row[8]) || 1,
-        price: Number(row[9]) || 0,
-        payment: String(row[10]),
-        status: String(row[11]) || "Pendiente",          // Estado logístico
-        payment_status: String(row[12]) || "Pendiente",  // Estado pago
-        paid_at: String(row[13] || ""),
-        capi_status: String(row[14] || "none"),
-        capi_event_id: String(row[15] || ""),
-        attribution: attrObj
-      });
-    }
-
-    return respondJSON({
-      status: "success",
-      count: orders.length,
-      orders: orders
-    });
-  }
-
-  // 2. ACTUALIZAR ESTADO LOGÍSTICO (Confirmado, En Camino, Entregado, etc.) - NUNCA ENVÍA PURCHASE
-  if (action === "update_status") {
-    var targetId = data.id;
-    var newStatus = data.status;
-    var lastRow = sheet.getLastRow();
-    if (lastRow > 1) {
-      var idValues = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
-      for (var r = 0; r < idValues.length; r++) {
-        if (String(idValues[r][0]).trim() === String(targetId).trim()) {
-          sheet.getRange(r + 2, 12).setValue(newStatus); // Columna L = Estado Logístico
-          return respondJSON({
-            status: "success",
-            message: "Estado logístico actualizado a " + newStatus,
-            id: targetId,
-            newStatus: newStatus
-          });
-        }
-      }
-    }
-    return respondJSON({ status: "error", message: "Pedido no encontrado" });
-  }
-
-  // 3. MARCAR COMO PAGADO Y ENVIAR CAPI PURCHASE
-  if (action === "mark_paid") {
-    var orderIdToPay = data.id;
-    var lastR = sheet.getLastRow();
-    if (lastR <= 1) {
-      return respondJSON({ status: "error", message: "No hay pedidos en la hoja" });
-    }
-
-    var rows = sheet.getRange(2, 1, lastR - 1, HEADERS.length).getValues();
-    for (var k = 0; k < rows.length; k++) {
-      var rData = rows[k];
-      if (String(rData[0]).trim() === String(orderIdToPay).trim()) {
-        var rowIndex = k + 2;
-        var currentPaymentStatus = String(rData[12] || "Pendiente").trim();
-        var currentCapiStatus = String(rData[14] || "none").trim();
-
-        // Si ya estaba pagado, evitar compra duplicada bajo cualquier circunstancia
-        if (currentPaymentStatus === "Pagado") {
-          return respondJSON({
-            status: "success",
-            message: "El pedido #" + orderIdToPay + " ya fue marcado como Pagado anteriormente. No se envía ninguna compra adicional.",
-            id: orderIdToPay,
-            payment_status: "Pagado",
-            capi_status: currentCapiStatus,
-            capi_event_id: String(rData[15] || "")
-          });
-        }
-
-        var paidDateStr = Utilities.formatDate(new Date(), "America/Lima", "yyyy-MM-dd HH:mm");
-        sheet.getRange(rowIndex, 13).setValue("Pagado");      // Col M = Estado Pago
-        sheet.getRange(rowIndex, 14).setValue(paidDateStr);   // Col N = Fecha Pago
-
-        var orderObj = {
-          id: String(rData[0]),
-          date: String(rData[1]),
-          name: String(rData[2]),
-          phone: String(rData[3]).replace(/^'/, ''),
-          dni: String(rData[4]).replace(/^'/, ''),
-          city: String(rData[5]),
-          address: String(rData[6]),
-          product: String(rData[7]),
-          units: Number(rData[8]) || 1,
-          price: Number(rData[9]) || 99.90,
-          payment: String(rData[10]),
-          attribution: rData[16] || {}
-        };
-
-        // Enviar a Meta Conversions API
-        var capiResult = sendCapiPurchase(orderObj, paidDateStr);
-
-        sheet.getRange(rowIndex, 15).setValue(capiResult.status);   // Col O = Estado CAPI
-        sheet.getRange(rowIndex, 16).setValue(capiResult.event_id); // Col P = ID Evento CAPI
-
-        return respondJSON({
-          status: "success",
-          message: "Pedido marcado como pagado.",
-          id: orderIdToPay,
-          payment_status: "Pagado",
-          paid_at: paidDateStr,
-          capi_status: capiResult.status,
-          capi_event_id: capiResult.event_id,
-          capi_message: capiResult.message
-        });
-      }
-    }
-    return respondJSON({ status: "error", message: "Pedido #" + orderIdToPay + " no encontrado" });
-  }
-
-  // 4. REINTENTAR CAPI PARA PEDIDO PAGADO CON FALLO PREVIO
-  if (action === "retry_capi") {
-    var retryId = data.id;
-    var maxR = sheet.getLastRow();
-    if (maxR <= 1) return respondJSON({ status: "error", message: "Hoja vacía" });
-
-    var allRows = sheet.getRange(2, 1, maxR - 1, HEADERS.length).getValues();
-    for (var m = 0; m < allRows.length; m++) {
-      var rowItem = allRows[m];
-      if (String(rowItem[0]).trim() === String(retryId).trim()) {
-        var rowTarget = m + 2;
-        var retryOrderObj = {
-          id: String(rowItem[0]),
-          date: String(rowItem[1]),
-          name: String(rowItem[2]),
-          phone: String(rowItem[3]).replace(/^'/, ''),
-          dni: String(rowItem[4]).replace(/^'/, ''),
-          city: String(rowItem[5]),
-          address: String(rowItem[6]),
-          product: String(rowItem[7]),
-          units: Number(rowItem[8]) || 1,
-          price: Number(rowItem[9]) || 99.90,
-          payment: String(rowItem[10]),
-          attribution: rowItem[16] || {}
-        };
-
-        var retryPaidDate = rowItem[13] || Utilities.formatDate(new Date(), "America/Lima", "yyyy-MM-dd HH:mm");
-        var retryResult = sendCapiPurchase(retryOrderObj, retryPaidDate);
-
-        sheet.getRange(rowTarget, 15).setValue(retryResult.status);
-        sheet.getRange(rowTarget, 16).setValue(retryResult.event_id);
-
-        return respondJSON({
-          status: retryResult.status === "sent" ? "success" : "error",
-          message: retryResult.message,
-          id: retryId,
-          capi_status: retryResult.status,
-          capi_event_id: retryResult.event_id
-        });
-      }
-    }
-    return respondJSON({ status: "error", message: "Pedido no encontrado para reintento" });
-  }
-
-  // 5. REGISTRAR NUEVO PEDIDO DESDE LA LANDING
-  if (action === "create_order") {
-    var units = Number(data.units) || 1;
-    if (!PRICE_CATALOG[units]) units = 1;
-    var catalogItem = PRICE_CATALOG[units];
-    var validatedPrice = catalogItem.price;
-    var validatedProduct = catalogItem.name;
-
-    var attrString = "";
-    if (data.attribution) {
-      attrString = typeof data.attribution === "string" ? data.attribution : JSON.stringify(data.attribution);
-    }
-
-    var orderId = data.id || ("VL-" + Math.floor(1000 + Math.random() * 9000));
-    var orderDate = data.date || Utilities.formatDate(new Date(), "America/Lima", "yyyy-MM-dd HH:mm");
-
-    var row = [
-      orderId,                                    // Col A
-      orderDate,                                  // Col B
-      data.name || "Sin nombre",                  // Col C
-      "'" + (data.phone || ""),                   // Col D
-      "'" + (data.dni || ""),                     // Col E
-      data.city || "",                            // Col F
-      data.address || "",                         // Col G
-      data.product || validatedProduct,           // Col H
-      units,                                      // Col I
-      validatedPrice,                             // Col J
-      data.payment || "Yape Oficial",             // Col K
-      "Pendiente",                                // Col L - Estado Logístico
-      "Pendiente",                                // Col M - Estado Pago (NUNCA pagado al registrar)
-      "",                                         // Col N - Fecha Pago
-      "none",                                     // Col O - Estado CAPI
-      "",                                         // Col P - ID Evento CAPI
-      attrString                                  // Col Q - Atribución
-    ];
-
-    sheet.appendRow(row);
-
-    var newRowIdx = sheet.getLastRow();
-    sheet.getRange(newRowIdx, 10).setNumberFormat('"S/" #,##0.00');
-
-    return respondJSON({
-      status: "success",
-      message: "Pedido registrado con éxito",
-      id: orderId
-    });
-  }
-
-  // 6. ESTADO DE CONFIGURACIÓN CAPI
-  if (action === "get_config_status") {
-    var p = PropertiesService.getScriptProperties();
-    var hasToken = !!(p.getProperty("META_CAPI_ACCESS_TOKEN") && p.getProperty("META_CAPI_ACCESS_TOKEN").trim().length > 10);
-    var pId = p.getProperty("META_PIXEL_ID") || DEFAULT_PIXEL_ID;
-    var testCode = p.getProperty("META_TEST_EVENT_CODE") || "";
-
-    return respondJSON({
-      status: "success",
-      has_access_token: hasToken,
-      pixel_id: pId,
-      test_event_code: testCode
-    });
-  }
-
-  // 7. GUARDAR CONFIGURACIÓN CAPI
-  if (action === "set_config") {
-    var scriptProps = PropertiesService.getScriptProperties();
-    if (data.pixel_id) {
-      scriptProps.setProperty("META_PIXEL_ID", String(data.pixel_id).trim());
-    }
-    if (data.test_event_code !== undefined) {
-      scriptProps.setProperty("META_TEST_EVENT_CODE", String(data.test_event_code).trim());
-    }
-    if (data.access_token && String(data.access_token).trim() !== "") {
-      scriptProps.setProperty("META_CAPI_ACCESS_TOKEN", String(data.access_token).trim());
-    }
-
-    return respondJSON({
-      status: "success",
-      message: "Configuración de Meta CAPI guardada con éxito en Google Apps Script"
-    });
-  }
-
-  return respondJSON({ status: "error", message: "Acción no reconocida: " + action });
-}
+var API_VERSION = "2026-09-05.2";
 
 function respondJSON(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
+  obj.api_version = API_VERSION;
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doGet(e) {
+  return respondJSON({status: "success", service: "velora-orders", pixel_id: DEFAULT_PIXEL_ID});
+}
+
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var action = data.action || "create_order";
+    if (action !== "create_order") {
+      var expected = PropertiesService.getScriptProperties().getProperty("ADMIN_SECRET");
+      if (!expected || expected.length < 16 || hashExactSHA256(data.admin_secret || "") !== hashExactSHA256(expected)) {
+        return respondJSON({status: "error", code: "unauthorized", message: "Contraseña administrativa incorrecta o sin configurar."});
+      }
+    }
+    if (!lock.tryLock(25000)) throw new Error("Servidor ocupado. Reintenta con el mismo pedido.");
+    setupSheet();
+    var sheet = getTargetSpreadsheet().getSheetByName(SHEET_ORDERS);
+    return respondJSON(handleRequest(action, data, sheet));
+  } catch (err) {
+    return respondJSON({status: "error", message: String(err.message || err)});
+  } finally {
+    if (lock.hasLock()) lock.releaseLock();
+  }
+}
+
+function readOrders(sheet) {
+  if (sheet.getLastRow() < 2) return [];
+  var notes = sheet.getRange(2, 15, sheet.getLastRow() - 1, 1).getNotes();
+  return sheet.getRange(2, 1, sheet.getLastRow() - 1, HEADERS.length).getValues().map(function(r, i) {
+    var attr = {};
+    try { attr = JSON.parse(r[16] || "{}"); } catch (_) {}
+    return {
+      id: String(r[0]), date: r[1] instanceof Date ? r[1].toISOString() : String(r[1]),
+      name: String(r[2]), phone: String(r[3]).replace(/^'/, ""), dni: String(r[4]).replace(/^'/, ""),
+      city: String(r[5]), address: String(r[6]), product: String(r[7]), units: Number(r[8]),
+      price: Number(r[9]), payment: String(r[10]), status: String(r[11]),
+      payment_status: String(r[12] || "Pendiente"),
+      paid_at: r[13] instanceof Date ? r[13].toISOString() : String(r[13] || ""),
+      capi_status: String(r[14] || "none"), capi_event_id: String(r[15] || ""),
+      capi_message: String(notes[i][0] || ""),
+      attribution: attr, _row: i + 2
+    };
+  }).filter(function(o) { return o.id; });
+}
+
+function safeCell(value) {
+  var text = String(value || "").trim().slice(0, 1000);
+  return /^[=+\-@\t\r]/.test(text) ? "'" + text : text;
+}
+
+function normalizePaidAt(value) {
+  var text = String(value || "");
+  // Fechas heredadas se guardaban en Lima sin zona horaria.
+  if (/^\d{4}-\d\d-\d\d \d\d:\d\d(?::\d\d)?$/.test(text)) text = text.replace(" ", "T") + "-05:00";
+  return text;
+}
+
+function handleRequest(action, data, sheet) {
+  var props = PropertiesService.getScriptProperties();
+  if (action === "login") return {status: "success"};
+  if (action === "change_password") {
+    if (String(data.new_password || "").length < 16) throw new Error("Usa al menos 16 caracteres.");
+    props.setProperty("ADMIN_SECRET", String(data.new_password));
+    return {status: "success"};
+  }
+  if (action === "get_config_status") {
+    return {status: "success", has_access_token: !!props.getProperty("META_CAPI_ACCESS_TOKEN"),
+      pixel_id: props.getProperty("META_PIXEL_ID") || DEFAULT_PIXEL_ID,
+      test_event_code: props.getProperty("META_TEST_EVENT_CODE") || "",
+      message: "Token configurado no implica aceptación de eventos por Meta."};
+  }
+  if (action === "set_config") {
+    if (data.pixel_id && String(data.pixel_id) !== DEFAULT_PIXEL_ID) throw new Error("El Pixel debe coincidir con la landing.");
+    if (data.test_event_code !== undefined) props.setProperty("META_TEST_EVENT_CODE", String(data.test_event_code).trim());
+    return {status: "success"};
+  }
+  var orders = readOrders(sheet);
+  if (action === "get_orders") {
+    orders.forEach(function(o) { delete o._row; });
+    return {status: "success", orders: orders.reverse(), count: orders.length};
+  }
+  var matches = orders.filter(function(o) { return o.id === String(data.id); });
+  if (matches.length > 1) throw new Error("Hay pedidos heredados con el mismo ID. Corrige sus IDs en Sheets antes de procesar el pago.");
+  var order = matches[0];
+  if (action === "create_order") {
+    if (!/^VL-[a-zA-Z0-9-]{4,80}$/.test(String(data.id || ""))) throw new Error("ID de pedido inválido.");
+    var phone = String(data.phone || "").replace(/\D/g, "").replace(/^51(?=9\d{8}$)/, "");
+    if (!/^9\d{8}$/.test(phone) || !/^\d{8}$/.test(String(data.dni || "")) ||
+        String(data.name || "").trim().split(/\s+/).length < 2 || !data.city || !data.address) {
+      throw new Error("Datos del pedido incompletos o inválidos.");
+    }
+    var item = PRICE_CATALOG[Number(data.units)];
+    if (!item) throw new Error("Paquete inválido.");
+    if (order) {
+      if (order.phone !== phone || order.dni !== String(data.dni) || order.units !== item.units) {
+        throw new Error("El ID corresponde a otro pedido.");
+      }
+      return {status: "success", id: order.id, saved: true, duplicate: true};
+    }
+    var attr = data.attribution && typeof data.attribution === "object" ? data.attribution : {};
+    var allowed = {};
+    ["fbp","fbc","client_ip","client_user_agent","landing_url","utm_source","utm_medium","utm_campaign","utm_term","utm_content"].forEach(function(k) {
+      if (attr[k]) allowed[k] = String(attr[k]).slice(0, 2000);
+    });
+    sheet.appendRow([String(data.id), new Date().toISOString(), safeCell(data.name), "'" + phone,
+      "'" + data.dni, safeCell(data.city), safeCell(data.address), item.name, item.units,
+      item.price, safeCell(data.payment || "Yape Oficial"), "Pendiente", "Pendiente", "", "none", "",
+      JSON.stringify(allowed)]);
+    SpreadsheetApp.flush();
+    return {status: "success", saved: true, id: String(data.id)};
+  }
+  if (!order) throw new Error("Pedido no encontrado.");
+  if (action === "update_status") {
+    if (["Pendiente","Confirmado","En Camino","Entregado","Cancelado"].indexOf(data.status) < 0) throw new Error("Estado inválido.");
+    sheet.getRange(order._row, 12).setValue(data.status);
+    return {status: "success", id: order.id};
+  }
+  if (action === "mark_paid" || action === "retry_capi") {
+    if ((props.getProperty("META_PIXEL_ID") || DEFAULT_PIXEL_ID) !== DEFAULT_PIXEL_ID) {
+      throw new Error("META_PIXEL_ID no coincide con el Pixel de la landing.");
+    }
+    if (action === "retry_capi" && order.payment_status !== "Pagado") throw new Error("Solo se reintentan pedidos pagados.");
+    if (order.capi_status === "sent") {
+      return {status: "success", id: order.id, payment_status: order.payment_status,
+        paid_at: order.paid_at, capi_status: "sent", capi_event_id: order.capi_event_id, already_sent: true};
+    }
+    if (order.payment_status !== "Pagado") {
+      order.paid_at = new Date().toISOString();
+      order.payment_status = "Pagado";
+      sheet.getRange(order._row, 13, 1, 2).setValues([["Pagado", order.paid_at]]);
+      SpreadsheetApp.flush();
+    }
+    var result = sendCapiPurchase(order, normalizePaidAt(order.paid_at));
+    // Un evento de prueba nunca se cuenta como una conversión real enviada.
+    var state = result.status === "sent" && props.getProperty("META_TEST_EVENT_CODE") ? "test_sent" : result.status;
+    sheet.getRange(order._row, 15, 1, 2).setValues([[state, result.event_id]]);
+    sheet.getRange(order._row, 15).setNote(result.message || "");
+    SpreadsheetApp.flush();
+    return {status: "success", id: order.id, payment_status: "Pagado", paid_at: order.paid_at,
+      capi_status: state, capi_event_id: result.event_id, capi_message: result.message};
+  }
+  throw new Error("Acción no reconocida.");
 }
