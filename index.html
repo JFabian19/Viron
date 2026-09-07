@@ -51,6 +51,7 @@
   /></noscript>
   <!-- End Meta Pixel Code -->
   <script src="api-client.js"></script>
+  <script src="assets/ubigeo-peru.js"></script>
 
   <style>
     /* ==========================================================
@@ -1633,6 +1634,237 @@
       background: #5B166A;
     }
 
+    /* CHECKOUT VISUAL INSPIRADO EN EL FORMULARIO DE REFERENCIA */
+    .cod-modal {
+      align-items: flex-start;
+      padding: 18px 10px;
+      background: rgba(0, 0, 0, 0.72);
+    }
+    .modal-sheet {
+      max-width: 650px;
+      max-height: calc(100vh - 36px);
+      padding: 22px 26px 28px;
+      border-radius: 18px;
+    }
+    .sheet-header {
+      position: relative;
+      justify-content: center;
+      border-bottom: 0;
+      padding: 0 42px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+    .sheet-title {
+      display: block;
+      font-size: 28px;
+      line-height: 1.08;
+      letter-spacing: .4px;
+      color: #050505;
+    }
+    .sheet-close-btn {
+      position: absolute;
+      top: -4px;
+      right: 0;
+      width: 38px;
+      height: 38px;
+      background: transparent;
+      color: #5B5B5B;
+      font-size: 28px;
+    }
+    .modal-upsell-section { margin-bottom: 18px; }
+    .modal-upsell-label { display: none; }
+    .modal-upsell-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .modal-upsell-card {
+      min-height: 118px;
+      display: grid;
+      grid-template-columns: 105px 1fr auto;
+      grid-template-areas: "image copy price";
+      align-items: center;
+      gap: 15px;
+      padding: 13px 20px;
+      border: 1.5px solid #D1D5DB;
+      border-radius: 11px;
+      background: #FFFFFF;
+      text-align: left;
+    }
+    .modal-upsell-card.selected {
+      border: 4px solid #0786BD;
+      background: #DCEFFA;
+      box-shadow: none;
+      padding: 10.5px 17.5px;
+    }
+    .modal-product-image {
+      grid-area: image;
+      width: 100px;
+      height: 88px;
+      object-fit: cover;
+      object-position: 62% 45%;
+      border-radius: 8px;
+    }
+    .modal-upsell-copy {
+      grid-area: copy;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 7px;
+    }
+    .modal-upsell-units {
+      font-size: 21px;
+      line-height: 1.05;
+      font-weight: 900;
+      color: #050505;
+    }
+    .modal-upsell-price {
+      grid-area: price;
+      font-size: 22px;
+      color: #050505;
+      white-space: nowrap;
+    }
+    .modal-upsell-save {
+      display: inline-flex;
+      padding: 5px 12px;
+      border-radius: 7px;
+      background: #16A34A;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .modal-upsell-card:nth-child(3) .modal-upsell-save { background: #E11D48; }
+    .modal-upsell-tag { display: none; }
+    .order-breakdown-card.checkout-totals {
+      padding: 14px 20px !important;
+      margin-bottom: 18px !important;
+      border: 0 !important;
+      border-radius: 10px !important;
+      background: #F1F1F1 !important;
+      gap: 8px;
+    }
+    .checkout-totals .breakdown-row {
+      font-size: 17px;
+      color: #111827;
+    }
+    .checkout-totals .breakdown-row strong { font-size: 18px; }
+    .checkout-totals .discount-row strong { color: #DC2626; }
+    .checkout-totals .total-row {
+      margin-top: 4px;
+      padding-top: 10px;
+      border-top: 1px solid #D1D5DB;
+      font-size: 20px;
+      font-weight: 900;
+    }
+    .checkout-totals .total-row strong { font-size: 23px; }
+    #orderForm .form-group { gap: 7px; margin-bottom: 15px; }
+    #orderForm .form-label {
+      justify-content: flex-start;
+      font-size: 18px;
+      color: #050505;
+    }
+    .required-mark { color: #DC2626; margin-left: 4px; }
+    #orderForm .form-input,
+    #orderForm .form-select {
+      height: 56px;
+      border: 1.5px solid #C9C9C9;
+      border-radius: 9px;
+      padding: 0 16px;
+      font-size: 17px;
+      color: #151515;
+    }
+    #orderForm .input-with-icon .form-input { padding-left: 70px; }
+    #orderForm .input-with-icon .form-select { padding-left: 70px; }
+    .field-leading-icon {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1.5px solid #C9C9C9;
+      border-radius: 9px 0 0 9px;
+      background: #E7E7E7;
+      color: #171717;
+      font-size: 24px;
+      z-index: 1;
+    }
+    .field-leading-icon svg {
+      width: 27px;
+      height: 27px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .field-leading-icon .icon-solid { fill: currentColor; stroke: none; }
+    .field-leading-icon .form-phone-icon {
+      width: 28px;
+      height: 28px;
+      display: block;
+      object-fit: contain;
+    }
+    #orderForm .form-select:disabled {
+      color: #8A8A8A;
+      background-color: #F8F8F8;
+      cursor: not-allowed;
+    }
+    #orderForm .form-grid-2 {
+      display: block;
+      margin-bottom: 0;
+    }
+    .shipping-method-title {
+      margin: 4px 0 7px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #111827;
+    }
+    .shipping-method-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 15px;
+      margin-bottom: 16px;
+      border: 1.5px solid #C9C9C9;
+      border-radius: 9px;
+      background: #FFFFFF;
+    }
+    .shipping-method-card input { width: 18px; height: 18px; accent-color: #111111; }
+    .shipping-method-copy { display: flex; flex-direction: column; gap: 3px; }
+    .shipping-method-copy strong { font-size: 15px; }
+    .shipping-method-copy span { font-size: 14px; color: #666666; }
+    #submitOrderBtn {
+      min-height: 74px;
+      background: #0E9F0B;
+      border-radius: 14px;
+      box-shadow: 0 6px 14px rgba(14, 159, 11, .28);
+      flex-direction: column;
+      gap: 2px;
+    }
+    #submitOrderBtn #submitBtnText { font-size: 19px; font-weight: 900; }
+    .submit-subtext { font-size: 16px; font-weight: 500; }
+    .modal-trust-bar { font-size: 12px; padding-top: 10px; }
+
+    @media (max-width: 600px) {
+      .cod-modal { padding: 12px 8px; }
+      .modal-sheet { padding: 18px 16px 22px; border-radius: 16px; }
+      .sheet-title { font-size: 23px; }
+      .modal-upsell-card {
+        min-height: 104px;
+        grid-template-columns: 76px 1fr auto;
+        gap: 10px;
+        padding: 10px 12px;
+      }
+      .modal-upsell-card.selected { padding: 7.5px 9.5px; }
+      .modal-product-image { width: 74px; height: 76px; }
+      .modal-upsell-units { font-size: 17px; }
+      .modal-upsell-price { font-size: 18px; }
+      .modal-upsell-save { font-size: 12px; padding: 4px 8px; }
+      #orderForm .form-label { font-size: 16px; }
+      #orderForm .form-input, #orderForm .form-select { height: 52px; font-size: 16px; }
+    }
+
     /* TRUST BAR MODAL */
     .modal-trust-bar {
       display: flex;
@@ -3055,10 +3287,7 @@
         
         <!-- Header -->
         <div class="sheet-header">
-          <div>
-            <h3 class="sheet-title">📦 Confirmar Pedido VELORA</h3>
-            <span style="font-size: 10px; color: #059669; font-weight: 800;">Envío 100% GRATIS a todo el Perú vía Shalom</span>
-          </div>
+          <h3 class="sheet-title">PAGA EN CASA - ENVÍO GRATIS</h3>
           <button class="sheet-close-btn" onclick="closeCheckoutModal()" aria-label="Cerrar">✕</button>
         </div>
 
@@ -3071,40 +3300,55 @@
           <div class="modal-upsell-grid">
             
             <!-- Opción 1 -->
-            <div class="modal-upsell-card selected" id="modalUpsell1" onclick="selectBundle(1, 99.90, 189.00)">
-              <span class="modal-upsell-units">1 VELORA</span>
+            <div class="modal-upsell-card selected" id="modalUpsell1" onclick="selectBundle(1, 99.90, 189.90)">
+              <img class="modal-product-image" src="assets/velora-features.webp" alt="Una VELORA 5 en 1">
+              <div class="modal-upsell-copy">
+                <span class="modal-upsell-units">¡Compra 1 VELORA<br>y transforma tu cabello!</span>
+                <span class="modal-upsell-save">Precio especial</span>
+              </div>
               <span class="modal-upsell-price">S/ 99.90</span>
-              <span class="modal-upsell-save">S/ 99.90 c/u</span>
             </div>
 
             <!-- Opción 2 (Más vendido) -->
-            <div class="modal-upsell-card" id="modalUpsell2" onclick="selectBundle(2, 169.90, 378.00)">
-              <span class="modal-upsell-tag">⭐ POPULAR</span>
-              <span class="modal-upsell-units">2 VELORA</span>
+            <div class="modal-upsell-card" id="modalUpsell2" onclick="selectBundle(2, 169.90, 379.80)">
+              <img class="modal-product-image" src="assets/velora-features.webp" alt="Dos VELORA 5 en 1">
+              <div class="modal-upsell-copy">
+                <span class="modal-upsell-units">¡Compra 2 VELORA<br>para mejores resultados!</span>
+                <span class="modal-upsell-save">Más vendido</span>
+              </div>
               <span class="modal-upsell-price">S/ 169.90</span>
-              <span class="modal-upsell-save">Ahorras S/29.90</span>
             </div>
 
             <!-- Opción 3 (Mejor precio) -->
-            <div class="modal-upsell-card" id="modalUpsell3" onclick="selectBundle(3, 229.90, 567.00)">
-              <span class="modal-upsell-tag" style="background:#701A75;">🔥 MEJOR PRECIO</span>
-              <span class="modal-upsell-units">3 VELORA</span>
+            <div class="modal-upsell-card" id="modalUpsell3" onclick="selectBundle(3, 229.90, 569.70)">
+              <img class="modal-product-image" src="assets/velora-features.webp" alt="Tres VELORA 5 en 1">
+              <div class="modal-upsell-copy">
+                <span class="modal-upsell-units">¡Compra 3 VELORA<br>al mejor precio!</span>
+                <span class="modal-upsell-save">Mejor precio</span>
+              </div>
               <span class="modal-upsell-price">S/ 229.90</span>
-              <span class="modal-upsell-save">Ahorras S/69.80</span>
             </div>
 
           </div>
         </div>
 
         <!-- RESUMEN DEL PEDIDO LIMPIO Y ELEGANTE -->
-        <div class="order-breakdown-card" style="background:#FFF1F2; border:1px solid var(--color-velora-rose-border); padding:10px 12px; border-radius:10px; margin-bottom:10px;">
-          <div class="breakdown-row" style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-weight:800; font-size:12.5px; color:#0F172A;" id="modalSummaryTitle">1x VELORA 5 en 1</span>
-            <strong style="color:var(--color-velora-rose); font-size:16px;" id="modalTotalOrderText">S/ 99.90</strong>
+        <div class="order-breakdown-card checkout-totals">
+          <div class="breakdown-row">
+            <span>Subtotal</span>
+            <strong id="modalSubtotalText">S/ 189.90</strong>
           </div>
-          <div class="breakdown-row" style="font-size:10.5px; color:#059669; font-weight:700; margin-top:2px;">
-            <span>🚚 Envío a Nivel Nacional vía Shalom:</span>
-            <span>100% GRATIS</span>
+          <div class="breakdown-row">
+            <span>Envío</span>
+            <strong>Gratis</strong>
+          </div>
+          <div class="breakdown-row discount-row">
+            <span>Descuentos 🏷️</span>
+            <strong id="modalDiscountText">- S/ 90.00</strong>
+          </div>
+          <div class="breakdown-row total-row">
+            <span>Total</span>
+            <strong id="modalTotalOrderText">S/ 99.90</strong>
           </div>
         </div>
 
@@ -3116,29 +3360,31 @@
           <input type="text" name="b_website_trap" style="display:none !important;" tabindex="-1" autocomplete="off">
 
           <div class="form-group">
-            <label class="form-label" for="custName">Nombre y Apellido de quien retira en Shalom *</label>
-            <div class="input-wrapper" id="nameWrapper">
-              <input type="text" id="custName" name="name" class="form-input" placeholder="Ej. Ana Lucía Mendoza" required autocomplete="name" oninput="validateNameInput(this)" onchange="validateNameInput(this)">
+            <label class="form-label" for="custName">Nombre y Apellido <span class="required-mark">*</span></label>
+            <div class="input-wrapper input-with-icon" id="nameWrapper">
+              <span class="field-leading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle class="icon-solid" cx="12" cy="7" r="4"></circle><path class="icon-solid" d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"></path></svg></span>
+              <input type="text" id="custName" name="name" class="form-input" placeholder="Nombre y apellido" required autocomplete="name" oninput="validateNameInput(this)" onchange="validateNameInput(this)">
               <span class="valid-check-icon">✓</span>
             </div>
             <span class="field-error-msg" id="nameError">Ingresa un nombre y apellido real válido (sin letras al azar).</span>
           </div>
 
-          <!-- 2 Columnas para Teléfono y DNI con Validación en Tiempo Real -->
+          <!-- Teléfono y DNI conservan la validación requerida por el registro de pedidos -->
           <div class="form-grid-2">
             <div class="form-group" style="margin-bottom: 0;">
-              <label class="form-label" for="custPhone">WhatsApp (9 dígitos) *</label>
-              <div class="input-wrapper" id="phoneWrapper">
-                <input type="tel" id="custPhone" name="phone" class="form-input" placeholder="916102139" required maxlength="16" inputmode="numeric" autocomplete="tel" oninput="validatePhoneInput(this)" onchange="validatePhoneInput(this)">
+              <label class="form-label" for="custPhone">Celular <span class="required-mark">*</span></label>
+              <div class="input-wrapper input-with-icon" id="phoneWrapper">
+                <span class="field-leading-icon" aria-hidden="true"><img src="assets/whatsapp-form-icon.png" alt="" class="form-phone-icon"></span>
+                <input type="tel" id="custPhone" name="phone" class="form-input" placeholder="Celular" required maxlength="16" inputmode="numeric" autocomplete="tel" oninput="validatePhoneInput(this)" onchange="validatePhoneInput(this)">
                 <span class="valid-check-icon">✓</span>
               </div>
               <span class="field-error-msg" id="phoneError">Debe ser de 9 dígitos y empezar con 9.</span>
             </div>
 
             <div class="form-group" style="margin-bottom: 0;">
-              <label class="form-label" for="custDNI">DNI Titular (8 dígitos) *</label>
+              <label class="form-label" for="custDNI">DNI de quien recibe <span class="required-mark">*</span></label>
               <div class="input-wrapper" id="dniWrapper">
-                <input type="tel" id="custDNI" name="dni" class="form-input" placeholder="8 dígitos" required maxlength="8" inputmode="numeric" autocomplete="off" oninput="validateDniInput(this)" onchange="validateDniInput(this)">
+                <input type="tel" id="custDNI" name="dni" class="form-input" placeholder="DNI (8 dígitos)" required maxlength="8" inputmode="numeric" autocomplete="off" oninput="validateDniInput(this)" onchange="validateDniInput(this)">
                 <span class="valid-check-icon">✓</span>
               </div>
               <span class="field-error-msg" id="dniError">DNI debe tener 8 dígitos válidos.</span>
@@ -3146,83 +3392,66 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Departamento / Región de Entrega *</label>
-            <select id="custDepartment" class="form-select" onchange="handleDepartmentChange(this.value)" required>
-              <option value="" disabled selected>Selecciona tu departamento...</option>
-              <option value="Lima">Lima (145 Agencias Shalom)</option>
-              <option value="Callao">Callao (9 Agencias Shalom)</option>
-              <option value="Arequipa">Arequipa (31 Agencias Shalom)</option>
-              <option value="La Libertad">La Libertad (30 Agencias Shalom)</option>
-              <option value="Piura">Piura (30 Agencias Shalom)</option>
-              <option value="Cusco">Cusco (25 Agencias Shalom)</option>
-              <option value="San Martin">San Martín (23 Agencias Shalom)</option>
-              <option value="Junin">Junín (22 Agencias Shalom)</option>
-              <option value="Lambayeque">Lambayeque (21 Agencias Shalom)</option>
-              <option value="Ica">Ica (18 Agencias Shalom)</option>
-              <option value="Cajamarca">Cajamarca (18 Agencias Shalom)</option>
-              <option value="Puno">Puno (16 Agencias Shalom)</option>
-              <option value="Ancash">Áncash (14 Agencias Shalom)</option>
-              <option value="Tacna">Tacna (9 Agencias Shalom)</option>
-              <option value="Tumbes">Tumbes (9 Agencias Shalom)</option>
-              <option value="Ucayali">Ucayali (8 Agencias Shalom)</option>
-              <option value="Loreto">Loreto (8 Agencias Shalom)</option>
-              <option value="Moquegua">Moquegua (7 Agencias Shalom)</option>
-              <option value="Huanuco">Huánuco (6 Agencias Shalom)</option>
-              <option value="Amazonas">Amazonas (6 Agencias Shalom)</option>
-              <option value="Madre de Dios">Madre de Dios (6 Agencias Shalom)</option>
-              <option value="Pasco">Pasco (4 Agencias Shalom)</option>
-              <option value="Ayacucho">Ayacucho (4 Agencias Shalom)</option>
-              <option value="Apurimac">Apurímac (2 Agencias Shalom)</option>
-              <option value="Huancavelica">Huancavelica (1 Agencia Shalom)</option>
-            </select>
-          </div>
-
-          <!-- BUSCADOR POR NOMBRE DE AGENCIA Y SELECTOR -->
-          <div class="form-group" id="agencySearchGroup">
-            <div class="form-label">
-              <span>Agencia Oficial Shalom donde retirarás *</span>
-              <span class="agency-counter-pill" id="agencyCounter"></span>
+            <label class="form-label" for="custDepartment">Departamento <span class="required-mark">*</span></label>
+            <div class="input-wrapper input-with-icon">
+              <span class="field-leading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"></path></svg></span>
+              <select id="custDepartment" class="form-select" onchange="handleDepartmentChange(this.value)" required>
+              <option value="" disabled selected>Departamento</option>
+              </select>
             </div>
-            
-            <input type="text" id="agencySearchInput" class="agency-search-input" placeholder="🔍 Escribe tu distrito o calle (ej. Miraflores, Faucett...)" oninput="handleAgencySearch(this.value)" disabled>
-
-            <select id="custShalomAgency" class="form-select" required>
-              <option value="" disabled selected>Primero selecciona tu departamento...</option>
-            </select>
           </div>
 
-          <!-- MEDIO DE PAGO: YAPE / PLIN OFICIAL -->
-          <div class="yape-compact-chip">
-            <div class="yape-compact-left">
-              <img src="assets/yape.png" alt="Yape Oficial" class="yape-compact-logo">
-              <div>
-                <div class="yape-compact-title">🔒 Adelanto seguro de <strong>S/ 20</strong></div>
-                <div class="yape-compact-detail">El adelanto se descuenta del total de tu compra.</div>
-                <div class="yape-compact-detail">Saldo restante: <strong id="remainingBalanceText" style="color:#0F172A;">S/ 79.90</strong></div>
-                <div class="yape-compact-detail">Titular autorizado de cobros VELORA: <strong style="color:#0F172A;">Jarry Tafur</strong></div>
-                <div class="yape-compact-detail" style="color:var(--color-yape);">Yape / Plin: <strong>994 729 784</strong></div>
-                <div class="yape-compact-detail">Una vez confirmado, recibes tu constancia de pedido y despacho por Shalom.</div>
-              </div>
+          <div class="form-group">
+            <label class="form-label" for="custProvince">Provincia <span class="required-mark">*</span></label>
+            <div class="input-wrapper input-with-icon">
+              <span class="field-leading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"></path></svg></span>
+              <select id="custProvince" name="province" class="form-select" onchange="handleProvinceChange(this.value)" required disabled>
+                <option value="" selected>Primero selecciona tu departamento</option>
+              </select>
             </div>
-            <button type="button" class="copy-yape-btn" onclick="copyYapeNumber()" id="copyYapeBtn" aria-label="Copiar número de Yape">
-              <span>📋</span>
-              <span id="copyYapeBtnText">Copiar</span>
-            </button>
           </div>
+
+          <div class="form-group">
+            <label class="form-label" for="custDistrict">Distrito <span class="required-mark">*</span></label>
+            <div class="input-wrapper input-with-icon">
+              <span class="field-leading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"></path></svg></span>
+              <select id="custDistrict" name="district" class="form-select" required disabled>
+                <option value="" selected>Primero selecciona tu provincia</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="custAddress">Dirección y Referencia <span class="required-mark">*</span></label>
+            <div class="input-wrapper input-with-icon">
+              <span class="field-leading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg></span>
+              <input type="text" id="custAddress" name="address" class="form-input" placeholder="Dirección exacta y referencia" required autocomplete="street-address">
+            </div>
+          </div>
+
+          <div class="shipping-method-title">Costo de Envío</div>
+          <label class="shipping-method-card">
+            <input type="radio" name="shipping_method" value="Envío gratis - Contra entrega Shalom" checked aria-label="Envío gratis contra entrega Shalom">
+            <span class="shipping-method-copy">
+              <strong>Envío gratis</strong>
+              <span>Pago contra entrega Shalom</span>
+            </span>
+          </label>
 
           <div class="payment-guarantee-note">
             <span>🛡️</span>
-            <span><strong>Cero riesgo:</strong> No pagas a ciegas. Una asesora oficial confirma tu pedido por WhatsApp y te envía la Guía de Envío Shalom antes del despacho.</span>
+            <span><strong>Compra segura:</strong> confirmaremos por WhatsApp los datos de entrega antes de despachar.</span>
           </div>
 
           <button type="submit" id="submitOrderBtn" class="cta-btn-primary" style="padding: 12px; font-size: 13.5px;">
-            <span id="submitBtnText">REALIZAR PEDIDO (S/ 99.90) ➔</span>
+            <span id="submitBtnText">REALIZAR MI PEDIDO AHORA 🔥</span>
+            <span class="submit-subtext">Paga al recibir 🚚</span>
           </button>
 
           <div class="modal-trust-bar">
             <span>🔒 Tus datos viajan 100% seguros</span>
             <span>•</span>
-            <span>🚚 Agencia Shalom</span>
+            <span>🚚 Envío gratis por Shalom</span>
           </div>
         </form>
 
@@ -3246,7 +3475,7 @@
               <strong id="successTotalText" style="color: var(--color-velora-rose); font-size: 15px;">-</strong>
             </div>
             <div class="success-summary-row">
-              <span>Destino Shalom:</span>
+              <span>Destino de entrega:</span>
               <strong id="successAgencyText">-</strong>
             </div>
           </div>
@@ -3353,612 +3582,75 @@
     // ==========================================================
     // DIRECTORIO OFICIAL COMPLETO DE AGENCIAS SHALOM EN PERÚ
     // ==========================================================
-    const shalomAgencies = {
-  "Lima": [
-    "Ate-vitarte: Av. el sol mz. s lt. 2 zona 03 - asoc. parque industrial el asesor, sector 010 zona 0...",
-    "Ate-vitarte: Av. esperanza mz. k lt. 06 las americas - ate vitarte - limaPasando mercado raucana",
-    "Ate-vitarte: Av. ferrocarril mz. c lt. 19 parcela 3, urb. santa elvira sec. 018 zona 3A media cdra...",
-    "Ate-vitarte: Av. horacio zeballos mz. v lt. 12 prog. viv. residencial pariachi (sec. 031) zona 5, ...",
-    "Ate-vitarte: Av. jose carlos mariategui mza. b lte 06, residencial pariachi sec. 031 zon. 05, ate ...",
-    "Ate-vitarte: Av. josé carlos mariátegui z. e lt. 23 ucv 5 (zona comercio) - pueblo joven &quot;pro...",
-    "Ate-vitarte: Av. marco puente llanos 309, mz. a, lt. 03",
-    "Ate-vitarte: Av. nicolás ayllón n° 3080 - ate vitarte",
-    "Ate-vitarte: Av. pedro ruíz gallo mz. h lt. 3. asoc. viv. villa san luis, santa clara - ate vitart...",
-    "Ate-vitarte: Av. santa rosa n°773 manzana “a” lote 6 urb los sauces - ate -Cruce con la av separad...",
-    "Ate-vitarte: Carretera central km 17 mz. e lt. 1Entrada de huaycan al costado del grifo primax. ex...",
-    "Brena: Av. venezuela 1670 - breñaAl costado del policlínico de breña",
-    "Brena: Jr. huaraz 1633, breña -limaEn medio del cruce de jr. gral orbegoso y jr. centenario ...",
-    "Carabayllo: Av. a mz. l2 lt. 20 urb. santo domingo – vi etapa carabayllo - limaEn el cruce de las...",
-    "Carabayllo: Av. josé saco rojas mz. a lt. 15 programa de vivienda el pino, san antonio - carabayl...",
-    "Carabayllo: Av. trapiche mz. p lt. 48, urb. tungasucaAux. av. chimpu ocllo con aux. chillón trapi...",
-    "Carabayllo: Av. tupac amaru 3493 – p.j. el progreso (parte baja) mz. k lt. 11b zona ii, carabayll...",
-    "Carabayllo: Av. túpac amaru km. 23.5 - carabaylloFrente a la iglesia de mormones - a una cdra. de...",
-    "Carabayllo: Av. tupac amaru n? 441 - 443, mz. o2 lt. 35Paradero establo, a una cuadra de la urb. ...",
-    "Carabayllo: Mz. 1a - lt. 8 av. tupac amaru n° 10472, carabayllo - limaAl costado del colegio ciro...",
-    "Cercado Lima: Av. nicolas dueñas 584 mz. c lt. 4 – aahh primero de setiembre, cercado de lima – lim...",
-    "Cercado Lima: Av. tingo maría n°1252-a - cercado de lima - limaA media cdra. del cruce con jr. gral...",
-    "Cercado Lima: Jr. presbítero garcía villon nro. 560 cercado lima - limaA la altura de la cdra. 5 de...",
-    "Cercado Lima: Jr. ricardo treneman n° 920Dentro del local farenet",
-    "Chorrillos: Av. 12 de octubre mz. a - 03, lt. 02, urb. aria - las delicias de villaA dos cuadras ...",
-    "Chorrillos: Av. alameda sur 5, chorrillos 15067Cruce de av. alameda sur conav. alameda san marcos",
-    "Chorrillos: Av. los faisanes 420Al costado de la tienda john holden",
-    "Chorrillos: Av. santa anita n.° 580, chorrillos - limaAl costado del mercado santa anita, cruce c...",
-    "Cieneguilla: Av. arterial huarochiri d mz. b lt. 19, asoc. de viviendas las cumbres de cieneguilla...",
-    "Comas: Av. trapiche 886 a 16 2p 2 - urb. pinarFrente al complejo deportivo walon",
-    "Comas: Av. tupac amaru 5725-5727 - urb. huaquillay i etapa, comas - lima - limaA media cdra....",
-    "Comas: Av. tupac amaru n° 7837- 7839 mz. c lt. 010 urb. popular san juan bautista i etapa, c...",
-    "Comas: Av. universitaria n° 7241Ex boulevard de retablo / a 2 cdras del metro de belaunde",
-    "Comas: Av. universitaria norte mzn. q1 lte. 030 urb. primavera,comas-lima - limaA media cdra...",
-    "El Agustino: Av 1° de mayo 3071 - urb huancayoFrente al grifo repsol",
-    "El Agustino: Jr. ancash mz. b lt. 11 aahh ancieta alta, el agustino - lima - limaFrente al ingreso...",
-    "Independencia: Av. gerardo unger nro. 6917 int. lb 19",
-    "Independencia: Av. tupac amaru n° 4708 - 4710A una cdra. del paradero estación naranjal",
-    "Independencia: Calle a, mz. d lt. 26 urbanización panamericana (primer piso) independencia - lima - ...",
-    "Independencia: Centro comercial mega plaza av. alfredo mendiola 3698 lima - independencia.Primer pis...",
-    "Jesus Maria: Av. mariscal luzuriaga 584-586 jesús maría - limaA cuadra y media del parque san josé...",
-    "Jesus Maria: Centro comercial real plaza salaverry, av. gral. salaverry 2370, jesús maría 15076Fre...",
-    "La Molina: Av la fontana 440 - la molina (cc la rotonda ii local 1018)",
-    "La Molina: Av. flora tristán n° 885, urb. santa patricia iii etapa, la molina - limaA media cdra...",
-    "La Molina: Av. la molina 2448, la molina 15026, la molina - lima - limaEstacionamiento nivel -3",
-    "La Molina: Av. los fresnos 1305 tienda 2 - urb. portada del sol i etapa - la molina - limaA 3 cd...",
-    "La Victoria: Av. canadá 1603Entre av. canadá con av. aviación",
-    "La Victoria: Av. mexico 1125, la victoria - lima",
-    "La Victoria: Jr. antonio raymondi nro. 113",
-    "Lince: Av. coronel josé leal 648, urb. fundo lobatón, lince - linceParalela a la cdra. 6 de ...",
-    "Lince: Jr. domingo casanova n°318 lince - limaCruce con petit thouars",
-    "Los Olivos: Av. 2 de octubre mz. h lt. 2 - los olivos - proAv. 2 de octubre con av. canta callao,...",
-    "Los Olivos: Av. angelica gamarra de leon valverde n° 621 urb el trebol, los olivos - limaA la alt...",
-    "Los Olivos: Av. huandoy mza. 72 lte. 54 p.j. p.m.v. “confraternidad” - aahh. enrique milla ochoa ...",
-    "Los Olivos: Av. las palmeras n° 5236 urb. villa norte - los olivos",
-    "Los Olivos: Av. los platinos n°. 259, mz. a - lt. 17, urb. lotización industrial infantas los oli...",
-    "Los Olivos: Av. los próceres mz. pp2 lt.21, urb. puertas de pro - los olivos",
-    "Los Olivos: Av. próceres, mz. 3, lt. 23 a.h. laura caller - los olivosCruce entre av. huandoy y m...",
-    "Los Olivos: Calle david alva manzana h lote 4 urb. cajabamba los olivos - limaEntre la av. carlos...",
-    "Lurigancho: Av. circunvalación mz. a lt. 1 - d c - p santa maría de huachipa - lurigancho - chosi...",
-    "Lurigancho: El sol 124 (parque echenique) lurigancho - chosica",
-    "Lurigancho: Huachipa este - manzana a18 lote 1, 2, 3 calle b, calle 08, calle aAl costado de indu...",
-    "Lurin: Antigua panamericana sur, lote 2, mz. b, primer piso lurín - limaA cdra. y media del ...",
-    "Lurin: Av. antigua panamericana sur km 37 mz c lt 17 - fundo las salinas - referencia a cuad...",
-    "Magdalena del Mar: Jr. ayacucho n° 756A una cdra. del mercado modelo de magdalesy a 3 cdras. de la igles...",
-    "Miraflores: Malecón de la reserva 610, miraflores 15074, miraflores - lima - limaSótano nivel a",
-    "Pachacamac: Av. manuel valle sub - lote 2 - 1, número de parcela j, proyecto huertos de pachacama...",
-    "Pachacamac: Av. prolongación de la av. la molina mz. e lote 21. ah paul poblet lind, pachacamac -...",
-    "Pachacamac: Av. victor malasquez mz. b11 sub-lote 06-a - aahh centro poblado rural los huertos de...",
-    "Pueblo Libre: Av. bolivar 1097, pueblo libre - limaA media cdra. del cruce av. gral. josé maría egu...",
-    "Pueblo Libre: Av. la marina 1640 -A una cuadra del centro comercial plaza san miguel",
-    "Puente Piedra: Av. ancón 678A la espalda del precio uno de fundicion",
-    "Puente Piedra: Av. buenos aires mz. d, sub-lote 188e1 asociación de pobladores micaela bastidas, pue...",
-    "Puente Piedra: Av. miguel grau mz. a lt. 07 y 08 urb. san martin de porres, cercado puente piedra - ...",
-    "Puente Piedra: Av. san lorenzo mz c lt 20 - adp virgen de copacabana, puente piedra - lima. ref, a m...",
-    "Puente Piedra: Panamericana norte km 32.5 , a 1/2 cuadra del puente arica - al costado del grifo rep...",
-    "Punta Hermosa: Av. garcia rada mz.b lt.04, aahh asociacion de vivienda y desarrollo integral nueva g...",
-    "Rimac: Av. amancaes nro. 644 urb. ciudad y campo - rimac",
-    "Rimac: Sección inmobiliaria n°2 – primer piso lt. 11 de la mz. 2, urb. villacampa rimacA una...",
-    "San Borja: Av. angamos este 2521 (ex av. primavera) - conjunto habitacional limatambo - san borj...",
-    "San Borja: Av. aviación 2819, urb. san borja surAl frente de bembos",
-    "San Juan de Lurigancho: Av. 13 de enero nº2057, urb. san hilariónCerca a la estación los postes",
-    "San Juan de Lurigancho: Av. canto grande n°. 2570 - urb. ganimedesA 3 cdras. de plaza vea",
-    "San Juan de Lurigancho: Av. central mz r9 lote 3 programa ciudad mrcal. caceres, sector ii, barrio 3, grupo r...",
-    "San Juan de Lurigancho: Av. circunvalación mz. b-5 lt. 20 aa. hh. sargento fernando lores tenazoa comuna 20, ...",
-    "San Juan de Lurigancho: Av. fernando wiesse mz. e8. lote 38b, mariscal cáceres bayovar - san juan de luriganc...",
-    "San Juan de Lurigancho: Av. fernando wiesse mz. q lote 1 aa.hh. cruz de motupe",
-    "San Juan de Lurigancho: Av. malecón checa mz. b lt. 7, urb. campoy, san juan de luriganchoA 1 cdra. del cruce...",
-    "San Juan de Lurigancho: Av. malecón miguel checa eguiguren n° 167 y 169 de la urb. zárate, sjl - limaEsquina ...",
-    "San Juan de Lurigancho: Av. próceres de la independencia nro. 1295 - 1299Al costado del banco de la nación de...",
-    "San Juan de Lurigancho: Av. santa rosa de lima mz. d lt. 4 - aahh 2 de setiembre - san juan de luriganchoA tr...",
-    "San Juan de Lurigancho: Av. santa rosa mz. d1 lote 1 urb. los alamos 2da etapa - referencia altura de la cuad...",
-    "San Juan de Lurigancho: Calle san martin con av. comercial norte 189 - san juan de luriganchoA 1/2 cuadra de ...",
-    "San Juan de Lurigancho: Jr. chinchaysuyo 468 zarate, san juan de lurigancho - limaA 1 cdra. de tiendas 3 a",
-    "San Juan de Lurigancho: Mz. b1 lt. 25 urbanización los pinos san juan de luriganchoAv. fernando wiesse - cerc...",
-    "San Juan de Lurigancho: Programa ciudad mrcal. caceres, sector iii mz. q8 lt. 11 san juan de lurigancho - lim...",
-    "San Juan de Miraflores: Av. almirante miguel grau mz. y3 lt. 29, pamplona alta - san juan de miraflores - lim...",
-    "San Juan de Miraflores: Av. canevaro 336 - aA 2 cuadras de la av. vargas machuga y a una cuadra de la fiscalí...",
-    "San Juan de Miraflores: Av. de los héroes n° 228 - san juan de miraflores - (estación atocongo)",
-    "San Juan de Miraflores: Av. los héroes 1140 - sjmUna cdra. antes del hospital maría auxiliadora",
-    "San Juan de Miraflores: Av. san juan mz. 24 lt. 1, sect. nuevo horizonte, pp. jj pamplona alta - san juan de ...",
-    "San Martin de Porres: Av. alejandro bertello bollati mz. h lt. 2-a - asoc. de viv. san remo ii etapa, san m...",
-    "San Martin de Porres: Av. canta callao mz. a lt. 3 asoc. brisas santa rosa 1ra etapaA media cdra. del coleg...",
-    "San Martin de Porres: Av. canta callao, mz. a lt. 3 urb. arizona - 2da etapa",
-    "San Martin de Porres: Av. carlos izaguirre sub lt. 8, mz. c - asoc. de viv. los nisperosEntre av. 12 de oct...",
-    "San Martin de Porres: Av. gerardo unger 6475, urb. santa luisa, 1ra etapa, s.m.p.Esquina con av. 22 de agos...",
-    "San Martin de Porres: Av. german aguirre ugarte 649 urb. san german - san martin de porresA la altura de la...",
-    "San Martin de Porres: Av. jose granda 2546 - san martin de porres -lima - limaA una cdra. del óvalo jose gr...",
-    "San Martin de Porres: Av. josé granda 3826 de la urb. condevilla señor y valdivieso mz. m7 lt 20, 2 etapa, ...",
-    "San Martin de Porres: Av. lima 3899 - smpA 3 cdras. del tottus de quilca con av. lima",
-    "San Martin de Porres: Av. los dominicos 1460 - urb. los cipreses mz. z lt. 4 - san martín de porresA una cd...",
-    "San Martin de Porres: Av. miguel angel n° 235 - urb. fiori 4ta etapa mz. n-1 lt. 04 u.i n°6, san martín de ...",
-    "San Martin de Porres: Av. perú 1589, san martin de porres - lima.A dos cuadras del cruce con la av. canadá.",
-    "San Martin de Porres: Av. próceres n° 588 urb. covicemA 2 cdras. de tomás valle",
-    "San Martin de Porres: Av. universitaria 1619 - urb. maria gracia de antares mz. b lt. 25 – san martin de po...",
-    "Santa Anita: Av. santa rosa #147 – urb. santa anita mz. b1 lt. 08 unidad inmobiliaria n° 1 - santa...",
-    "Santa Rosa: Mz. l 23 urb. coovitiomar, ancon - santa rosa - limaCruce de ingreso a santa rosa y/o...",
-    "Santiago de Surco: Av. san juan mz a lote 01 mateo pumacahua - surcoA 2 cuadras de la av. tupac amaru en...",
-    "Santiago de Surco: Av. santiago de surco nº 4348, urbanización la virreyna, santiago de surco - limaAl l...",
-    "Santiago de Surco: Calle barlovento n° 134A 3 cdras de polvos rosados, cerca al óvalo higuereta, surco",
-    "Surquillo: Av república de panamá n° 5115Costado del grifo repsol.",
-    "Surquillo: Lt. 12 mz. g, av. principal 995 (ex av. uno) urb. los sauces 2da etapa, surquilloCruc...",
-    "Villa el Salvador: Av. 01de mayo 1 sect gp 23 - a mz n lote 13 - v.e.s.Av. pastor sevilla con av. 1 de m...",
-    "Villa el Salvador: Av. cesar vallejo, mz. f lt. 1 - sect. 2Frente a essalud, al costado del mercado vill...",
-    "Villa el Salvador: Av. pastor sevilla sect. 6 - gp 7 - mz. a - lote 05 - v.e.s.A 2 cuadras del óvalo mar...",
-    "Villa el Salvador: Mz. b lt. 3 barrio 3 sector 2 - 4ta etapa - vesPor el óvalo cerro lomas, frente al co...",
-    "Villa Maria del Triunfo: Av villa maria mz. g12 lt. 9 - b ps 1 sect. villa maria del triunfoAv. villa maria a ...",
-    "Villa Maria del Triunfo: Av. 26 de noviembre, 1728b - 1728c mz. 90 sub lote. 19b pueblo joven nueva esperanza,...",
-    "Villa Maria del Triunfo: Av. lima 2208 josé gálvez- villa maría del triunfoA dos cdras. de la curva josé gálve...",
-    "Villa Maria del Triunfo: Av. pachacutec 6779, mz. n, lt. 20, villa maria del triunfo -A una cdra. del grifo re...",
-    "Villa Maria del Triunfo: Av. pachacutec n° 3548Frente a real plaza, a 1 cdra. de mayorsa",
-    "Chilca: Antigua panamericana sur cdra. 11 mz. 46, lt. 08. chilca - cañete - limaA media cdra....",
-    "Imperial: Jr. augusto b. leguía n.º 457, mz e, centro poblado imperial, imperial - cañete - lim...",
-    "Mala: Av. marchand # 250, distrito de mala .A unas casas frente a la distribuidora primax g...",
-    "Nuevo Imperial: Fundo santa adela, mz. a, lotes 8 y 9 – carretera cañete a yauyos nuevo imperial - ca...",
-    "San Vicente de Canet: Aa.hh. víctor andrés belaunde mz. b lt. 12, san vicente de cañete - cañete - lima",
-    "Huacho: Av. mercedes indacochea 1276 huacho - huaura - limaIntersección con pedro ruiz gallo,...",
-    "Huacho: Prolongación salaverry n° 764 huacho -Cruce con la av la paz",
-    "Huaura: Av. las malvinas mz. c lote 16 urb. el rosario sur huauraA espaldas de la plaza de ar...",
-    "Sayan: Calle naranjo n° 211.sayan - huaura - limaA media cdra. de la plaza de armas y de la ...",
-    "Barranca: Jr. andres reyes buitron 416. barranca - barranca – limaA 2 cdrs. del parque el olviv...",
-    "Paramonga: Av. central n° 305 mz. n1 lt. 17Urb. miguel grau",
-    "Supe: Av. francisco vidal 1120, supe - barranca - limaAl costado de lubricentro ciriaco y m...",
-    "Chancay: Prolongación san martín n°403 chancay -A una cdra. de la av. panamericana norte",
-    "San Antonio: Av. sinchi roca mz. p lt. 16a p lote 16a, aahh las praderas de jicamarca – sector el ..."
-  ],
-  "Callao": [
-    "Bellavista: Av. elmer faucett 1641 - urb. jardines virú mz. b lt 46, bellavista - callaoA 2 cuadr...",
-    "Callao: Av. alejandro bertello bollati mz. b lt. 20 y 21 – urb. progresiva bahía blanca – cal...",
-    "Callao: Av. elmer faucett n° 492",
-    "Callao: Av. saenz peña n° 414 - 416 - callao - callaoCruce con av. marco polo",
-    "Callao: Unidad inmobiliaria n° 1, av. quilca mz. g sub lt. 11c, urb. aeropuerto – segundo sec...",
-    "La Perla: Av. la marina 530, urb. benjamin doigg lossio, la perla, callaoA 3 cuadras del óvalo ...",
-    "Mi Peru: V. victor raul haya de la torre mz. a lt. 02 asentamiento humano confraternidad - iii...",
-    "Ventanilla: Calle 19, mz. j lt. 26 zn - urb. coop. de la marinaAl costado de lubricentro pablito ...",
-    "Ventanilla: Urb. popular de interés social (upis) – proyecto especial ciudad pachacutec, mz. a, l..."
-  ],
-  "Arequipa": [
-    "Alto Selva Alegre: Augusto salazar bondy mz j lt 4 alto selva alegre - arequipaA media cdra. de la igles...",
-    "Alto Selva Alegre: Av. lima n° 406 – alto selva alegre - arequipaEsquina con av. obrera cuadra 20",
-    "Arequipa: Av. parra 379 - arequipa",
-    "Cayma: Av. charcani 401 asoc. jose olayaFrente al colegio mendel",
-    "Cayma: Av. ramón castilla n° 1000 - b la tomilla cayma -En la misma plaza tomilla",
-    "Cerro Colorado: Asoc. las flores zn.2 mz.j lt.8 - cerro colorado -Av 54 - a media cuadra de ferreterí...",
-    "Cerro Colorado: Asoc. urbanizadora peruarbo sector peru zona i mz. b4 lt. 4 - autopista la joya - are...",
-    "Cerro Colorado: Av. los incas n° 604 semirural pachacutec – cerro colorado - arequipaEsquina con call...",
-    "Cerro Colorado: Calle yavarí 507 b - zamacola - cerro colorado – arequipaA una cuadra de la posta de ...",
-    "Cerro Colorado: Mz. a, sub lt. 2 a, asentamiento poblacional asociación centro industrial las cantera...",
-    "Cerro Colorado: Nuevo horizonte mz.h lote 12 - cerro colorado - arequipaCon av.54 a cuatro cdras. de ...",
-    "Cerro Colorado: Urb. san felipe av pumacahua lt 14, cerro colorado arequipaA dos cdras. antes de lleg...",
-    "Jacobo Hunter: Calle argentina # 405 - a, jacobo hunter - arequipaFrente al cajero de caja arequipa ...",
-    "La Joya: Lateral 12 c lt. 32, el cruce la joya - arequipaAl costado del grifo primax de la joy...",
-    "Mariano Melgar: Calle ancash n° 202 - mariano melgarA la altura del coliseo del niño",
-    "Miraflores: Av. goyoneche n° 1422Esquina francisco bolognesi",
-    "Paucarpata: Av. jesús n° 1100 paucarpata – arequipaCon esquina arturo villegas n° 101.",
-    "Paucarpata: Calle belén n°100 - a urb. manuel prado - paucarpataA espaldas del cc. mall aventura ...",
-    "Socabaya: Asentamiento urbano municipal horacio zeballos gamez sector e mz. 1 lt. 18 socabaya -...",
-    "Socabaya: Av. socabaya 301 - urb. san martín de socabayaAl frente del parque victor barriga",
-    "Uchumayo: Urb. el carmen m. e. lt. 1 congata del distrito uchumayo - arequipaA dos cdras. de la...",
-    "Yura: Mz. o lt. 4 zna 2 ciudad de dios - yura - arequipaCarretera yura",
-    "Cocachacra: Centro poblado cocachacra mz. n5 sub-lote 5b calle dean valdivia, cocachacra - islay ...",
-    "Islay: Asentamiento humano. puerto nuevo mz. i lt. 18 av. bello horizonte, islay - islay - a...",
-    "Mollendo: Calle dean valdivia 388 cercadoEsquina con blondel",
-    "Mollendo: Mariscal castilla 472 –a, arequipa - islay - mollendoAl costado de cei “mi carrusel”",
-    "Majes: Av. lote colonizadores. 4 parcela 180, majes - caylloma - arequipaA media cdra. del g...",
-    "Majes: Calle yarabamba, mz. y lt 7. villa el pedregal, majes - caylloma - arequipaA media cd...",
-    "Camana: Calle agustín gamarra n° 451, cercado camanáAl frente del delivey caseritos",
-    "Chala: Av. emancipacion nro. s/n mz. 78 lt. 10.A media cdra. del parque del niño chalino",
-    "Aplao: Ubica en la manzana x1, lote 07, de la calle 8 de setiembre, aplao - castilla - arequ..."
-  ],
-  "La Libertad": [
-    "El Porvenir: Av. hermanos angulo 628, trujilloA espaldas de la municipalidad el porvenir",
-    "El Porvenir: Av. las magnolias mz. 25 lt. 2a nuevo porvenir, el porvenir - trujillo - la libertadA...",
-    "El Porvenir: Av. prolongación 12 de noviembre, mz. q, lt. 25A media cdra. de la comisaría alto tru...",
-    "El Porvenir: Jr. cahuide n° 342 aa.hh la merced - el porvenir - trujillo - la libertadA una cdra. ...",
-    "Huanchaco: Av. industrial mz 23 lt. 13 sector ii – el milagro, huanchaco - trujillo - la liberta...",
-    "Huanchaco: Carretera via de evitamiento 576.2 huanchaquito alto - trujillo - la libertadA 1 cdra...",
-    "La Esperanza: Av. tahuantinsuyo n° 739, la esperanza – trujillo – la libertadDiagonal a grifo el am...",
-    "La Esperanza: Mz. 1 lt. 23 aa.hh wichanzao – la esperanza – trujillo – la libertadAl costado del al...",
-    "Moche: Av. la marina lote 25 - b – moche – trujillo - la libertadA media cdra de la comisarí...",
-    "Trujillo: Av. hermanos uceda meza n° 269 urb miraflores ii etapa - trujillo - trujillo - la lib...",
-    "Trujillo: Av. la perla mz. e lote 05 urb. ingenieria – trujillo – la libertadA 1 cdra. del cole...",
-    "Trujillo: Calle atahualpa 481 – trujillo – la libertadA 1/2 cdra de la av los incas",
-    "Trujillo: Calle liverpool n° 329 / urb. santa isabel - trujillo.A una cuadra antes de la iglesi...",
-    "Trujillo: Calle santa cruz n° 389 chicago - trujillo - la libertadA media cdra. de la av. ameri...",
-    "Trujillo: Urb. vista hermosa mz. f lt. 11 piso °1 trujillo - trujillo - la libertadA espaldas d...",
-    "Victor Larco Herrera: Av. larco 865, trujillo - trujillo - la libertadMz x lt 28 cui san andres v etapa ter...",
-    "Guadalupe: Av. nilla cerruty n° 299 - guadalupe – pacasmayo – la libertadAl costado del grifo re...",
-    "Guadalupe: Mz. a lt. 01 cpm ciudad de dios - sec. los ángeles – guadalupe – la libertadAl costad...",
-    "Pacasmayo: Av. gonzalo ugaz salcedo s/n - pacasmayo - la libertadAl costado del estadio municipa...",
-    "Pacasmayo: Ctra. panamericana norte n° mz. p lt. 4a - a.h. las palmerasEntre av. sucre y av. leo...",
-    "San Pedro de Lloc: Av. vía de evitamiento n° 407, san pedro de lloc - pacasmayo - la libertadA media cdr...",
-    "Chao: Av. victor raul haya de la torre 575 chao - viruA media cdra. de la comisaría de chao",
-    "Viru: Calle puno n° 125 - mz. 32 lt. 7a - virú - la libertadA media cdra. del cruce de la a...",
-    "Viru: Panamericana norte n° 933 puente virú - virú - la libertadA media cdra. del grifo zon...",
-    "Casa Grande: Calle luis sánchez n° 152 sector parte alta. casa grande - ascope - la libertadCruce ...",
-    "Paijan: Av. panamericana norte n° 1320 - paijan",
-    "Chepen: Prolongacion ezequiel gonzales caceda 193 - sec. chepen, frente al coliseo",
-    "Pacanga: Carretera panamericana # 835 - urb. pacanguilla - distrito pacangaEn la misma panamer...",
-    "Otuzco: Av. alfredo gutiérrez n° 120 - otuzco - otuzco - la libertad.",
-    "Huamachuco: Jr. simon bolivar 763, huamachuco sanchez carrion - la libertadEntre jr. independecia..."
-  ],
-  "Piura": [
-    "26 de Octubre: A.a.h.h. consuelo de velasco 1 etapa sector b mz lt.18 26 de octubre – piuraCruce av....",
-    "26 de Octubre: Calle tres n° 102, sublote n° 1d mz. y - zona industrial ii, distrito 26 de octubre -...",
-    "26 de Octubre: Urb. parque industrial piura futura mz. g, lt. 1a. 26 de octubre - piuraAl frente del...",
-    "26 de Octubre: Urb. santa rosa mz. d lt. 7, sect. 7, 26 de octubre - piura.Av. raul mata la cruz con...",
-    "Castilla: Av. tacna 509 castilla - piuraFrente a ugel de castilla",
-    "Castilla: Carr. panamericana a-2 ah. almirante miguel grau i etapa, castilla - piura - piuraAl ...",
-    "Catacaos: Av. francisco bolognesi mz. 60 lt. 37 catacaos - piura - piuraAl lado del ex pronei",
-    "La Union: Av. lima n° 590Frente a tiendas chancafe q",
-    "Las Lomas: Jr. miguel grau mz. h lt. 7, las lomas - piuraAl costado de caja huancayo y al costad...",
-    "Piura: Av. grau manzana n, lote 33 - urbanización la alborada.Grau con marcavelica",
-    "Piura: Av. málaga mz. a lt.20 int. 105 piuraA media cuadra de honda del peru s.a. en el cruc...",
-    "Piura: Av. raúl mata la cruz lt. 11 mz. c urb. los jardines - corpiura, - piura - piura - pi...",
-    "Tambo Grande: Av. arámbulo santín n° 100, mz. d lt. e aa. hh. andrés rázuriA dos cuadras del estadi...",
-    "El Alto: Av. bolognesi o-37 centro el altoA espaldas de la municipalidad de el alto",
-    "Los Organos: Av. panamericana norte p-29 - urb. cercado zona urbana, referencia al frente de grifo...",
-    "Mancora: Av. grau nro. 432 máncora - talara - piuraFrente al paradero de autos de los órganos ...",
-    "Parinas: Asociación california c - 03 frente a carretera negritos, talara - pariñasAl costado ...",
-    "Parinas: Mz. n-10 aa.hh 9 de octubre talara alta, pariñas - talara - piuraA 1 cdra. antes de a...",
-    "Parinas: Parque 22 – 03 lateral. talara baja, pariñas - talara - piura.Frente a minsa",
-    "Bellavista: Calle moquegua 381, bellavistaRest. parrilladas chavelos",
-    "Ignacio Escudero: Av. panamericana calle 26 lote 3, ignacio escudero - sullana - piuraFrente a la insti...",
-    "Sullana: Carretera panamericana norte nº 790 sullanaFrente al colegio chiquititos",
-    "Sullana: Ctra. sullana nº s/n mz. k, lt. 06 - zona industrial municipalAl costado del hotel co...",
-    "Ayabaca: Calle bolognesi n° 136A 2 cuadras de la plaza de armas de ayabaca",
-    "Paimas: Av. sullana s/nFrente al complejo educativo juan velasco alvarado",
-    "Chulucanas: Jr. huancavelica n° 548Al lado del terminal de ronco",
-    "Morropon: Jr. adrianzén n° 099, morropon - morropon - piura, ref, a espaldas de del terminal te...",
-    "Huancabamba: Av. ramon castilla 0351 huancabamba - piuraA 1 cuadra de la capilla ramon castilla",
-    "Paita: Mz. h lt. 14 urb. sol y mar - paitaAl costado de la empresa san miguel",
-    "Sechura: Av. bayovar n° 311Al costado de antena 10 radio"
-  ],
-  "Cusco": [
-    "Cusco: Arco ticatica pustipata, lt. n° a - 11 - 2, cuscoEn la av. principal a 3 cdras. del m...",
-    "San Jeronimo: Calle ciro alegría 226 - 224Una cuadra antes del paradero penal en el carril de bajad...",
-    "San Sebastian: Av. evitamiento s/n ups chacahuayco, san sebastian - cusco - cuscoVía evitamiento en ...",
-    "San Sebastian: Urb. cachimayo a-37 av. la cultura – san sebastian – cuscoEntre paradero enaco y parq...",
-    "San Sebastian: Urb. tupac amaru b-1-2 san sebastian – cuscoTerminando la via expresa zona sur",
-    "Santiago: Av. industrial urb. bancopata j-20, santiago - cuscoA 2 cdras. del ovalo pachacutec, ...",
-    "Santiago: Prolongación av. antonio lorena # 140 - santiago, cuscoAl frente del cementerio almud...",
-    "Santiago: Urb. villa union f-1-b huancaro, santiago - cusco - cuscoFrente a la iglesia de los m...",
-    "Wanchaq: Av. las americas mz. e lt. 20, 2da etapa, urb. parque industrial, wanchaq - cuscoAl f...",
-    "Wanchaq: Av. pachacutec 429 - wanchaqA 100 mtrs. de la piscina wanchaq",
-    "Wanchaq: Velasco astete d3 - wanchaqA 2 cdras. del aereopuerto",
-    "Combapata: Av. señor de huanca s/n - combapata - canchis - cuscoAl costado del grifo señor de qo...",
-    "Sicuani: Jr. inambari nro. 208, sicuani - canchis - cuscoAl frente del bcp y de caja piura",
-    "Sicuani: Prolong. av. arequipa 1010 s/nAl costado del grifo guadalupe en el óvalo san andrés",
-    "Ocongate: Sect. mayo ucjo s/n, ocongate - quispicanchi - cuscoA la espalda del terminal de buse...",
-    "Oropesa: Sec. chimpapampa apv. jose ccarlos mareategui s/n, oropesa - quispicanchi - cuscoA un...",
-    "Urcos: Mayupata s/n paucarbamba, urcos - quispicanchi - cuscoAl frende del estadio municipal...",
-    "Calca: Av. vilcanota mz. a lt 4 calca - cuscoFrente al grifo petro perú o el óvalo puma - en...",
-    "Pisac: Av vilcanota s/n, pisac - calca - cuscoA media cdra. del puente de pisac / carretera ...",
-    "Chinchero: Av. mateo pumacahua s/n, chinchero - urubamba - cuscoAl costado de la caja cusco / en...",
-    "Urubamba: Lt. e-3 fracción -1, sector patahuasi, urubamba – urubamba - cuscoA una cdra. de la c...",
-    "Anta: Parque del carmen lt. 1 mz. b 2, anta - anta - cuscoParadero carmen, pista principal ...",
-    "Santo Tomas: Calle bolognesi mz. 02 lt. 25, santo tomas - chumbivilcas - cuscoA espaldas de la pol...",
-    "Yauri ( Espinar ): Av. tintaya n° 215 espinarA dos cuadra s de los bomberos",
-    "Santa Ana: Jr. puno lt. 10 y 11 mz. g urb. santa ana, cusco - la convencion - santa anaA media c..."
-  ],
-  "San Martin": [
-    "La Banda de Shilcayo: Jr. perú n°186A 2 cdrs. de la plaza de la banda de shilcayo",
-    "Morales: Jr. sargento lorez n° 264, morales - san martinA una cdra. y media de la plaza de mor...",
-    "Tarapoto: Jr. alfonso ugarte n°2283 - tarapoto - san martin - san martinFrente a la cancha sint...",
-    "Tarapoto: Jr. leoncio prado n° 1175A una cuadra del instituto maría parado de bellido",
-    "Tarapoto: Jr. ramon castilla n°1362 tarapoto - san martinA media cdra. de mannucci motor s.a.",
-    "Tarapoto: Jr. tahuantinsuyo n° 158 - tarapoto - san martínAl costado del grifo san martín",
-    "Elias Soplin Vargas: Jr. lima mz. 43 lt. 08 , elias soplin vargas - rioja - san martinAl costado de tienda...",
-    "Nueva Cajamarca: Av. cajamarca norte mz. 51 lt. 15Al costado de essalud",
-    "Pardo Miguel: Jr. miguel grau 101 mz. 34 lt. 6, pardo miguel - rioja - san martinAv. marginal cdra ...",
-    "Rioja: Ctra. fernando belaúnde terry n° 415Al costado de la clínica chilcon hope",
-    "Moyobamba: Jr. 20 de abril 2138 -Altura de la pampa del hambre",
-    "Moyobamba: Jr. serafín filomeno n°279, moyobamba - moyobamba - san martínA una cuadra imedia del...",
-    "Soritor: Jr. miguel grau cdra 7 n°741 mz.05 lte.16b, soritor - moyobamba - san martínA media c...",
-    "Tocache: Av. fernando belaunde c-09 mz h6 (21), lt. 04, cercado de tocacheFrente al mercadillo...",
-    "Tocache: Jr. fredy aliaga n°3046 -tocache - tocache - san martinAl costado del recreo campestr...",
-    "Uchiza: Av. leoncio prado n°524 - uchiza - tocache - san martinA media cdra. de la plaza cent...",
-    "Juanjui: Carretera fernando terry km. 1 s/nAl costado de paradero de autos huallaga express",
-    "Juanjui: Jr. sargento lorez n° 568, juanjui - mariscal cáceres - san martinA una cdra. de del ...",
-    "Bellavista: Av. lima s/n c-4 mz 71 – lote a – tercer piso, bellavista- bellavista- san martinEspa...",
-    "San Jose de Sisa: Jr. bolognesi cdra 6, san jose de sisa - el dorado - san martinAltura de jr lamas y j...",
-    "Saposoa: Av. loreto s/n - saposoa - el huallaga - san martinEn el hostal el gato, a una cdra. ...",
-    "Lamas: Jr. 16 de octubre n°1137A la espalda del grifo vargas tello",
-    "Picota: Av. fernando belaunde terry lote 2b picota - picota - san martin. ref, a una cdra. de..."
-  ],
-  "Junin": [
-    "Chilca: Jr. 28 de julio n° 935Esquina 28 de julio y santos chocano",
-    "El Tambo: Av mariscal castilla 2769Frente al colegio andres bello",
-    "El Tambo: Av. circunvalación 480 t-1, el tambo - huancayo - juninEsquina con prolongación maria...",
-    "El Tambo: Av. huancavelica 1201, el tambo - huancayo - junínEsquina con el jr. la victoria",
-    "El Tambo: Jr tarma nro. 37 - 24, el tambo - huancayo - junínAl costado de la facultad de ingeni...",
-    "Huancayo: Av. ferrocarril s/n - huancayo - counter n° 14Terminal terrestre los andes, frente al...",
-    "Huancayo: Jr. ica nº 1143 - huancayoEntre el jr. ica y el jr. tacna",
-    "Huancayo: Pj. san fernando 209 huancayo - huancayo - juninEsquina del jr. san fernando y mártir...",
-    "Pilcomayo: Plaza independencia 131, pilcomayo - huancayo - junínPlaza principal de pilcomayo",
-    "San Agustin: Carretera central km 7.5 s/n san agustin – huancayo – junínFrente a la envasadora sol...",
-    "Bajo Pichanaqui: Av. venus lt. 20 ciudad satélite -( a 1 cuadra y media del parque de satélite)",
-    "La Merced: Av. peru 931 sector pampa del carmen, la merced -chanchamayo - junínFrente a la coope...",
-    "Perene: Av. marginal s/n aa.vv san jacinto - perene - chanchamayo - juninAntes del ultimo rom...",
-    "San Ramon: Jr. ucayali 102 - san ramónFrente a la caja huancayo y el parque el avión",
-    "Mazamari: Jr. jorge chavez nro 144 lt. 8a junín - satipo– mazamariCerca a la vía principal, al ...",
-    "Pangoa: Av. marginal s/n número villa chavini pangoa - satipo - junínAl costado de la tienda ...",
-    "Satipo: Jr. francisco irazola 1077 - junínFábrica la satipeña",
-    "Chupaca: Jr. ramon castilla 201, chupaca - chupaca - juninA una cdra. de la plaza principal de...",
-    "Concepcion: Carretera central lt. 7 - mz. e5, concepción - concepción - junínEsquina con tupac am...",
-    "Jauja: Jr. estanislao marquez 286, yauyos - jauja - junínEsquina con jr. 4 de enero",
-    "Tarma: Jr. amazonas nro. 1164 tarma - junínEntre jr. amazonas con av. vienrich",
-    "La Oroya: Av. arévalo s/n (carretera central) - anexo el tambo - santa rosa de sacco"
-  ],
-  "Lambayeque": [
-    "Chiclayo: Av. las américas lt. 42 mz. d, urb. monterrico - i etapa, chiclayo - chiclayo - lamba...",
-    "Chiclayo: Av. panamericana 975 pp jj luis alberto sanchez, chiclayo - chiclayo - lambayequeA me...",
-    "Chiclayo: Calle mariscal nieto n° 390Entre mariscal nieto y miguel grau",
-    "Chongoyape: Av. atahualpa n° 1200 - chongoyape - chiclayo - lambayequeInterseccion con calle iqui...",
-    "Jose Leonardo Ortiz: Av. jose balta n° 3653 c.p.m. primero de mayo jose leonardo ortiz -chiclayo -lambayeq...",
-    "Jose Leonardo Ortiz: Calle tahuantinsuyo 995 - urb. san lorenzo - jose leonardo ortiz - chiclayo - lambaye...",
-    "La Victoria: Av. víctor raul haya de la torre 2470 la victoria - chiclayoEntre la via evitamiento ...",
-    "Monsefu: Av. venezuela n° 221, monsefú - chiclayo - lambayequeRef 01: a media cdra. de la call...",
-    "Patapo: Av. chongoyape n° s/n sector cerro mirador, patapo - chiclayo - lambayequeA una cdra....",
-    "Pimentel: Calle miguel grau mz b lote 3 - pimentel - chiclayo - lambayequeAl costado de la comi...",
-    "Pomalca: Calle 25 mz. i lt. 6 sect. 6 san juan, pomalca - chiclayo - lambayequeA una cdra. y m...",
-    "Reque: Av. mariscal ramon castilla mz. 4 lote 14, reque - chiclayo - lambayequeA media cdra....",
-    "Tuman: Av. el progreso n° 52 - sector santa rosaEntre la av. el progreso y 1° de mayo, frent...",
-    "Jayanca: Calle diego ferre n°1321 - jayanca - lambayequeAl frente del centro de salud de jayan...",
-    "Lambayeque: Av. federico villarreal n° 491, lambayeque - lambayeque - lambayequeA media cdra. de ...",
-    "Lambayeque: Calle paraguay mz. d lt 2a unidad vecinal indoamérica - lambayequeAl costado de la fá...",
-    "Morrope: Calle tahuantinsuyo n° 821, morrope - lambayequeFrente al parque infantil de morrope",
-    "Motupe: Calle los pinos n°116 - lotizacion la primaveraA media cuadra de la panamericana carr...",
-    "Olmos: Av. augusto b. leguía mz. 87 lt. 32 - olmos - lambayequeAl frente de la comisaria de ...",
-    "Tucume: Av. federico villarreal n° 982 (ctra. fernando belaunde terry)A media cdra. del cemen...",
-    "Ferrenafe: Av. andrés a. cáceres n°550aAl costado del grifo primax"
-  ],
-  "Ica": [
-    "Ica: Av. manuel santana chiri n°359 a1 – icaCruce con calle baltazar caravedo",
-    "Ica: Manzana b, sub-lote 02 del fundo la palma icaCruce de av. cutervo con av. j.j elias",
-    "Ica: Pasaje grau n° 101 san joaquin - icaA 1 cdra de petro peru",
-    "La Tinguina: Av. victorio gotuzzo n° 506 - tinguiña - icaCruce con fray ramón rosas, al costado de...",
-    "Parcona: Cp. de parcona -cercado (primera etapa) mz. b lote 16 parcona - icaAv. 18 de febrero ...",
-    "Salas: Sub lote 01 zona panamericana sur km. 293.350, salas guadalupe - ica - icaFrente al e...",
-    "Santiago: Centro poblado santiago mz. e, lt. 01 sector ii santiago - ica - icaFrente a la comis...",
-    "Subtanjalla: C.p - sector macacona /predio parcela 214 lote 2, subtanjalla - ica - icaPanamericana...",
-    "Chincha Alta: Calle los ángeles n° casa 217 01 - a sin barriio cercado, chincha alta - chincha - ic...",
-    "Chincha Alta: Prolongacion luis massaro n°247 - chincha alta",
-    "Pueblo Nuevo: Aa. hh. los alamos, calle los laureles mz. 17 lt. 11- aA 2 cdras. de la posta los ála...",
-    "Sunampe: Carr. panamericana sur nro. 198 -b , sin barrio cercado sunampe, sunampe - chincha - ...",
-    "Marcona: Aa.hh. san martín de porres e-4 san juan de marcona - nazca - icaCruce de av. las orq...",
-    "Nazca: En la esquina de la av. circunvalación con calle s/n, hoy calle las mercedes s/n nasc...",
-    "Vista Alegre: Carretera panamericana sur n° 906, vista alegre - nazca - icaFrente al aeropuerto de ...",
-    "Pisco: Av. abraham valdelomar nro. puerta 965 pisco - pisco - icaA una cdra. por la posta sa...",
-    "Pisco: C. p. oblacion villa los angeles mz.a lt 13 b la villa pisco-pisco-icaA 100 metros co...",
-    "San Clemente: Av. los libertadores grupo número 1 mz,91 lote 7ª san clemente - pisco - icaLibertado..."
-  ],
-  "Cajamarca": [
-    "Cajamarca: Av. independencia n° 787 barrio santa elena",
-    "Cajamarca: Jirón los gladiolos n° 336 barrio san martín, cajamarca – cajamarca – cajamarcaA la a...",
-    "Cajamarca: Jr. chanchamayo n° 1162 - barrio san josé cajamarcaParalela con jr. huancavelica y jr...",
-    "Cajamarca: Jr. emilio barrantes mz x lote 3 urb. horacio zevallos - cajamarca. referencia a una ...",
-    "Cajamarca: Mz. a lote s/n – barrio huambocancha baja – cajamarcaA una cdra. del paradero de la p...",
-    "Jesus: Mz. a lote s/n cp huaraclla - jesus - cajamarcaA una cdra. de la i.e. josé olaya bala...",
-    "Los Banos del Inca: Jr. cahuide n° 242 – lotiz. hurtado miller – baños del inca – cajamarcaA espaldas de ...",
-    "Cajabamba: Jr. caceres n° 211 cajabamba – cajamarcaEsquina con jose leal",
-    "Celendin: Jr. pedro ortiz montoya 148Esquina con av. amazonas",
-    "Chota: Av. fray josé arana n 805 -Frente al terminal angel divino",
-    "Yonan: Jr. bolognesi s/n – tembladera - yonan - contumazá - cajamarcaAl frente del parque ví...",
-    "Cutervo: Av. salomón vilchez murga s/n. cdra 9Frente a la clínica cutervo",
-    "Bambamarca: Av. tupac amaru 1105Al costado del paradero al cumbe",
-    "Jaen: Av. pakammuros cuadra 6 s/n -Esquina con calle libertad n° 490",
-    "San Ignacio: Pasaje tres n° 113 urb santa rosa, cajamarca - san ignacioFrente al estado municipal",
-    "Pedro Galvez: Jr. adolfo amorin bueno n° 140 san marcos – cajamarcaAl frente de la plaza agropecuar...",
-    "San Miguel: Jr. bolognesi n° 717 – san miguel – cajamarca - cajamarcaAl costado del coliseo y el ...",
-    "San Pablo: Jr. tnt. lorenzo iglesia n° 910 - san pablo – cajamarca - cajamarcaA media cdra. del ..."
-  ],
-  "Puno": [
-    "Juliaca: Av. héroes de la guerra del pacifico km 3.5, juliaca - san román - punoAl frente del ...",
-    "Juliaca: Av. independencia nro. 1538 mz. a1 lt. 04 urb. horacio zeballos gamez, juliaca - san ...",
-    "Juliaca: Av. lampa mz. b2 lt. 3 urb. santa adriana, juliaca - san román - punoA media cdra. de...",
-    "Juliaca: Av. modesto borda mz. a lt. 04 urb. arrabal don julio, juliaca - san roman - punoDos ...",
-    "Juliaca: Jr. agustin gamarra mz. r1 lt. 09 urb. huancane, juliaca - san román - punoA una cdra...",
-    "Juliaca: Jr. mama ocllo 915 - b ( cruce con jr azángaro )",
-    "Juliaca: Jr. porvenir n° 228 urb. las mercedes, san roman - punoA una cdra. de la av. circunva...",
-    "Juliaca: Jr. sillustani n° 202, san roman - juliacaA 3 cdras. del hospital carlos monge medran...",
-    "Puno: Av. 4 de noviembre n° 474-b y 486-b barrio santa rosa, puno - puno – punoA una cdra. ...",
-    "Puno: Av. costanera n° 211 con jr. los incas - puno",
-    "Puno: Urb. aziruni tepro i etapa mz. 18 lt. 52 jr los rosales – salcedo punoA una cdra. de ...",
-    "Puno: Urb. san pedro-alto puno, av la cultura n° 160, puno - puno - punoA tres cdras. de la...",
-    "Azangaro: Av. próceres s/n, azángaro - punoA dos cdras. del parque de la madre / a orillas de l...",
-    "Desaguadero: Av. 28 de julio n° 564 - 566, chucuitoA 50 mtrs. del banco de la nacion",
-    "Ilave: Jr. bolognesi nro. 866 barrio cruzani, el collao - punoA una cuadra del coliseo y del...",
-    "Ayaviri: Jr. santa rosa prolongación s/n magisterial - puno - melgar - ayaviriA 50 metros del ..."
-  ],
-  "Ancash": [
-    "Chimbote: Av. enrique meiggs n° 2457.",
-    "Chimbote: Av. josé gálvez 791, chimbote - santa - ancashA 1 cdra. antes de llegar al puente gál...",
-    "Chimbote: Par. parcela n° 16757 - e sector la perla tres cabezas - ancashFrente al estadio cent...",
-    "Nuevo Chimbote: Aa.hh. belen mz o lt 28 - nuevo chimbote - santa - ancashFrente al grifo doxa",
-    "Nuevo Chimbote: Av. josé pardo mz. k, lt. 17 - tres de octubreFrente al óvalo las américas",
-    "Nuevo Chimbote: Urb. nicolas garatea mz. 100 lt. 24 - nuevo chimbote - santa - ancashFrente al parade...",
-    "Nuevo Chimbote: Urbanización josé carlos mariategui (ex unicreto) mz r 3 lt 3A una cuadra del óvalo l...",
-    "Santa: Panamericana norte km 442 - b, santaAl lado de la ferreteria la llave",
-    "Carhuaz: Carretera central 00s/n cent carhuaz - carhuaz - áncashMedia cuadra antes de llegar a...",
-    "Casma: Av. miguel grau mz. d 4 lt. 1 casma - ancashFrente al jardín de infancia",
-    "Huaraz: Av. 27 de noviembre cdra. 20 s/n - villon bajoAl costado del grifo primax",
-    "Huarmey: Carr. panamericana norte n° km 293 sect. panamericana huarmey – ancashA 4 cdras. del ...",
-    "Caraz: Av. 9 de octubre n° 259 - huaylasAl costado de la empresa móvil tours",
-    "Yungay: Jr. industrial, lte. 14 - yungayAl costado del terminal terrestre y la tapiceria fred..."
-  ],
-  "Ayacucho": [
-    "Ayacucho: Aa.hh complejo artesanal t1 lt1 - ayacucho -A una cuadra de la puerta 2 del terminal ...",
-    "Carmen Alto: Asentamiento humano carmen alto mz b1 lote 9 zona ii acuchimay carmen alto – huamanga...",
-    "Jesus Nazareno: Jr. josé maría eguren 451 - jesus nazareno - huamanga - ayacuchoCruce con jr. mariano...",
-    "Huanta: Jr. gervasio santillana n°976 - huanta - ayacucho. ref, cruce con jr. revolución"
-  ],
-  "Huanuco": [
-    "Jose Crespo y Castil: Jr. chiclayo 247 0c-02 cent aucayu, leoncio prado, huánucoAtrás del estadio municipal",
-    "Rupa Rupa: Av. tito jaime 914, rupa rupa- leoncio prado - huanucoA dos cdras. de la plaza de arm...",
-    "Rupa Rupa: Calle rosario centralSegunda entrada de buenos aires, en la misma esquina",
-    "Amarilis: Jr. los pinos lote 3 -d2 urb los pinos - amarilis - huánucoA la espalda de toyota huá...",
-    "Huanuco: Jr. aguilar n° 872 - huánuco",
-    "Ambo: Av. las americas 501Al frente del colegio juan josé crespo y castillo"
-  ],
-  "Tacna": [
-    "Ciudad Nueva: Ciudad nueva mz 46 lt 12 comité 10 ciudad nueva - tacnaA una cdra. de la plaza josé o...",
-    "Coronel Gregorio Albarracin Lanchipa: Asoc. villa san francisco mz. 94 lt. 22Cerca a caja cusco",
-    "Coronel Gregorio Albarracin Lanchipa: Asociación las vilcas mz. e lt. 16, gregorio albarracín lanchipa - tacnaFrente al mer...",
-    "Coronel Gregorio Albarracin Lanchipa: Promuvi viñani, amp. i etapa, mz. 574, lt. 09 – coronel gregorio albarracín lanchipa ...",
-    "Tacna: Av. jorge basadre grohmann oeste n° 366 - tacna",
-    "Tacna: Av. litoral nro. 306 – para chico (anterior av. ejército prolongación 306 tacna), tac...",
-    "Tacna: Av. vigil 1636A una cdra. de la plaza grau",
-    "Tacna: Calle arias araguez n° 836 tacnaA una cdra. antes de llegar al coliseo perú",
-    "Tacna: Pueblo tradicional pocollay mz. t lote 01 , pocollay - tacna - tacnaA una cdra. del c..."
-  ],
-  "Ucayali": [
-    "Pucallpa Calleria: Av. saenz peña 229, calleria - coronel portillo - ucayaliA dos cuadras del ovalo de f...",
-    "Pucallpa Calleria: Jr. jose galvez 147 calleria - coronel portillo - ucayali.A media cuadra de la av. ce...",
-    "Pucallpa Manantay: Av. aguaytia mz., 26 lt. 20 manantay - coronel portillo - ucayaliA media cdra. del nu...",
-    "Pucallpa Manantay: Av. tupac amaru 2315 manantay - coronel portillo - ucayaliA media cdra. de la polleri...",
-    "Pucallpa Yarinacocha: Av. universitaria mza a lote 6, yarinacocha - coronel portillo - ucayaliA media cdra....",
-    "Pucallpa Yarinacocha: Carretera federico basadre km 6.800 yarinacocha - coronel portillo - ucayaliEntrada d...",
-    "Pucallpa Yarinacocha: Jr. tupac amaru, mz. 50, lt. 07A espalda de maestranza de yarinacocha",
-    "Aguaytia: U. vecinal barrio unido mz. 1 lt. 2, padre abad - ucayaliAl costado del terminal terr..."
-  ],
-  "Loreto": [
-    "Iquitos: Av. tupac amaru con - calle lourdes de león #479 iquitos maynas - loretoFrente a la b...",
-    "Iquitos: Jr. francisco bolognesi nro 203 - 215 iquitos.Esquina con putumayo",
-    "Iquitos: Jr. pablo rossell 590 con nanayCruce con av. nanay frente al instituto cepro américa ...",
-    "Iquitos San Juan Bautista: Av. josé abelardo quiñones # 2475 san juan bautista - maynas - loretoFrente a la univ...",
-    "Iquitos San Juan Bautista: Av. participación parcela 9-a san juan bautista - maynas - loretoFrente al lavadero o...",
-    "Iquitos San Juan Bautista: Carretera iquitos nauta, s/n mz. k - lt. 20, san juan bautista - maynas - loretoAl co...",
-    "Punchana: Calle borja n°648 punchana - maynas - loretoAl costado de la farmacia san carlos cent...",
-    "Yurimaguas: Calle jorge chávez n° 300Esquina con progreso, al costado de enapu"
-  ],
-  "Tumbes": [
-    "Corrales: Av. huáscar nº 311 int. 01 centro, corrales - tumbesA espaldas de la plaza de armas",
-    "La Cruz: Jr. piura 105 caleta la cruz, la cruz - tumbesFrente a ctr. panamericana norte y al f...",
-    "Tumbes: Av. arica n° 227 - tumbes.",
-    "Tumbes: Av. panamericana norte s/n villa primavera - tumbes.Pasando senati frente a agripac",
-    "Tumbes: Mz. 0u lt. 00a aa.hh. pampa grande, tumbesFrente a la av. universitaria, y al frente ...",
-    "Tumbes: Urb. andrés araujo morán mz. 28-a lote 03 calle jacinto seminarioAl costado del merca...",
-    "Aguas Verdes: Av tumbes s/n lote 09 mz 17 , a.h tomas arizola olaya , sector ii -A una cuadra del p...",
-    "Zarumilla: Jiron independencia 309 zarumillaAtrás de la plaza de armas y frente al dorado pasand...",
-    "Zorritos: Av. 28 de julio n° 205 mz. 14 lt. 04 los pinos tumbes, contralmiraante villar - zorri..."
-  ],
-  "Moquegua": [
-    "Moquegua: Av. santa fortunata mz. n5 lt. 10 asoc. villa moquegua san antonio.A una cuadra de la...",
-    "Moquegua: Calle lima 190 - mariscal nieto - moqueguaA dos cuadras del parque los héroes/alameda",
-    "Moquegua: Mz. c lt. 24 – asociación césar vizcarra – centro poblado chen chen , moquegua –maris...",
-    "Moquegua: Sector quebrada las lechuzas moquegua calle n°1 mz h lt. 04, moquegua - mariscal niet...",
-    "Ilo: Jr. callao prolongación mz. n, lt. 19 - aA media cdra. de la cooperativa cuajone",
-    "Ilo: Urb. ciudad del pescador, mz. j lt. 18-19A dos cuadras del poder judicial",
-    "Pacocha: Agrupación de familias pueblo nuevo m.z e2 lt. com2a sect. ii – ilo - moqueguaAl cost..."
-  ],
-  "Amazonas": [
-    "Chachapoyas: Jr. dos de mayo cdra. 15 s/n chachapoyasJunto a terminal de combis etsa",
-    "Chachapoyas: Jr. grau 270Junto a la agencia de viajes monteverde",
-    "Bagua: Jr. amazonas c-9 mz. 126 lt. 25, bagua - bagua - amazonasFrente al parque jerusalen y...",
-    "Jazan: Av. sacsahuaman n° 513 - pedro ruizA media cuadra de la ugel",
-    "Luya: Jr. ramón castilla s/n, luya - amazonasEntre el colegio secundario ramón castilla y e...",
-    "Bagua Grande: Av. chachapoyas 1094 sector gonchilloA 2 cuadras de la clínica señor de los milagros"
-  ],
-  "Apurimac": [
-    "Abancay: Av. panamericana s/n - abancay - apurímacA 100 metros de la comisaría de bellavista, ...",
-    "Andahuaylas: Av. los cedros 274A 70 metros del puente del hospital de andahuaylas"
-  ],
-  "Pasco": [
-    "Oxapampa: Mz. 239 sub lote h – 1 oxapampa - oxapampa - pascoEntre av. angélica frey y jr. lima",
-    "Villa Rica: Av. leopoldo krausse n° 442 villa rica - oxapampa - pascoEntre el jr. pozuzo y jr. co...",
-    "Chaupimarca: Jr. huaricapcha s/n a.h. tupac amaru chaupimarcaFrente al nuevo terminal",
-    "Huayllay: Calle lima s/n barrio arenales huayllay pasco -Al costado del colegio cesar vallejo"
-  ],
-  "Huancavelica": [
-    "Huancavelica: Av. universitaria 1003 - huancavelicaA 1 cdra. de la escuela santa ana y a 3 cdras. d..."
-  ],
-  "Madre de Dios": [
-    "Inambari: Av. los pioneros, lt. 2 y 3, inambari – tambopata - madre de diosAl costado del termi...",
-    "Las Piedras: Av. interoceanica km. 1 , las piedras - tambopata - madre de diosAl costado del grifo...",
-    "Tambopata: Av. 15 de agosto n° 529, tambopata - tambopata - madre de diosA espaldas del colegio ...",
-    "Tambopata: Av. circunvalacion mz. c lt. 01, tambopata - tambopata - madre de diosA dos cdras. de...",
-    "Tambopata: Av. la joya n° 122 - pto. maldonadoFrente al óvalo de los otorongos",
-    "Iberia: Av. jorge chavez mz. h1 sub lote 11-b, iberia - tahuamanu - madre de diosA una cdra. ..."
-  ]
-};
-    let currentDeptAgencies = [];
+    const UBIGEO_PERU = window.UBIGEO_PERU || { departments: [], provinces: [], districts: [] };
+    const departmentLabels = {
+      AMAZONAS: 'Amazonas', ANCASH: 'Áncash', APURIMAC: 'Apurímac', AREQUIPA: 'Arequipa',
+      AYACUCHO: 'Ayacucho', CAJAMARCA: 'Cajamarca', CALLAO: 'Callao', CUSCO: 'Cusco',
+      HUANCAVELICA: 'Huancavelica', HUANUCO: 'Huánuco', ICA: 'Ica', JUNIN: 'Junín',
+      'LA LIBERTAD': 'La Libertad', LAMBAYEQUE: 'Lambayeque', LIMA: 'Lima', LORETO: 'Loreto',
+      'MADRE DE DIOS': 'Madre de Dios', MOQUEGUA: 'Moquegua', PASCO: 'Pasco', PIURA: 'Piura',
+      PUNO: 'Puno', 'SAN MARTIN': 'San Martín', TACNA: 'Tacna', TUMBES: 'Tumbes', UCAYALI: 'Ucayali'
+    };
 
-    function handleDepartmentChange(dept) {
-      const agencySelect = document.getElementById('custShalomAgency');
-      const searchInput = document.getElementById('agencySearchInput');
-      const counterSpan = document.getElementById('agencyCounter');
-      
-      searchInput.value = '';
-
-      if (!dept || !shalomAgencies[dept]) {
-        currentDeptAgencies = [];
-        agencySelect.innerHTML = '<option value="" disabled selected>Primero selecciona tu departamento...</option>';
-        searchInput.disabled = true;
-        counterSpan.textContent = '';
-        return;
-      }
-
-      currentDeptAgencies = shalomAgencies[dept];
-      searchInput.disabled = false;
-      searchInput.placeholder = `🔍 Buscar entre las ${currentDeptAgencies.length} agencias de ${dept}...`;
-      renderAgencyOptions(currentDeptAgencies);
+    function formatUbigeoLabel(value) {
+      return String(value || '').toLocaleLowerCase('es-PE').replace(/(^|\s)\S/g, char => char.toLocaleUpperCase('es-PE'));
     }
 
-    function renderAgencyOptions(list) {
-      const agencySelect = document.getElementById('custShalomAgency');
-      const counterSpan = document.getElementById('agencyCounter');
-      agencySelect.innerHTML = '';
+    function resetUbigeoSelect(select, placeholder) {
+      select.innerHTML = '';
+      const option = document.createElement('option');
+      option.value = '';
+      option.textContent = placeholder;
+      option.disabled = true;
+      option.selected = true;
+      select.appendChild(option);
+      select.disabled = true;
+    }
 
-      counterSpan.textContent = `${list.length} disponible${list.length === 1 ? '' : 's'}`;
-
-      if (list.length === 0) {
-        const opt = document.createElement('option');
-        opt.value = '';
-        opt.textContent = 'No se encontraron agencias con esa búsqueda';
-        opt.disabled = true;
-        opt.selected = true;
-        agencySelect.appendChild(opt);
-        return;
-      }
-
-      const defaultOpt = document.createElement('option');
-      defaultOpt.value = '';
-      defaultOpt.textContent = `Selecciona tu agencia (${list.length} disponibles)...`;
-      defaultOpt.disabled = true;
-      defaultOpt.selected = true;
-      agencySelect.appendChild(defaultOpt);
-
-      // Opción comodín salvavidas para evitar abandonos
-      const assistOpt = document.createElement('option');
-      assistOpt.value = 'Coordinar con asesora por WhatsApp la agencia más cercana';
-      assistOpt.textContent = '📍 Coordinar por WhatsApp la agencia más cercana (Asesora te ayuda)';
-      agencySelect.appendChild(assistOpt);
-
-      list.forEach(agency => {
-        const opt = document.createElement('option');
-        opt.value = agency;
-        opt.textContent = agency;
-        agencySelect.appendChild(opt);
+    function addUbigeoOptions(select, records, labelKey) {
+      records.forEach(record => {
+        const option = document.createElement('option');
+        option.value = String(record.id);
+        option.textContent = formatUbigeoLabel(record[labelKey]);
+        select.appendChild(option);
       });
-
-      // Si solo hay 1 coincidencia exacta, seleccionarla automáticamente
-      if (list.length === 1) {
-        agencySelect.selectedIndex = 1;
-      }
+      select.disabled = false;
     }
 
-    // BUSCADOR EN TIEMPO REAL POR NOMBRE O DISTRITO
-    function handleAgencySearch(query) {
-      if (!currentDeptAgencies || currentDeptAgencies.length === 0) return;
-      
-      const cleanQuery = query.toLowerCase().trim();
-      if (!cleanQuery) {
-        renderAgencyOptions(currentDeptAgencies);
-        return;
-      }
-
-      const filtered = currentDeptAgencies.filter(agency => 
-        agency.toLowerCase().includes(cleanQuery)
-      );
-
-      renderAgencyOptions(filtered);
+    function initializeUbigeoSelectors() {
+      const departmentSelect = document.getElementById('custDepartment');
+      if (!departmentSelect || !UBIGEO_PERU.departments.length) return;
+      resetUbigeoSelect(departmentSelect, 'Departamento');
+      UBIGEO_PERU.departments.forEach(department => {
+        const option = document.createElement('option');
+        option.value = String(department.id);
+        option.textContent = departmentLabels[department.departamento] || formatUbigeoLabel(department.departamento);
+        departmentSelect.appendChild(option);
+      });
+      departmentSelect.disabled = false;
     }
+
+    function handleDepartmentChange(deptId) {
+      const departmentSelect = document.getElementById('custDepartment');
+      const provinceSelect = document.getElementById('custProvince');
+      const districtSelect = document.getElementById('custDistrict');
+      if (departmentSelect) departmentSelect.classList.toggle('is-valid', Boolean(deptId));
+      resetUbigeoSelect(provinceSelect, 'Primero selecciona tu departamento');
+      resetUbigeoSelect(districtSelect, 'Primero selecciona tu provincia');
+      if (!deptId) return;
+      const provinces = UBIGEO_PERU.provinces.filter(province => Number(province.departamento_id) === Number(deptId));
+      addUbigeoOptions(provinceSelect, provinces, 'provincia');
+    }
+
+    function handleProvinceChange(provinceId) {
+      const districtSelect = document.getElementById('custDistrict');
+      resetUbigeoSelect(districtSelect, 'Primero selecciona tu provincia');
+      if (!provinceId) return;
+      const districts = UBIGEO_PERU.districts.filter(district => Number(district.provincia_id) === Number(provinceId));
+      addUbigeoOptions(districtSelect, districts, 'distrito');
+    }
+
+    initializeUbigeoSelectors();
 
     // ==========================================================
     // TIERS DE UPSELLING Y SELECCIÓN DE PRECIOS
@@ -3971,29 +3663,32 @@
       1: {
         units: 1,
         price: 99.90,
-        oldPrice: 'S/ 189.00',
+        originalPrice: 189.90,
+        oldPrice: 'S/ 189.90',
         name: '1x VELORA 5 en 1',
         stickySummary: '1x VELORA (S/ 99.90)',
         btnText: 'REALIZAR PEDIDO - S/ 99.90 ➔',
-        submitText: 'REALIZAR PEDIDO (S/ 99.90) ➔'
+        submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
       },
       2: {
         units: 2,
         price: 169.90,
-        oldPrice: 'S/ 378.00',
+        originalPrice: 379.80,
+        oldPrice: 'S/ 379.80',
         name: '2x VELORA 5 en 1 (Ahorro S/ 29.90)',
         stickySummary: '2x VELORA (S/ 169.90)',
         btnText: 'REALIZAR PEDIDO - S/ 169.90 ➔',
-        submitText: 'REALIZAR PEDIDO (S/ 169.90) ➔'
+        submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
       },
       3: {
         units: 3,
         price: 229.90,
-        oldPrice: 'S/ 567.00',
+        originalPrice: 569.70,
+        oldPrice: 'S/ 569.70',
         name: '3x VELORA 5 en 1 (Ahorro S/ 69.80)',
         stickySummary: '3x VELORA (S/ 229.90)',
         btnText: 'REALIZAR PEDIDO - S/ 229.90 ➔',
-        submitText: 'REALIZAR PEDIDO (S/ 229.90) ➔'
+        submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
       }
     };
 
@@ -4035,10 +3730,8 @@
       document.getElementById('headerCartCount').innerText = units;
 
       document.getElementById('modalTotalOrderText').innerText = `S/ ${price.toFixed(2)}`;
-      const remainingBalanceText = document.getElementById('remainingBalanceText');
-      if (remainingBalanceText) remainingBalanceText.innerText = `S/ ${Math.max(0, price - 20).toFixed(2)}`;
-      const titleElem = document.getElementById('modalSummaryTitle');
-      if (titleElem) titleElem.innerText = data.name;
+      document.getElementById('modalSubtotalText').innerText = `S/ ${data.originalPrice.toFixed(2)}`;
+      document.getElementById('modalDiscountText').innerText = `- S/ ${(data.originalPrice - price).toFixed(2)}`;
       document.getElementById('submitBtnText').innerText = data.submitText;
     }
 
@@ -4456,7 +4149,9 @@
       const phoneInput = document.getElementById('custPhone');
       const dniInput = document.getElementById('custDNI');
       const deptSelect = document.getElementById('custDepartment');
-      const agencySelect = document.getElementById('custShalomAgency');
+      const provinceInput = document.getElementById('custProvince');
+      const districtInput = document.getElementById('custDistrict');
+      const addressInput = document.getElementById('custAddress');
       const submitBtn = document.getElementById('submitOrderBtn');
 
       // Limpiar y validar automáticamente por si se completó vía Autofill de Meta/Navegador
@@ -4467,8 +4162,12 @@
       const nameVal = nameInput.value.trim();
       const phoneVal = phoneInput.value.trim();
       const dniVal = dniInput.value.trim();
-      const deptVal = deptSelect.value;
-      const agencyVal = agencySelect.value;
+      const selectedLabel = select => select && select.selectedIndex > 0 ? select.options[select.selectedIndex].textContent.trim() : '';
+      const deptVal = selectedLabel(deptSelect);
+      const provinceVal = selectedLabel(provinceInput);
+      const districtVal = selectedLabel(districtInput);
+      const addressVal = addressInput.value.trim();
+      const deliveryDestination = `${provinceVal}, ${districtVal} - ${addressVal}`;
 
       // 1. Validar Nombre
       const nameCheck = checkRealFullName(nameVal);
@@ -4497,15 +4196,25 @@
         return;
       }
 
-      // 4. Validar Departamento y Agencia
+      // 4. Validar la ubicación completa de entrega
       if (!deptVal) {
         deptSelect.focus();
         showFormGlobalError('Por favor selecciona tu departamento de entrega.');
         return;
       }
-      if (!agencyVal) {
-        agencySelect.focus();
-        showFormGlobalError('Por favor selecciona la Agencia Shalom donde retirarás (o elige "Coordinar por WhatsApp").');
+      if (!provinceVal) {
+        provinceInput.focus();
+        showFormGlobalError('Por favor ingresa tu provincia.');
+        return;
+      }
+      if (!districtVal) {
+        districtInput.focus();
+        showFormGlobalError('Por favor ingresa tu distrito.');
+        return;
+      }
+      if (addressVal.length < 5) {
+        addressInput.focus();
+        showFormGlobalError('Ingresa tu dirección exacta y una referencia.');
         return;
       }
 
@@ -4525,11 +4234,11 @@
         phone: phoneVal,
         dni: dniVal,
         city: deptVal,
-        address: `Agencia Shalom: ${agencyVal}`,
+        address: deliveryDestination,
         units: selectedUnits,
         product: selectedProductName,
         price: selectedPrice,
-        payment: 'Yape Oficial',
+        payment: 'Contra entrega Shalom',
         status: 'Pendiente',          // Estado logístico
         payment_status: 'Pendiente',  // Estado de pago independiente
         paid_at: '',                  // Fecha real de pago (se registra al verificar en /admin)
@@ -4544,7 +4253,7 @@
       } catch (error) {
         isSubmitting = false;
         submitBtn.disabled = false;
-        submitBtn.textContent = bundlesData[selectedUnits].submitText;
+        submitBtn.innerHTML = `<span id="submitBtnText">${bundlesData[selectedUnits].submitText}</span><span class="submit-subtext">Paga al recibir 🚚</span>`;
         showFormGlobalError('No pudimos confirmar tu pedido. Vuelve a intentarlo. ' + error.message);
         return;
       }
@@ -4573,14 +4282,15 @@
         `📦 *Pedido:* #${orderId}\n` +
         `✨ *Producto:* ${selectedProductName}\n` +
         `💰 *Total a Pagar:* S/ ${selectedPrice.toFixed(2)} (Envío GRATIS vía Shalom)\n` +
-        `💜 *Medio de Pago:* Yape / Plin (994 729 784 - Titular: Jarry Tafur)\n` +
-        `ℹ️ *Adelanto mínimo para registrar el envío:* S/ 20\n` +
+        `💳 *Medio de Pago:* Contra entrega Shalom\n` +
         `👤 *Titular:* ${nameVal}\n` +
         `🆔 *DNI Titular:* ${dniVal}\n` +
         `📍 *Departamento:* ${deptVal}\n` +
-        `🏢 *Agencia Shalom:* ${agencyVal}\n` +
+        `🗺️ *Provincia:* ${provinceVal}\n` +
+        `📌 *Distrito:* ${districtVal}\n` +
+        `🏠 *Dirección y referencia:* ${addressVal}\n` +
         `📱 *Teléfono:* ${phoneVal}\n\n` +
-        `Por favor confírmenme para emitir mi guía Shalom y coordinar el despacho. ¡Muchas gracias!`;
+        `Por favor confírmenme el envío gratis y el pago contra entrega por Shalom. ¡Muchas gracias!`;
 
       const whatsappUrl = `https://api.whatsapp.com/send?phone=${storeWhatsApp}&text=${encodeURIComponent(msgText)}`;
 
@@ -4594,7 +4304,7 @@
         document.getElementById('successClientName').textContent = nameVal;
         document.getElementById('successProductTitle').textContent = selectedProductName;
         document.getElementById('successTotalText').textContent = `S/ ${selectedPrice.toFixed(2)}`;
-        document.getElementById('successAgencyText').textContent = `${deptVal} - ${agencyVal.length > 28 ? agencyVal.slice(0, 28) + '...' : agencyVal}`;
+        document.getElementById('successAgencyText').textContent = `${deptVal} - ${provinceVal}, ${districtVal}`;
 
         const waBtn = document.getElementById('successWhatsAppBtn');
         if (waBtn) {
@@ -4628,7 +4338,7 @@
       setTimeout(() => {
         isSubmitting = false;
         submitBtn.disabled = false;
-        submitBtn.innerHTML = `<span>${bundlesData[selectedUnits].submitText}</span>`;
+        submitBtn.innerHTML = `<span id="submitBtnText">${bundlesData[selectedUnits].submitText}</span><span class="submit-subtext">Paga al recibir 🚚</span>`;
       }, 3000);
     }
 
