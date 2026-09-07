@@ -48,7 +48,7 @@ function harness() {
   context.getTargetSpreadsheet = () => ({getSheetByName: () => sheet});
   const post = (action, data = {}, authenticated = true) =>
     context.doPost({postData:{contents:JSON.stringify({action, ...data, ...(authenticated ? {admin_secret:secret} : {})})}});
-  const order = {id:'VL-test-unique-0001', name:'Prueba Integracion', phone:'900000001', dni:'00000001',
+  const order = {id:'VL-test-unique-0001', name:'Prueba Integracion', phone:'900000001',
     city:'Lima', address:'Agencia de prueba', units:2, price:1,
     attribution:{fbp:'fb.1.1234567890000.12345', client_user_agent:'Buyer test agent', landing_url:'https://velorabeautype.store/'}};
   return {context, post, order, rows, props, requests, notes,
@@ -89,7 +89,7 @@ test('reintentar el mismo pedido no agrega otra fila; colisión se rechaza', () 
 });
 test('datos inválidos se rechazan en servidor', () => {
   const h=harness();
-  for(const override of [{units:4},{phone:'123'},{dni:'123'},{name:'Uno'},{id:'invalid'},{city:''}]) {
+  for(const override of [{units:4},{phone:'123'},{name:'Uno'},{id:'invalid'},{city:''}]) {
     assert.equal(h.post('create_order',{...h.order,...override},false).status,'error');
   }
   assert.equal(h.rows.length,0);

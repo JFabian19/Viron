@@ -3369,7 +3369,7 @@
             <span class="field-error-msg" id="nameError">Ingresa un nombre y apellido real válido (sin letras al azar).</span>
           </div>
 
-          <!-- Teléfono y DNI conservan la validación requerida por el registro de pedidos -->
+          <!-- Datos de contacto -->
           <div class="form-grid-2">
             <div class="form-group" style="margin-bottom: 0;">
               <label class="form-label" for="custPhone">Celular <span class="required-mark">*</span></label>
@@ -3381,14 +3381,6 @@
               <span class="field-error-msg" id="phoneError">Debe ser de 9 dígitos y empezar con 9.</span>
             </div>
 
-            <div class="form-group" style="margin-bottom: 0;">
-              <label class="form-label" for="custDNI">DNI de quien recibe <span class="required-mark">*</span></label>
-              <div class="input-wrapper" id="dniWrapper">
-                <input type="tel" id="custDNI" name="dni" class="form-input" placeholder="DNI (8 dígitos)" required maxlength="8" inputmode="numeric" autocomplete="off" oninput="validateDniInput(this)" onchange="validateDniInput(this)">
-                <span class="valid-check-icon">✓</span>
-              </div>
-              <span class="field-error-msg" id="dniError">DNI debe tener 8 dígitos válidos.</span>
-            </div>
           </div>
 
           <div class="form-group">
@@ -3418,14 +3410,6 @@
               <select id="custDistrict" name="district" class="form-select" required disabled>
                 <option value="" selected>Primero selecciona tu provincia</option>
               </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="custAddress">Dirección y Referencia <span class="required-mark">*</span></label>
-            <div class="input-wrapper input-with-icon">
-              <span class="field-leading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg></span>
-              <input type="text" id="custAddress" name="address" class="form-input" placeholder="Dirección exacta y referencia" required autocomplete="street-address">
             </div>
           </div>
 
@@ -3924,18 +3908,6 @@
       return { valid: true, msg: "" };
     }
 
-    function checkRealDNI(dni) {
-      const clean = dni.trim();
-      if (!/^\d{8}$/.test(clean)) {
-        return { valid: false, msg: "El DNI debe tener exactamente 8 dígitos numéricos." };
-      }
-      // Evitar solo ceros (00000000)
-      if (/^0{8}$/.test(clean)) {
-        return { valid: false, msg: "Ingresa un DNI de 8 dígitos numéricos." };
-      }
-      return { valid: true, msg: "" };
-    }
-
     // Validadores en tiempo real
     function validateNameInput(input) {
       const wrapper = document.getElementById('nameWrapper');
@@ -3984,35 +3956,6 @@
         return false;
       }
       const res = checkRealPhone(cleanVal);
-      if (res.valid) {
-        input.classList.remove('is-invalid');
-        input.classList.add('is-valid');
-        wrapper.classList.add('is-valid');
-        errSpan.style.display = 'none';
-        return true;
-      } else {
-        input.classList.remove('is-valid');
-        input.classList.add('is-invalid');
-        wrapper.classList.remove('is-valid');
-        errSpan.textContent = res.msg;
-        errSpan.style.display = 'block';
-        return false;
-      }
-    }
-
-    function validateDniInput(input) {
-      // Filtrar solo números
-      input.value = input.value.replace(/\D/g, '').slice(0, 8);
-      const wrapper = document.getElementById('dniWrapper');
-      const errSpan = document.getElementById('dniError');
-      const val = input.value.trim();
-      if (!val) {
-        input.classList.remove('is-valid', 'is-invalid');
-        wrapper.classList.remove('is-valid');
-        errSpan.style.display = 'none';
-        return false;
-      }
-      const res = checkRealDNI(val);
       if (res.valid) {
         input.classList.remove('is-invalid');
         input.classList.add('is-valid');
@@ -4147,27 +4090,22 @@
 
       const nameInput = document.getElementById('custName');
       const phoneInput = document.getElementById('custPhone');
-      const dniInput = document.getElementById('custDNI');
       const deptSelect = document.getElementById('custDepartment');
       const provinceInput = document.getElementById('custProvince');
       const districtInput = document.getElementById('custDistrict');
-      const addressInput = document.getElementById('custAddress');
       const submitBtn = document.getElementById('submitOrderBtn');
 
       // Limpiar y validar automáticamente por si se completó vía Autofill de Meta/Navegador
       validateNameInput(nameInput);
       validatePhoneInput(phoneInput);
-      validateDniInput(dniInput);
 
       const nameVal = nameInput.value.trim();
       const phoneVal = phoneInput.value.trim();
-      const dniVal = dniInput.value.trim();
       const selectedLabel = select => select && select.selectedIndex > 0 ? select.options[select.selectedIndex].textContent.trim() : '';
       const deptVal = selectedLabel(deptSelect);
       const provinceVal = selectedLabel(provinceInput);
       const districtVal = selectedLabel(districtInput);
-      const addressVal = addressInput.value.trim();
-      const deliveryDestination = `${provinceVal}, ${districtVal} - ${addressVal}`;
+      const deliveryDestination = `${provinceVal}, ${districtVal}`;
 
       // 1. Validar Nombre
       const nameCheck = checkRealFullName(nameVal);
@@ -4187,16 +4125,7 @@
         return;
       }
 
-      // 3. Validar DNI
-      const dniCheck = checkRealDNI(dniVal);
-      if (!dniCheck.valid) {
-        validateDniInput(dniInput);
-        dniInput.focus();
-        showFormGlobalError(dniCheck.msg);
-        return;
-      }
-
-      // 4. Validar la ubicación completa de entrega
+      // 3. Validar la ubicación completa de entrega
       if (!deptVal) {
         deptSelect.focus();
         showFormGlobalError('Por favor selecciona tu departamento de entrega.');
@@ -4212,12 +4141,6 @@
         showFormGlobalError('Por favor ingresa tu distrito.');
         return;
       }
-      if (addressVal.length < 5) {
-        addressInput.focus();
-        showFormGlobalError('Ingresa tu dirección exacta y una referencia.');
-        return;
-      }
-
       clearFormGlobalError();
       isSubmitting = true;
       submitBtn.disabled = true;
@@ -4232,7 +4155,6 @@
         date: new Date().toISOString().slice(0, 16).replace('T', ' '),
         name: nameVal,
         phone: phoneVal,
-        dni: dniVal,
         city: deptVal,
         address: deliveryDestination,
         units: selectedUnits,
@@ -4284,11 +4206,9 @@
         `💰 *Total a Pagar:* S/ ${selectedPrice.toFixed(2)} (Envío GRATIS vía Shalom)\n` +
         `💳 *Medio de Pago:* Contra entrega Shalom\n` +
         `👤 *Titular:* ${nameVal}\n` +
-        `🆔 *DNI Titular:* ${dniVal}\n` +
         `📍 *Departamento:* ${deptVal}\n` +
         `🗺️ *Provincia:* ${provinceVal}\n` +
         `📌 *Distrito:* ${districtVal}\n` +
-        `🏠 *Dirección y referencia:* ${addressVal}\n` +
         `📱 *Teléfono:* ${phoneVal}\n\n` +
         `Por favor confírmenme el envío gratis y el pago contra entrega por Shalom. ¡Muchas gracias!`;
 

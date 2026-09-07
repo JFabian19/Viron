@@ -423,14 +423,14 @@ function handleRequest(action, data, sheet) {
   if (action === "create_order") {
     if (!/^VL-[a-zA-Z0-9-]{4,80}$/.test(String(data.id || ""))) throw new Error("ID de pedido inválido.");
     var phone = String(data.phone || "").replace(/\D/g, "").replace(/^51(?=9\d{8}$)/, "");
-    if (!/^9\d{8}$/.test(phone) || !/^\d{8}$/.test(String(data.dni || "")) ||
-        String(data.name || "").trim().split(/\s+/).length < 2 || !data.city || !data.address) {
+    if (!/^9\d{8}$/.test(phone) || String(data.name || "").trim().split(/\s+/).length < 2 ||
+        !data.city || !data.address) {
       throw new Error("Datos del pedido incompletos o inválidos.");
     }
     var item = PRICE_CATALOG[Number(data.units)];
     if (!item) throw new Error("Paquete inválido.");
     if (order) {
-      if (order.phone !== phone || order.dni !== String(data.dni) || order.units !== item.units) {
+      if (order.phone !== phone || order.units !== item.units) {
         throw new Error("El ID corresponde a otro pedido.");
       }
       return {status: "success", id: order.id, saved: true, duplicate: true};
@@ -441,7 +441,7 @@ function handleRequest(action, data, sheet) {
       if (attr[k]) allowed[k] = String(attr[k]).slice(0, 2000);
     });
     sheet.appendRow([String(data.id), new Date().toISOString(), safeCell(data.name), "'" + phone,
-      "'" + data.dni, safeCell(data.city), safeCell(data.address), item.name, item.units,
+      "", safeCell(data.city), safeCell(data.address), item.name, item.units,
       item.price, safeCell(data.payment || "Yape Oficial"), "Pendiente", "Pendiente", "", "none", "",
       JSON.stringify(allowed)]);
     SpreadsheetApp.flush();
