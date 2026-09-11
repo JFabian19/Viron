@@ -3976,12 +3976,6 @@
     // CAPTURA DE ATRIBUCIÓN DEL CLIENTE (META CAPI & UTMs)
     // ==========================================================
     let cachedClientIp = null;
-    let contactTrackedForOrder = null;
-    function trackOrderContact(id) {
-      if (contactTrackedForOrder === id) return;
-      contactTrackedForOrder = id;
-      if (typeof fbq === 'function') fbq('track', 'Contact', {}, { eventID: 'contact_' + id });
-    }
     (function fetchClientIp() {
       // Captura no bloqueante de IP del comprador para mejorar el Event Match Quality en CAPI
       try {
@@ -4182,7 +4176,7 @@
       pendingOrderId = null;
       sessionStorage.removeItem('velora_pending_order_id');
 
-      // DISPARAR EVENTO LEAD (SOLO UNA VEZ TRAS GUARDAR CORRECTAMENTE, NUNCA PURCHASE)
+      // EL PEDIDO CONFIRMADO ES UN LEAD DE ALTA INTENCIÓN (SOLO UNA VEZ, NUNCA CONTACT NI PURCHASE)
       const leadEventId = `lead_${orderId}`;
       const sessionLeadKey = `velora_lead_sent_${orderId}`;
       if (typeof fbq === 'function' && !sessionStorage.getItem(sessionLeadKey)) {
@@ -4231,7 +4225,6 @@
           waBtn.href = whatsappUrl;
           waBtn.onclick = function(event) {
             event.preventDefault();
-            trackOrderContact(orderId);
             window.location.href = whatsappUrl;
           };
         }
@@ -4246,12 +4239,10 @@
           if (countdownEl) countdownEl.textContent = secondsRemaining;
           if (secondsRemaining <= 0) {
             clearInterval(redirectInterval);
-            trackOrderContact(orderId);
             window.location.href = whatsappUrl;
           }
         }, 1000);
       } else {
-        trackOrderContact(orderId);
         window.location.href = whatsappUrl;
       }
 

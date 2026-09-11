@@ -66,6 +66,12 @@ test('scripts del frontend y backend tienen sintaxis válida', () => {
   assert.ok(!source.includes('EAAd'));
   assert.ok(source.includes('GRAPH_API_VERSION = "v26.0"'));
 });
+test('pedido confirmado se registra únicamente como Lead en Meta Pixel', () => {
+  const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
+  assert.match(html, /fbq\('track', 'Lead'/);
+  assert.doesNotMatch(html, /fbq\('track', 'Contact'/);
+  assert.match(html, /velora_lead_sent_/);
+});
 test('GET no revela pedidos y POST privado exige contraseña', () => {
   const h = harness(); h.create();
   assert.equal(h.context.doGet({parameter:{action:'get_orders'}}).orders, undefined);
