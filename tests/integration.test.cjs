@@ -209,7 +209,7 @@ test('cliente rechaza backend antiguo y respuesta opaca en lugar de simular éxi
 
 test('los cuatro offer_id se registran con sus precios exactos, units 1 y offer_id en atribución', () => {
   const catalog = [
-    { offer_id: 'base', price: 99.90, name: '1x VELORA 5 en 1', num_items: 1, content_ids: ['velora-5en1-1u'] },
+    { offer_id: 'base', price: 99, name: '1x VELORA 5 en 1', num_items: 1, content_ids: ['velora-5en1-1u'] },
     { offer_id: 'mirror', price: 116.90, name: 'VELORA 5 en 1 + Espejo con orejitas', num_items: 2, content_ids: ['velora-5en1-1u', 'upsell-mirror'] },
     { offer_id: 'straightener', price: 139.90, name: 'VELORA 5 en 1 + Plancha Nano Titanium', num_items: 2, content_ids: ['velora-5en1-1u', 'upsell-straightener'] },
     { offer_id: 'combo', price: 149.90, name: 'VELORA 5 en 1 + Espejo + Plancha Nano Titanium', num_items: 3, content_ids: ['velora-5en1-1u', 'upsell-mirror', 'upsell-straightener'] }
@@ -269,7 +269,7 @@ test('evitar que un mismo ID se reutilice con otra oferta o datos incompatibles'
 
 test('Purchase usa total, content_ids y num_items correctos para cada oferta nueva y pedidos historicos', () => {
   const cases = [
-    { offer_id: 'base', expectedVal: 99.90, expectedItems: 1, expectedIds: ['velora-5en1-1u'] },
+    { offer_id: 'base', expectedVal: 99, expectedItems: 1, expectedIds: ['velora-5en1-1u'] },
     { offer_id: 'mirror', expectedVal: 116.90, expectedItems: 2, expectedIds: ['velora-5en1-1u', 'upsell-mirror'] },
     { offer_id: 'straightener', expectedVal: 139.90, expectedItems: 2, expectedIds: ['velora-5en1-1u', 'upsell-straightener'] },
     { offer_id: 'combo', expectedVal: 149.90, expectedItems: 3, expectedIds: ['velora-5en1-1u', 'upsell-mirror', 'upsell-straightener'] }

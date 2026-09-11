@@ -38,7 +38,7 @@ var OFFER_CATALOG = {
     offer_id: "base",
     units: 1,
     num_items: 1,
-    price: 99.90,
+    price: 99,
     name: "1x VELORA 5 en 1",
     content_ids: ["velora-5en1-1u"]
   },
@@ -297,7 +297,7 @@ function sendCapiPurchase(order, paidTimestamp) {
   var contentIds = catalogItem ? catalogItem.content_ids : ["velora-5en1-" + (order.units || 1) + "u"];
   var numItems = catalogItem ? catalogItem.num_items : (Number(order.units) || 1);
   var contentName = order.product || (catalogItem ? catalogItem.name : "Secadora 5 en 1 VELORA");
-  var orderValue = Number(order.price) || (catalogItem ? catalogItem.price : 99.90);
+  var orderValue = Number(order.price) || (catalogItem ? catalogItem.price : 99);
 
   var eventPayload = {
     event_name: "Purchase",
