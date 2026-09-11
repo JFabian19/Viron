@@ -32,12 +32,42 @@ var SHEET_METRICS = "Métricas";
 
 // Las credenciales se configuran exclusivamente en Propiedades del Script.
 
-// Catálogo oficial de precios para validación estricta en servidor
-var PRICE_CATALOG = {
-  1: { units: 1, price: 99.90, name: "1x VELORA 5 en 1" },
-  2: { units: 2, price: 169.90, name: "2x VELORA 5 en 1 (Ahorro S/29.90)" },
-  3: { units: 3, price: 229.90, name: "3x VELORA 5 en 1 (Ahorro S/69.80)" }
+// Catálogo oficial autoritativo por offer_id para validación estricta en servidor
+var OFFER_CATALOG = {
+  base: {
+    offer_id: "base",
+    units: 1,
+    num_items: 1,
+    price: 99.90,
+    name: "1x VELORA 5 en 1",
+    content_ids: ["velora-5en1-1u"]
+  },
+  mirror: {
+    offer_id: "mirror",
+    units: 1,
+    num_items: 2,
+    price: 116.90,
+    name: "VELORA 5 en 1 + Espejo con orejitas",
+    content_ids: ["velora-5en1-1u", "upsell-mirror"]
+  },
+  straightener: {
+    offer_id: "straightener",
+    units: 1,
+    num_items: 2,
+    price: 139.90,
+    name: "VELORA 5 en 1 + Plancha Nano Titanium",
+    content_ids: ["velora-5en1-1u", "upsell-straightener"]
+  },
+  combo: {
+    offer_id: "combo",
+    units: 1,
+    num_items: 3,
+    price: 149.90,
+    name: "VELORA 5 en 1 + Espejo + Plancha Nano Titanium",
+    content_ids: ["velora-5en1-1u", "upsell-mirror", "upsell-straightener"]
+  }
 };
+var PRICE_CATALOG = OFFER_CATALOG;
 
 // Encabezados oficiales de la Hoja Pedidos (17 columnas estructuradas)
 var HEADERS = [
@@ -262,6 +292,13 @@ function sendCapiPurchase(order, paidTimestamp) {
     return { status: "failed", event_id: eventId, message: "Fecha de pago inválida o fuera del plazo de 7 días de Meta." };
   }
 
+  var offerId = order.offer_id || attr.offer_id;
+  var catalogItem = offerId ? OFFER_CATALOG[offerId] : null;
+  var contentIds = catalogItem ? catalogItem.content_ids : ["velora-5en1-" + (order.units || 1) + "u"];
+  var numItems = catalogItem ? catalogItem.num_items : (Number(order.units) || 1);
+  var contentName = order.product || (catalogItem ? catalogItem.name : "Secadora 5 en 1 VELORA");
+  var orderValue = Number(order.price) || (catalogItem ? catalogItem.price : 99.90);
+
   var eventPayload = {
     event_name: "Purchase",
     event_time: eventEpochSeconds,
@@ -271,11 +308,11 @@ function sendCapiPurchase(order, paidTimestamp) {
     user_data: userData,
     custom_data: {
       currency: "PEN",
-      value: Number(order.price) || 99.90,
-      content_name: order.product || "Secadora 5 en 1 VELORA",
+      value: orderValue,
+      content_name: contentName,
       content_type: "product",
-      num_items: Number(order.units) || 1,
-      content_ids: ["velora-5en1-" + (order.units || 1) + "u"]
+      num_items: numItems,
+      content_ids: contentIds
     }
   };
 
@@ -376,6 +413,7 @@ function readOrders(sheet) {
       paid_at: r[13] instanceof Date ? r[13].toISOString() : String(r[13] || ""),
       capi_status: String(r[14] || "none"), capi_event_id: String(r[15] || ""),
       capi_message: String(notes[i][0] || ""),
+      offer_id: String(attr.offer_id || ""),
       attribution: attr, _row: i + 2
     };
   }).filter(function(o) { return o.id; });
@@ -427,21 +465,27 @@ function handleRequest(action, data, sheet) {
         !data.city || !data.address) {
       throw new Error("Datos del pedido incompletos o inválidos.");
     }
-    var item = PRICE_CATALOG[Number(data.units)];
-    if (!item) throw new Error("Paquete inválido.");
+    var attr = data.attribution && typeof data.attribution === "object" ? data.attribution : {};
+    var offerId = String(data.offer_id || attr.offer_id || "").trim();
+    var item = OFFER_CATALOG[offerId];
+    if (!item) throw new Error("Oferta inválida.");
+    if (data.units !== undefined && Number(data.units) !== 1) {
+      throw new Error("Oferta inválida.");
+    }
     if (order) {
-      if (order.phone !== phone || order.units !== item.units) {
+      var existingOfferId = order.offer_id || (order.attribution && order.attribution.offer_id);
+      if (order.phone !== phone || order.units !== item.units || order.product !== item.name || (existingOfferId && existingOfferId !== item.offer_id)) {
         throw new Error("El ID corresponde a otro pedido.");
       }
       return {status: "success", id: order.id, saved: true, duplicate: true};
     }
-    var attr = data.attribution && typeof data.attribution === "object" ? data.attribution : {};
     var allowed = {};
     ["fbp","fbc","client_ip","client_user_agent","landing_url","utm_source","utm_medium","utm_campaign","utm_term","utm_content"].forEach(function(k) {
       if (attr[k]) allowed[k] = String(attr[k]).slice(0, 2000);
     });
+    allowed.offer_id = item.offer_id;
     sheet.appendRow([String(data.id), new Date().toISOString(), safeCell(data.name), "'" + phone,
-      "", safeCell(data.city), safeCell(data.address), item.name, item.units,
+      safeCell(data.dni || ""), safeCell(data.city), safeCell(data.address), item.name, item.units,
       item.price, safeCell(data.payment || "Yape Oficial"), "Pendiente", "Pendiente", "", "none", "",
       JSON.stringify(allowed)]);
     SpreadsheetApp.flush();

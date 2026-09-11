@@ -1178,11 +1178,12 @@
           <input type="text" id="manualAddress" required placeholder="Agencia Shalom: Miraflores - Av. Benavides 2150">
         </div>
         <div class="form-row">
-          <label>Paquete / Unidades *</label>
-          <select id="manualUnits">
-            <option value="1">1x VELORA 5 en 1 - S/ 99.90</option>
-            <option value="2">2x VELORA 5 en 1 - S/ 169.90 (Ahorras S/ 29.90)</option>
-            <option value="3">3x VELORA 5 en 1 - S/ 229.90 (Ahorras S/ 69.80)</option>
+          <label>Oferta / Paquete *</label>
+          <select id="manualOffer">
+            <option value="base">1x VELORA 5 en 1 - S/ 99.90</option>
+            <option value="mirror">VELORA 5 en 1 + Espejo con orejitas - S/ 116.90</option>
+            <option value="straightener">VELORA 5 en 1 + Plancha Nano Titanium - S/ 139.90</option>
+            <option value="combo">VELORA 5 en 1 + Espejo + Plancha Nano Titanium - S/ 149.90</option>
           </select>
         </div>
         <div class="form-row">
@@ -2104,16 +2105,16 @@
       const dni = document.getElementById('manualDNI').value.trim();
       const city = document.getElementById('manualCity').value.trim();
       const address = document.getElementById('manualAddress').value.trim();
-      const units = parseInt(document.getElementById('manualUnits').value, 10);
+      const offerId = document.getElementById('manualOffer').value;
       const payment = document.getElementById('manualPayment').value;
       
-      const priceMap = { 1: 99.90, 2: 169.90, 3: 229.90 };
-      const price = priceMap[units] || 99.90;
-      const productMap = {
-        1: '1x VELORA 5 en 1',
-        2: '2x VELORA 5 en 1 (Ahorro S/29.90)',
-        3: '3x VELORA 5 en 1 (Ahorro S/69.80)'
+      const offerCatalog = {
+        base: { price: 99.90, name: '1x VELORA 5 en 1' },
+        mirror: { price: 116.90, name: 'VELORA 5 en 1 + Espejo con orejitas' },
+        straightener: { price: 139.90, name: 'VELORA 5 en 1 + Plancha Nano Titanium' },
+        combo: { price: 149.90, name: 'VELORA 5 en 1 + Espejo + Plancha Nano Titanium' }
       };
+      const selectedOffer = offerCatalog[offerId] || offerCatalog.base;
 
       const newOrder = {
         id: e.target.dataset.pendingOrderId || (e.target.dataset.pendingOrderId = VeloraAPI.newId()),
@@ -2123,15 +2124,17 @@
         dni: dni,
         city: city,
         address: address,
-        units: units,
-        product: productMap[units],
-        price: price,
+        offer_id: offerId,
+        units: 1,
+        product: selectedOffer.name,
+        price: selectedOffer.price,
         payment: payment || 'Yape Oficial',
         status: 'Confirmado',
         payment_status: 'Pendiente',
         paid_at: '',
         capi_status: 'none',
-        capi_event_id: ''
+        capi_event_id: '',
+        attribution: { offer_id: offerId }
       };
 
       const button = e.target.querySelector('[type="submit"]');

@@ -49,7 +49,7 @@ function harness() {
   const post = (action, data = {}, authenticated = true) =>
     context.doPost({postData:{contents:JSON.stringify({action, ...data, ...(authenticated ? {admin_secret:secret} : {})})}});
   const order = {id:'VL-test-unique-0001', name:'Prueba Integracion', phone:'900000001',
-    city:'Lima', address:'Agencia de prueba', units:2, price:1,
+    city:'Lima', address:'Agencia de prueba', offer_id:'mirror', units:1, price:1,
     attribution:{fbp:'fb.1.1234567890000.12345', client_user_agent:'Buyer test agent', landing_url:'https://velorabeautype.store/'}};
   return {context, post, order, rows, props, requests, notes,
     create: () => post('create_order', order, false),
@@ -83,9 +83,12 @@ test('GET no revela pedidos y POST privado exige contraseña', () => {
 test('pedido guardado con precio del catálogo, atribución y sin Purchase', () => {
   const h=harness(), r=h.create();
   assert.equal(r.saved,true);
-  assert.equal(h.rows[0][9],169.90);
+  assert.equal(h.rows[0][7],'VELORA 5 en 1 + Espejo con orejitas');
+  assert.equal(h.rows[0][8],1);
+  assert.equal(h.rows[0][9],116.90);
   assert.equal(h.rows[0][12],'Pendiente');
   assert.equal(JSON.parse(h.rows[0][16]).client_user_agent,'Buyer test agent');
+  assert.equal(JSON.parse(h.rows[0][16]).offer_id,'mirror');
   assert.equal(h.requests.length,0);
 });
 test('reintentar el mismo pedido no agrega otra fila; colisión se rechaza', () => {
@@ -95,7 +98,7 @@ test('reintentar el mismo pedido no agrega otra fila; colisión se rechaza', () 
 });
 test('datos inválidos se rechazan en servidor', () => {
   const h=harness();
-  for(const override of [{units:4},{phone:'123'},{name:'Uno'},{id:'invalid'},{city:''}]) {
+  for(const override of [{units:4},{offer_id:'desconocido'},{phone:'123'},{name:'Uno'},{id:'invalid'},{city:''}]) {
     assert.equal(h.post('create_order',{...h.order,...override},false).status,'error');
   }
   assert.equal(h.rows.length,0);
@@ -113,8 +116,10 @@ test('pago dispara Purchase con PEN, valor exacto, teléfono hash y sin DNI', ()
   const request=h.requests[0], event=request.payload.data[0];
   assert.equal(event.event_name,'Purchase');
   assert.equal(event.event_id,'purchase_'+h.order.id);
-  assert.equal(event.custom_data.value,169.90);
+  assert.equal(event.custom_data.value,116.90);
   assert.equal(event.custom_data.currency,'PEN');
+  assert.equal(event.custom_data.num_items,2);
+  assert.deepEqual(event.custom_data.content_ids,['velora-5en1-1u','upsell-mirror']);
   assert.equal(event.action_source,'website');
   assert.match(event.user_data.ph[0],/^[a-f0-9]{64}$/);
   assert.equal(event.user_data.client_user_agent,'Buyer test agent');
@@ -200,4 +205,99 @@ test('cliente rechaza backend antiguo y respuesta opaca en lugar de simular éxi
   assert.equal((await context.window.VeloraAPI.request('create_order',{})).saved,true);
   body={status:'error',api_version:'2026-09-05.2',message:'No autorizado'};
   await assert.rejects(context.window.VeloraAPI.request('get_orders',{}),/No autorizado/);
+});
+
+test('los cuatro offer_id se registran con sus precios exactos, units 1 y offer_id en atribución', () => {
+  const catalog = [
+    { offer_id: 'base', price: 99.90, name: '1x VELORA 5 en 1', num_items: 1, content_ids: ['velora-5en1-1u'] },
+    { offer_id: 'mirror', price: 116.90, name: 'VELORA 5 en 1 + Espejo con orejitas', num_items: 2, content_ids: ['velora-5en1-1u', 'upsell-mirror'] },
+    { offer_id: 'straightener', price: 139.90, name: 'VELORA 5 en 1 + Plancha Nano Titanium', num_items: 2, content_ids: ['velora-5en1-1u', 'upsell-straightener'] },
+    { offer_id: 'combo', price: 149.90, name: 'VELORA 5 en 1 + Espejo + Plancha Nano Titanium', num_items: 3, content_ids: ['velora-5en1-1u', 'upsell-mirror', 'upsell-straightener'] }
+  ];
+  for (const item of catalog) {
+    const h = harness();
+    const res = h.post('create_order', {
+      ...h.order,
+      id: `VL-offer-${item.offer_id}`,
+      offer_id: item.offer_id,
+      units: 1,
+      price: 0,
+      product: 'Producto falso del navegador'
+    }, false);
+    assert.equal(res.saved, true);
+    assert.equal(h.rows[0][7], item.name);
+    assert.equal(h.rows[0][8], 1);
+    assert.equal(h.rows[0][9], item.price);
+    const attr = JSON.parse(h.rows[0][16]);
+    assert.equal(attr.offer_id, item.offer_id);
+  }
+});
+
+test('rechazar ofertas desconocidas o nulas', () => {
+  const h = harness();
+  for (const badOffer of ['invalid', 'bundle4', '', null, undefined, '2x']) {
+    const res = h.post('create_order', { ...h.order, id: `VL-bad-${String(badOffer)}`, offer_id: badOffer }, false);
+    assert.equal(res.status, 'error');
+  }
+  assert.equal(h.rows.length, 0);
+});
+
+test('rechazar nuevos pedidos antiguos de 2 o 3 secadoras', () => {
+  const h = harness();
+  assert.equal(h.post('create_order', { ...h.order, id: 'VL-legacy-2', units: 2, offer_id: undefined }, false).status, 'error');
+  assert.equal(h.post('create_order', { ...h.order, id: 'VL-legacy-3', units: 3, offer_id: undefined }, false).status, 'error');
+  assert.equal(h.post('create_order', { ...h.order, id: 'VL-legacy-num-2', offer_id: 2 }, false).status, 'error');
+  assert.equal(h.post('create_order', { ...h.order, id: 'VL-legacy-num-3', offer_id: 3 }, false).status, 'error');
+  assert.equal(h.post('create_order', { ...h.order, id: 'VL-bad-units', offer_id: 'base', units: 2 }, false).status, 'error');
+  assert.equal(h.rows.length, 0);
+});
+
+test('evitar que un mismo ID se reutilice con otra oferta o datos incompatibles', () => {
+  const h = harness();
+  const res1 = h.post('create_order', { ...h.order, id: 'VL-reuse-01', offer_id: 'base', units: 1 }, false);
+  assert.equal(res1.saved, true);
+
+  const dup = h.post('create_order', { ...h.order, id: 'VL-reuse-01', offer_id: 'base', units: 1 }, false);
+  assert.equal(dup.duplicate, true);
+
+  const diffOffer = h.post('create_order', { ...h.order, id: 'VL-reuse-01', offer_id: 'mirror', units: 1 }, false);
+  assert.equal(diffOffer.status, 'error');
+
+  const diffCombo = h.post('create_order', { ...h.order, id: 'VL-reuse-01', offer_id: 'combo', units: 1 }, false);
+  assert.equal(diffCombo.status, 'error');
+});
+
+test('Purchase usa total, content_ids y num_items correctos para cada oferta nueva y pedidos historicos', () => {
+  const cases = [
+    { offer_id: 'base', expectedVal: 99.90, expectedItems: 1, expectedIds: ['velora-5en1-1u'] },
+    { offer_id: 'mirror', expectedVal: 116.90, expectedItems: 2, expectedIds: ['velora-5en1-1u', 'upsell-mirror'] },
+    { offer_id: 'straightener', expectedVal: 139.90, expectedItems: 2, expectedIds: ['velora-5en1-1u', 'upsell-straightener'] },
+    { offer_id: 'combo', expectedVal: 149.90, expectedItems: 3, expectedIds: ['velora-5en1-1u', 'upsell-mirror', 'upsell-straightener'] }
+  ];
+
+  for (const c of cases) {
+    const h = harness();
+    h.post('create_order', { ...h.order, id: `VL-capi-${c.offer_id}`, offer_id: c.offer_id, units: 1 }, false);
+    const r = h.post('mark_paid', { id: `VL-capi-${c.offer_id}` });
+    assert.equal(r.capi_status, 'sent');
+    const event = h.requests[h.requests.length - 1].payload.data[0];
+    assert.equal(event.custom_data.value, c.expectedVal);
+    assert.equal(event.custom_data.num_items, c.expectedItems);
+    assert.deepEqual(event.custom_data.content_ids, c.expectedIds);
+  }
+
+  // Compatibilidad histórica: pedido previo guardado en sheets con 2 unidades y sin offer_id
+  const hHist = harness();
+  hHist.rows.push([
+    'VL-legacy-saved-2u', '2026-09-01T12:00:00.000Z', 'Cliente Historico', '900000009', '',
+    'Lima', 'Agencia Shalom', '2x VELORA 5 en 1 (Ahorro S/29.90)', 2, 169.90,
+    'Contraentrega Shalom', 'Confirmado', 'Pendiente', '', 'none', '',
+    JSON.stringify({ client_user_agent: 'Legacy agent', landing_url: 'https://velorabeautype.store/' })
+  ]);
+  const rHist = hHist.post('mark_paid', { id: 'VL-legacy-saved-2u' });
+  assert.equal(rHist.capi_status, 'sent');
+  const eventHist = hHist.requests[0].payload.data[0];
+  assert.equal(eventHist.custom_data.value, 169.90);
+  assert.equal(eventHist.custom_data.num_items, 2);
+  assert.deepEqual(eventHist.custom_data.content_ids, ['velora-5en1-2u']);
 });

@@ -1701,9 +1701,31 @@
       grid-area: image;
       width: 100px;
       height: 88px;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 8px;
+      background: #FFFFFF;
+    }
+    .modal-product-image.base-product {
       object-fit: cover;
       object-position: 62% 45%;
+    }
+    .modal-product-image-stack {
+      grid-area: image;
+      width: 100px;
+      height: 88px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      overflow: hidden;
       border-radius: 8px;
+      background: #FFFFFF;
+    }
+    .modal-product-image-stack img {
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      object-fit: contain;
     }
     .modal-upsell-copy {
       grid-area: copy;
@@ -1733,7 +1755,7 @@
       font-size: 14px;
       font-weight: 900;
     }
-    .modal-upsell-card:nth-child(3) .modal-upsell-save { background: #E11D48; }
+    .modal-upsell-card:nth-child(4) .modal-upsell-save { background: #E11D48; }
     .modal-upsell-tag { display: none; }
     .order-breakdown-card.checkout-totals {
       padding: 14px 20px !important;
@@ -1858,6 +1880,7 @@
       }
       .modal-upsell-card.selected { padding: 7.5px 9.5px; }
       .modal-product-image { width: 74px; height: 76px; }
+      .modal-product-image-stack { width: 74px; height: 76px; }
       .modal-upsell-units { font-size: 17px; }
       .modal-upsell-price { font-size: 18px; }
       .modal-upsell-save { font-size: 12px; padding: 4px 8px; }
@@ -2781,21 +2804,21 @@
         </div>
       </div>
 
-      <!-- 7. BLOQUE DE OFERTAS (3 TIERS DE UPSELLING EN PÁGINA) -->
+      <!-- 7. BLOQUE DE OFERTAS ÚNICAS Y UPSELLING -->
       <section class="bundle-section" aria-label="Selección de Ofertas">
         <div class="bundle-header-title">
-          <span>🎁 Selecciona tu paquete Velora:</span>
+          <span>🎁 Elige tu oferta única:</span>
           <span class="bundle-guarantee-note">✓ Stock Limitado</span>
         </div>
 
         <!-- TARJETA 1 (1 VELORA) -->
-        <div class="bundle-card selected" id="bundle1" onclick="selectBundle(1, 99.90, 189.00)">
+        <div class="bundle-card selected" id="bundle-base" onclick="selectBundle('base')">
           <div class="bundle-left">
             <div class="custom-radio"></div>
             <div class="bundle-info">
               <span class="bundle-card-title">1x VELORA 5 en 1</span>
               <span class="bundle-card-sub">Set completo con 5 cabezales</span>
-              <span class="bundle-unit-price">S/ 99.90 por unidad</span>
+              <span class="bundle-unit-price">Precio especial de hoy</span>
             </div>
           </div>
 
@@ -2805,47 +2828,59 @@
           </div>
         </div>
 
-        <!-- TARJETA 2 (2 VELORA ⭐ Más vendido) -->
-        <div class="bundle-card" id="bundle2" onclick="selectBundle(2, 169.90, 378.00)">
-          <div class="top-choice-tag">
-            <span>⭐</span>
-            <span>MÁS VENDIDO</span>
-          </div>
-
+        <!-- TARJETA 2 (VELORA + ESPEJO) -->
+        <div class="bundle-card" id="bundle-mirror" onclick="selectBundle('mirror')">
           <div class="bundle-left">
             <div class="custom-radio"></div>
             <div class="bundle-info">
-              <span class="bundle-card-title">2x VELORA 5 en 1</span>
-              <span class="bundle-card-sub">1 para ti + 1 de regalo (mamá/hermana)</span>
-              <span class="bundle-unit-price">S/ 84.95 por unidad</span>
+              <span class="bundle-card-title">VELORA + Espejo</span>
+              <span class="bundle-card-sub">Espejo de mesa con orejitas</span>
+              <span class="bundle-unit-price">Añádelo por solo S/ 17</span>
             </div>
           </div>
 
           <div class="bundle-price-box">
-            <div class="bundle-main-price">S/ 169.90</div>
-            <div class="bundle-save-badge">AHORRAS S/ 29.90</div>
+            <div class="bundle-main-price">S/ 116.90</div>
+            <div class="bundle-save-badge">OFERTA ÚNICA</div>
           </div>
         </div>
 
-        <!-- TARJETA 3 (3 VELORA 🔥 Mejor precio) -->
-        <div class="bundle-card" id="bundle3" onclick="selectBundle(3, 229.90, 567.00)">
+        <!-- TARJETA 3 (VELORA + PLANCHA) -->
+        <div class="bundle-card" id="bundle-straightener" onclick="selectBundle('straightener')">
+          <div class="bundle-left">
+            <div class="custom-radio"></div>
+            <div class="bundle-info">
+              <span class="bundle-card-title">VELORA + Plancha</span>
+              <span class="bundle-card-sub">Plancha Nano Titanium</span>
+              <span class="bundle-unit-price">Añádela por solo S/ 40</span>
+            </div>
+          </div>
+
+          <div class="bundle-price-box">
+            <div class="bundle-main-price">S/ 139.90</div>
+            <div class="bundle-save-badge">OFERTA ÚNICA</div>
+          </div>
+        </div>
+
+        <!-- TARJETA 4 (VELORA + AMBOS ACCESORIOS) -->
+        <div class="bundle-card" id="bundle-combo" onclick="selectBundle('combo')">
           <div class="best-price-tag">
             <span>🔥</span>
-            <span>MEJOR PRECIO</span>
+            <span>MEJOR OFERTA</span>
           </div>
 
           <div class="bundle-left">
             <div class="custom-radio"></div>
             <div class="bundle-info">
-              <span class="bundle-card-title">3x VELORA 5 en 1</span>
-              <span class="bundle-card-sub">Paquete Familiar / Amigas</span>
-              <span class="bundle-unit-price">Solo S/ 76.63 por unidad</span>
+              <span class="bundle-card-title">VELORA + Espejo + Plancha</span>
+              <span class="bundle-card-sub">Completa tu rutina de belleza</span>
+              <span class="bundle-unit-price">Llévate ambos por solo S/ 50</span>
             </div>
           </div>
 
           <div class="bundle-price-box">
-            <div class="bundle-main-price">S/ 229.90</div>
-            <div class="bundle-save-badge" style="background:#701A75;">AHORRAS S/ 69.80</div>
+            <div class="bundle-main-price">S/ 149.90</div>
+            <div class="bundle-save-badge" style="background:#701A75;">AHORRAS S/ 7</div>
           </div>
         </div>
       </section>
@@ -3294,14 +3329,14 @@
         <!-- SELECTOR DE UPSELLING DENTRO DEL FORMULARIO -->
         <div class="modal-upsell-section">
           <div class="modal-upsell-label">
-            <span>Elige tu paquete promocional:</span>
-            <span style="color: #BE185D; font-size: 10px;">¡Ahorra más por unidad!</span>
+            <span>Elige tu oferta única:</span>
+            <span style="color: #BE185D; font-size: 10px;">Disponible solo con tu VELORA</span>
           </div>
           <div class="modal-upsell-grid">
             
-            <!-- Opción 1 -->
-            <div class="modal-upsell-card selected" id="modalUpsell1" onclick="selectBundle(1, 99.90, 189.90)">
-              <img class="modal-product-image" src="assets/velora-features.webp" alt="Una VELORA 5 en 1">
+            <!-- Opción base -->
+            <div class="modal-upsell-card selected" id="modalUpsell-base" onclick="selectBundle('base')">
+              <img class="modal-product-image base-product" src="assets/velora-features.webp" alt="Una VELORA 5 en 1">
               <div class="modal-upsell-copy">
                 <span class="modal-upsell-units">¡Compra 1 VELORA<br>y transforma tu cabello!</span>
                 <span class="modal-upsell-save">Precio especial</span>
@@ -3309,24 +3344,37 @@
               <span class="modal-upsell-price">S/ 99.90</span>
             </div>
 
-            <!-- Opción 2 (Más vendido) -->
-            <div class="modal-upsell-card" id="modalUpsell2" onclick="selectBundle(2, 169.90, 379.80)">
-              <img class="modal-product-image" src="assets/velora-features.webp" alt="Dos VELORA 5 en 1">
+            <!-- Upsell espejo -->
+            <div class="modal-upsell-card" id="modalUpsell-mirror" onclick="selectBundle('mirror')">
+              <img class="modal-product-image" src="assets/upsell-mirror.webp" alt="Espejo de mesa blanco con orejitas">
               <div class="modal-upsell-copy">
-                <span class="modal-upsell-units">¡Compra 2 VELORA<br>para mejores resultados!</span>
-                <span class="modal-upsell-save">Más vendido</span>
+                <span class="modal-upsell-units">Añade este espejo<br>a tu pedido</span>
+                <span class="modal-upsell-save">Solo + S/ 17</span>
               </div>
-              <span class="modal-upsell-price">S/ 169.90</span>
+              <span class="modal-upsell-price">S/ 116.90</span>
             </div>
 
-            <!-- Opción 3 (Mejor precio) -->
-            <div class="modal-upsell-card" id="modalUpsell3" onclick="selectBundle(3, 229.90, 569.70)">
-              <img class="modal-product-image" src="assets/velora-features.webp" alt="Tres VELORA 5 en 1">
+            <!-- Upsell plancha -->
+            <div class="modal-upsell-card" id="modalUpsell-straightener" onclick="selectBundle('straightener')">
+              <img class="modal-product-image" src="assets/upsell-straightener.webp" alt="Plancha azul Nano Titanium">
               <div class="modal-upsell-copy">
-                <span class="modal-upsell-units">¡Compra 3 VELORA<br>al mejor precio!</span>
-                <span class="modal-upsell-save">Mejor precio</span>
+                <span class="modal-upsell-units">Añade esta plancha<br>a tu pedido</span>
+                <span class="modal-upsell-save">Solo + S/ 40</span>
               </div>
-              <span class="modal-upsell-price">S/ 229.90</span>
+              <span class="modal-upsell-price">S/ 139.90</span>
+            </div>
+
+            <!-- Upsell ambos accesorios -->
+            <div class="modal-upsell-card" id="modalUpsell-combo" onclick="selectBundle('combo')">
+              <div class="modal-product-image-stack" aria-hidden="true">
+                <img src="assets/upsell-mirror.webp" alt="">
+                <img src="assets/upsell-straightener.webp" alt="">
+              </div>
+              <div class="modal-upsell-copy">
+                <span class="modal-upsell-units">Añade espejo + plancha<br>a tu pedido</span>
+                <span class="modal-upsell-save">Ambos por + S/ 50</span>
+              </div>
+              <span class="modal-upsell-price">S/ 149.90</span>
             </div>
 
           </div>
@@ -3536,7 +3584,7 @@
       <div class="toast-icon">🛍️</div>
       <div class="toast-content">
         <div class="toast-buyer" id="toastBuyerText">Camila R. (Arequipa)</div>
-        <div style="margin: 1px 0; color: #334155;">Acaba de pedir <strong class="toast-product-name" id="toastProductText">2x VELORA 5 en 1</strong></div>
+        <div style="margin: 1px 0; color: #334155;">Acaba de pedir <strong class="toast-product-name" id="toastProductText">VELORA + Espejo</strong></div>
         <div class="toast-time" id="toastTimeText">Hace 2 minutos • Retiro en Shalom • Yape</div>
       </div>
     </div>
@@ -3637,85 +3685,105 @@
     initializeUbigeoSelectors();
 
     // ==========================================================
-    // TIERS DE UPSELLING Y SELECCIÓN DE PRECIOS
+    // OFERTAS ÚNICAS DE UPSELLING Y SELECCIÓN DE PRECIOS
     // ==========================================================
+    let selectedOfferId = 'base';
     let selectedUnits = 1;
     let selectedPrice = 99.90;
     let selectedProductName = '1x VELORA 5 en 1';
 
     const bundlesData = {
-      1: {
+      base: {
         units: 1,
+        numItems: 1,
         price: 99.90,
         originalPrice: 189.90,
         oldPrice: 'S/ 189.90',
         name: '1x VELORA 5 en 1',
+        contentIds: ['velora-5en1-1u'],
         stickySummary: '1x VELORA (S/ 99.90)',
         btnText: 'REALIZAR PEDIDO - S/ 99.90 ➔',
         submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
       },
-      2: {
-        units: 2,
-        price: 169.90,
-        originalPrice: 379.80,
-        oldPrice: 'S/ 379.80',
-        name: '2x VELORA 5 en 1 (Ahorro S/ 29.90)',
-        stickySummary: '2x VELORA (S/ 169.90)',
-        btnText: 'REALIZAR PEDIDO - S/ 169.90 ➔',
+      mirror: {
+        units: 1,
+        numItems: 2,
+        price: 116.90,
+        originalPrice: 206.90,
+        oldPrice: 'S/ 206.90',
+        name: 'VELORA 5 en 1 + Espejo con orejitas',
+        contentIds: ['velora-5en1-1u', 'upsell-mirror'],
+        stickySummary: 'VELORA + Espejo (S/ 116.90)',
+        btnText: 'REALIZAR PEDIDO - S/ 116.90 ➔',
         submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
       },
-      3: {
-        units: 3,
-        price: 229.90,
-        originalPrice: 569.70,
-        oldPrice: 'S/ 569.70',
-        name: '3x VELORA 5 en 1 (Ahorro S/ 69.80)',
-        stickySummary: '3x VELORA (S/ 229.90)',
-        btnText: 'REALIZAR PEDIDO - S/ 229.90 ➔',
+      straightener: {
+        units: 1,
+        numItems: 2,
+        price: 139.90,
+        originalPrice: 229.90,
+        oldPrice: 'S/ 229.90',
+        name: 'VELORA 5 en 1 + Plancha Nano Titanium',
+        contentIds: ['velora-5en1-1u', 'upsell-straightener'],
+        stickySummary: 'VELORA + Plancha (S/ 139.90)',
+        btnText: 'REALIZAR PEDIDO - S/ 139.90 ➔',
+        submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
+      },
+      combo: {
+        units: 1,
+        numItems: 3,
+        price: 149.90,
+        originalPrice: 239.90,
+        oldPrice: 'S/ 239.90',
+        name: 'VELORA 5 en 1 + Espejo + Plancha Nano Titanium',
+        contentIds: ['velora-5en1-1u', 'upsell-mirror', 'upsell-straightener'],
+        stickySummary: 'VELORA + Espejo + Plancha (S/ 149.90)',
+        btnText: 'REALIZAR PEDIDO - S/ 149.90 ➔',
         submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
       }
     };
 
-    function selectBundle(units, price, oldPrice) {
-      const bundleChanged = selectedUnits !== units;
-      selectedUnits = units;
-      selectedPrice = price;
+    function selectBundle(offerId) {
+      const data = bundlesData[offerId];
+      if (!data) return;
+      const bundleChanged = selectedOfferId !== offerId;
+      selectedOfferId = offerId;
+      selectedUnits = data.units;
+      selectedPrice = data.price;
+      selectedProductName = data.name;
 
       // DISPARAR EVENTO ADDTOCART EN EL PIXEL (OPTIMIZACIÓN METADATA)
       if (typeof fbq === 'function' && bundleChanged) {
         fbq('track', 'AddToCart', {
-          content_name: bundlesData[units].name,
-          content_ids: [`velora-5en1-${units}u`],
+          content_name: data.name,
+          content_ids: data.contentIds,
           content_type: 'product',
-          value: price,
+          value: data.price,
           currency: 'PEN',
-          num_items: units
+          num_items: data.numItems
         });
       }
 
       // Actualizar tarjetas de página
       document.querySelectorAll('.bundle-card').forEach(c => c.classList.remove('selected'));
-      const activeCard = document.getElementById(`bundle${units}`);
+      const activeCard = document.getElementById(`bundle-${offerId}`);
       if (activeCard) activeCard.classList.add('selected');
 
       // Actualizar tarjetas de upselling en el modal
       document.querySelectorAll('.modal-upsell-card').forEach(c => c.classList.remove('selected'));
-      const activeModalCard = document.getElementById(`modalUpsell${units}`);
+      const activeModalCard = document.getElementById(`modalUpsell-${offerId}`);
       if (activeModalCard) activeModalCard.classList.add('selected');
 
-      const data = bundlesData[units];
-      selectedProductName = data.name;
-
-      document.getElementById('displayCurrentPrice').innerText = `S/ ${price.toFixed(2)}`;
+      document.getElementById('displayCurrentPrice').innerText = `S/ ${data.price.toFixed(2)}`;
       document.getElementById('displayOldPrice').innerText = data.oldPrice;
       document.getElementById('stickySelectedSummary').innerText = data.stickySummary;
       document.getElementById('stickyBtnText').innerText = data.btnText;
       document.getElementById('btnMainText').innerText = data.btnText;
-      document.getElementById('headerCartCount').innerText = units;
+      document.getElementById('headerCartCount').innerText = data.numItems;
 
-      document.getElementById('modalTotalOrderText').innerText = `S/ ${price.toFixed(2)}`;
+      document.getElementById('modalTotalOrderText').innerText = `S/ ${data.price.toFixed(2)}`;
       document.getElementById('modalSubtotalText').innerText = `S/ ${data.originalPrice.toFixed(2)}`;
-      document.getElementById('modalDiscountText').innerText = `- S/ ${(data.originalPrice - price).toFixed(2)}`;
+      document.getElementById('modalDiscountText').innerText = `- S/ ${(data.originalPrice - data.price).toFixed(2)}`;
       document.getElementById('submitBtnText').innerText = data.submitText;
     }
 
@@ -3795,13 +3863,14 @@
       // INITIATECHECKOUT UNA VEZ POR SESIÓN DE CHECKOUT
       if (typeof fbq === 'function' && !checkoutTracked) {
         checkoutTracked = true;
+        const selectedOffer = bundlesData[selectedOfferId];
         fbq('track', 'InitiateCheckout', {
           content_name: selectedProductName,
-          content_ids: [`velora-5en1-${selectedUnits}u`],
+          content_ids: selectedOffer.contentIds,
           content_type: 'product',
           value: selectedPrice,
           currency: 'PEN',
-          num_items: selectedUnits
+          num_items: selectedOffer.numItems
         });
       }
     }
@@ -4054,10 +4123,11 @@
       if (viewContentTriggered) return;
       viewContentTriggered = true;
       if (typeof fbq === 'function') {
+        const selectedOffer = bundlesData[selectedOfferId];
         fbq('track', 'ViewContent', {
           content_name: selectedProductName || 'Secadora 5 en 1 VELORA',
           content_category: 'Belleza y Cuidado Personal',
-          content_ids: [`velora-5en1-${selectedUnits}u`],
+          content_ids: selectedOffer.contentIds,
           content_type: 'product',
           value: selectedPrice || 99.90,
           currency: 'PEN'
@@ -4142,7 +4212,7 @@
 
       const orderId = pendingOrderId || (pendingOrderId = VeloraAPI.newId());
       sessionStorage.setItem('velora_pending_order_id', orderId);
-      const clientAttribution = getAttributionData();
+      const clientAttribution = { ...getAttributionData(), offer_id: selectedOfferId };
 
       const newOrderRecord = {
         id: orderId,
@@ -4151,6 +4221,7 @@
         phone: phoneVal,
         city: deptVal,
         address: deliveryDestination,
+        offer_id: selectedOfferId,
         units: selectedUnits,
         product: selectedProductName,
         price: selectedPrice,
@@ -4169,7 +4240,7 @@
       } catch (error) {
         isSubmitting = false;
         submitBtn.disabled = false;
-        submitBtn.innerHTML = `<span id="submitBtnText">${bundlesData[selectedUnits].submitText}</span><span class="submit-subtext">Paga al recibir 🚚</span>`;
+        submitBtn.innerHTML = `<span id="submitBtnText">${bundlesData[selectedOfferId].submitText}</span><span class="submit-subtext">Paga al recibir 🚚</span>`;
         showFormGlobalError('No pudimos confirmar tu pedido. Vuelve a intentarlo. ' + error.message);
         return;
       }
@@ -4180,13 +4251,15 @@
       const leadEventId = `lead_${orderId}`;
       const sessionLeadKey = `velora_lead_sent_${orderId}`;
       if (typeof fbq === 'function' && !sessionStorage.getItem(sessionLeadKey)) {
+        const selectedOffer = bundlesData[selectedOfferId];
         sessionStorage.setItem(sessionLeadKey, 'true');
         fbq('track', 'Lead', {
           content_name: selectedProductName,
-          content_ids: [`velora-5en1-${selectedUnits}u`],
+          content_ids: selectedOffer.contentIds,
           content_type: 'product',
           value: selectedPrice,
-          currency: 'PEN'
+          currency: 'PEN',
+          num_items: selectedOffer.numItems
         }, {
           eventID: leadEventId
         });
@@ -4249,7 +4322,7 @@
       setTimeout(() => {
         isSubmitting = false;
         submitBtn.disabled = false;
-        submitBtn.innerHTML = `<span id="submitBtnText">${bundlesData[selectedUnits].submitText}</span><span class="submit-subtext">Paga al recibir 🚚</span>`;
+        submitBtn.innerHTML = `<span id="submitBtnText">${bundlesData[selectedOfferId].submitText}</span><span class="submit-subtext">Paga al recibir 🚚</span>`;
       }, 3000);
     }
 
@@ -4438,11 +4511,11 @@
 
     // NOTIFICACIONES EN VIVO NATURALES
     const mockBuyers = [
-      { name: "Camila R.", city: "Arequipa", items: "2x VELORA 5 en 1", time: "Hace 12 min" },
+      { name: "Camila R.", city: "Arequipa", items: "VELORA + Espejo", time: "Hace 12 min" },
       { name: "Valeria M.", city: "Lima (Surco)", items: "1x VELORA 5 en 1", time: "Hace 24 min" },
-      { name: "Fiorella G.", city: "Trujillo", items: "2x VELORA 5 en 1", time: "Hace 38 min" },
+      { name: "Fiorella G.", city: "Trujillo", items: "VELORA + Plancha", time: "Hace 38 min" },
       { name: "Luciana S.", city: "Cusco", items: "1x VELORA 5 en 1", time: "Hace 45 min" },
-      { name: "Andrea B.", city: "Chiclayo", items: "3x VELORA 5 en 1", time: "Hace 1 hora" },
+      { name: "Andrea B.", city: "Chiclayo", items: "VELORA + Espejo + Plancha", time: "Hace 1 hora" },
       { name: "Natalia P.", city: "Huancayo", items: "1x VELORA 5 en 1", time: "Hace 1 hora y media" }
     ];
 
