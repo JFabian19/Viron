@@ -483,6 +483,16 @@
       color: var(--color-velora-rose);
       letter-spacing: -0.6px;
     }
+    .old-price-container {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .old-price-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748B;
+    }
     .old-price {
       font-size: 16px;
       font-weight: 600;
@@ -2623,7 +2633,7 @@
         <span class="marquee-bullet">✦</span>
         <span class="marquee-item">⭐ MÁS DE 80 CLIENTAS FELICES</span>
         <span class="marquee-bullet">✦</span>
-        <span class="marquee-item">🔥 OFERTA EXCLUSIVA S/ 99</span>
+        <span class="marquee-item">🔥 OFERTA EXCLUSIVA S/ 69</span>
         <span class="marquee-bullet">✦</span>
 
         <!-- Duplicado para ciclo continuo -->
@@ -2641,7 +2651,7 @@
         <span class="marquee-bullet">✦</span>
         <span class="marquee-item">⭐ MÁS DE 80 CLIENTAS FELICES</span>
         <span class="marquee-bullet">✦</span>
-        <span class="marquee-item">🔥 OFERTA EXCLUSIVA S/ 99</span>
+        <span class="marquee-item">🔥 OFERTA EXCLUSIVA S/ 69</span>
         <span class="marquee-bullet">✦</span>
       </div>
     </div>
@@ -2732,8 +2742,11 @@
       <!-- 5. PRECIO Y URGENCIA -->
       <div class="price-urgency-wrapper">
         <div class="prices-left">
-          <span class="current-price" id="displayCurrentPrice">S/ 99</span>
-          <span class="old-price" id="displayOldPrice">S/ 189.00</span>
+          <span class="current-price" id="displayCurrentPrice">S/ 69</span>
+          <span class="old-price-container">
+            <span class="old-price-label">Antes</span>
+            <span class="old-price" id="displayOldPrice">S/ 99</span>
+          </span>
         </div>
         <div class="urgency-badge">
           <span>🔥</span>
@@ -2823,7 +2836,7 @@
           </div>
 
           <div class="bundle-price-box">
-            <div class="bundle-main-price">S/ 99</div>
+            <div class="bundle-main-price">S/ 69</div>
             <div class="bundle-save-badge">OFERTA HOY</div>
           </div>
         </div>
@@ -2840,7 +2853,7 @@
           </div>
 
           <div class="bundle-price-box">
-            <div class="bundle-main-price">S/ 116.90</div>
+            <div class="bundle-main-price">S/ 86</div>
             <div class="bundle-save-badge">OFERTA ÚNICA</div>
           </div>
         </div>
@@ -2857,7 +2870,7 @@
           </div>
 
           <div class="bundle-price-box">
-            <div class="bundle-main-price">S/ 139.90</div>
+            <div class="bundle-main-price">S/ 109</div>
             <div class="bundle-save-badge">OFERTA ÚNICA</div>
           </div>
         </div>
@@ -2879,7 +2892,7 @@
           </div>
 
           <div class="bundle-price-box">
-            <div class="bundle-main-price">S/ 149.90</div>
+            <div class="bundle-main-price">S/ 119</div>
             <div class="bundle-save-badge" style="background:#701A75;">AHORRAS S/ 7</div>
           </div>
         </div>
@@ -2888,7 +2901,7 @@
       <!-- BOTON DE ACCION PRINCIPAL -->
       <button class="cta-btn-primary" onclick="openCheckoutModal()" style="margin-top: 4px;">
         <span>🛍️</span>
-        <span id="btnMainText">REALIZAR PEDIDO - S/ 99 ➔</span>
+        <span id="btnMainText">REALIZAR PEDIDO - S/ 69 ➔</span>
       </button>
 
       <!-- SELLOS DE CONFIANZA -->
@@ -2982,7 +2995,7 @@
               <span>VELORA™ Beauty 5 en 1</span>
             </div>
             <ul class="comp-list">
-              <li><span class="comp-icon-good">✓</span> <strong>Precio justo: S/ 99</strong> con Envío Gratis vía Shalom.</li>
+              <li><span class="comp-icon-good">✓</span> <strong>Precio justo: S/ 69</strong> con Envío Gratis vía Shalom.</li>
               <li><span class="comp-icon-good">✓</span> <strong>5 Cabezales intercambiables:</strong> seca, alisa, ondula, riza y da volumen.</li>
               <li><span class="comp-icon-good">✓</span> <strong>Flujo de aire termocontrolado:</strong> estiliza sin quemar la hebra capilar.</li>
               <li><span class="comp-icon-good">✓</span> <strong>Iones negativos inteligentes:</strong> sellan la cutícula para brillo espejo y cero frizz.</li>
@@ -3305,12 +3318,12 @@
           <span>🚚</span>
           <span>Envío Gratis Shalom</span>
         </span>
-        <span class="sticky-selected-price" id="stickySelectedSummary">1x VELORA (S/ 99)</span>
+        <span class="sticky-selected-price" id="stickySelectedSummary">1x VELORA (S/ 69)</span>
       </div>
 
       <button class="cta-btn-primary" id="stickyCtaBtn" onclick="openCheckoutModal()">
         <span>🛍️</span>
-        <span id="stickyBtnText">REALIZAR PEDIDO - S/ 99 ➔</span>
+        <span id="stickyBtnText">REALIZAR PEDIDO - S/ 69 ➔</span>
       </button>
     </footer>
 
@@ -3341,7 +3354,7 @@
                 <span class="modal-upsell-units">¡Compra 1 VELORA<br>y transforma tu cabello!</span>
                 <span class="modal-upsell-save">Precio especial</span>
               </div>
-              <span class="modal-upsell-price">S/ 99</span>
+              <span class="modal-upsell-price">S/ 69</span>
             </div>
 
             <!-- Upsell espejo -->
@@ -3351,7 +3364,7 @@
                 <span class="modal-upsell-units">Añade este espejo<br>a tu pedido</span>
                 <span class="modal-upsell-save">Solo + S/ 17</span>
               </div>
-              <span class="modal-upsell-price">S/ 116.90</span>
+              <span class="modal-upsell-price">S/ 86</span>
             </div>
 
             <!-- Upsell plancha -->
@@ -3361,7 +3374,7 @@
                 <span class="modal-upsell-units">Añade esta plancha<br>a tu pedido</span>
                 <span class="modal-upsell-save">Solo + S/ 40</span>
               </div>
-              <span class="modal-upsell-price">S/ 139.90</span>
+              <span class="modal-upsell-price">S/ 109</span>
             </div>
 
             <!-- Upsell ambos accesorios -->
@@ -3374,7 +3387,7 @@
                 <span class="modal-upsell-units">Añade espejo + plancha<br>a tu pedido</span>
                 <span class="modal-upsell-save">Ambos por + S/ 50</span>
               </div>
-              <span class="modal-upsell-price">S/ 149.90</span>
+              <span class="modal-upsell-price">S/ 119</span>
             </div>
 
           </div>
@@ -3384,7 +3397,7 @@
         <div class="order-breakdown-card checkout-totals">
           <div class="breakdown-row">
             <span>Subtotal</span>
-            <strong id="modalSubtotalText">S/ 189.00</strong>
+            <strong id="modalSubtotalText">S/ 99</strong>
           </div>
           <div class="breakdown-row">
             <span>Envío</span>
@@ -3392,11 +3405,11 @@
           </div>
           <div class="breakdown-row discount-row">
             <span>Descuentos 🏷️</span>
-            <strong id="modalDiscountText">- S/ 90.00</strong>
+            <strong id="modalDiscountText">- S/ 30</strong>
           </div>
           <div class="breakdown-row total-row">
             <span>Total</span>
-            <strong id="modalTotalOrderText">S/ 99</strong>
+            <strong id="modalTotalOrderText">S/ 69</strong>
           </div>
         </div>
 
@@ -3689,56 +3702,56 @@
     // ==========================================================
     let selectedOfferId = 'base';
     let selectedUnits = 1;
-    let selectedPrice = 99;
+    let selectedPrice = 69;
     let selectedProductName = '1x VELORA 5 en 1';
 
     const bundlesData = {
       base: {
         units: 1,
         numItems: 1,
-        price: 99,
-        originalPrice: 189.00,
-        oldPrice: 'S/ 189.00',
+        price: 69,
+        originalPrice: 99,
+        oldPrice: 'S/ 99',
         name: '1x VELORA 5 en 1',
         contentIds: ['velora-5en1-1u'],
-        stickySummary: '1x VELORA (S/ 99)',
-        btnText: 'REALIZAR PEDIDO - S/ 99 ➔',
+        stickySummary: '1x VELORA (S/ 69)',
+        btnText: 'REALIZAR PEDIDO - S/ 69 ➔',
         submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
       },
       mirror: {
         units: 1,
         numItems: 2,
-        price: 116.90,
-        originalPrice: 206.90,
-        oldPrice: 'S/ 206.90',
+        price: 86,
+        originalPrice: 116,
+        oldPrice: 'S/ 116',
         name: 'VELORA 5 en 1 + Espejo con orejitas',
         contentIds: ['velora-5en1-1u', 'upsell-mirror'],
-        stickySummary: 'VELORA + Espejo (S/ 116.90)',
-        btnText: 'REALIZAR PEDIDO - S/ 116.90 ➔',
+        stickySummary: 'VELORA + Espejo (S/ 86)',
+        btnText: 'REALIZAR PEDIDO - S/ 86 ➔',
         submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
       },
       straightener: {
         units: 1,
         numItems: 2,
-        price: 139.90,
-        originalPrice: 229.90,
-        oldPrice: 'S/ 229.90',
+        price: 109,
+        originalPrice: 139,
+        oldPrice: 'S/ 139',
         name: 'VELORA 5 en 1 + Plancha Nano Titanium',
         contentIds: ['velora-5en1-1u', 'upsell-straightener'],
-        stickySummary: 'VELORA + Plancha (S/ 139.90)',
-        btnText: 'REALIZAR PEDIDO - S/ 139.90 ➔',
+        stickySummary: 'VELORA + Plancha (S/ 109)',
+        btnText: 'REALIZAR PEDIDO - S/ 109 ➔',
         submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
       },
       combo: {
         units: 1,
         numItems: 3,
-        price: 149.90,
-        originalPrice: 239.90,
-        oldPrice: 'S/ 239.90',
+        price: 119,
+        originalPrice: 149,
+        oldPrice: 'S/ 149',
         name: 'VELORA 5 en 1 + Espejo + Plancha Nano Titanium',
         contentIds: ['velora-5en1-1u', 'upsell-mirror', 'upsell-straightener'],
-        stickySummary: 'VELORA + Espejo + Plancha (S/ 149.90)',
-        btnText: 'REALIZAR PEDIDO - S/ 149.90 ➔',
+        stickySummary: 'VELORA + Espejo + Plancha (S/ 119)',
+        btnText: 'REALIZAR PEDIDO - S/ 119 ➔',
         submitText: 'REALIZAR MI PEDIDO AHORA 🔥'
       }
     };
@@ -4131,7 +4144,7 @@
           content_category: 'Belleza y Cuidado Personal',
           content_ids: selectedOffer.contentIds,
           content_type: 'product',
-          value: selectedPrice || 99,
+          value: selectedPrice || 69,
           currency: 'PEN'
         });
       }

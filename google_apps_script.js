@@ -38,7 +38,7 @@ var OFFER_CATALOG = {
     offer_id: "base",
     units: 1,
     num_items: 1,
-    price: 99,
+    price: 69,
     name: "1x VELORA 5 en 1",
     content_ids: ["velora-5en1-1u"]
   },
@@ -46,7 +46,7 @@ var OFFER_CATALOG = {
     offer_id: "mirror",
     units: 1,
     num_items: 2,
-    price: 116.90,
+    price: 86,
     name: "VELORA 5 en 1 + Espejo con orejitas",
     content_ids: ["velora-5en1-1u", "upsell-mirror"]
   },
@@ -54,7 +54,7 @@ var OFFER_CATALOG = {
     offer_id: "straightener",
     units: 1,
     num_items: 2,
-    price: 139.90,
+    price: 109,
     name: "VELORA 5 en 1 + Plancha Nano Titanium",
     content_ids: ["velora-5en1-1u", "upsell-straightener"]
   },
@@ -62,7 +62,7 @@ var OFFER_CATALOG = {
     offer_id: "combo",
     units: 1,
     num_items: 3,
-    price: 149.90,
+    price: 119,
     name: "VELORA 5 en 1 + Espejo + Plancha Nano Titanium",
     content_ids: ["velora-5en1-1u", "upsell-mirror", "upsell-straightener"]
   }
@@ -297,7 +297,7 @@ function sendCapiPurchase(order, paidTimestamp) {
   var contentIds = catalogItem ? catalogItem.content_ids : ["velora-5en1-" + (order.units || 1) + "u"];
   var numItems = catalogItem ? catalogItem.num_items : (Number(order.units) || 1);
   var contentName = order.product || (catalogItem ? catalogItem.name : "Secadora 5 en 1 VELORA");
-  var orderValue = Number(order.price) || (catalogItem ? catalogItem.price : 99);
+  var orderValue = Number(order.price) || (catalogItem ? catalogItem.price : 69);
 
   var eventPayload = {
     event_name: "Purchase",
